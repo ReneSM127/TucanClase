@@ -1,0 +1,281 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .logo img {
+    height: 40px;
+  }
+  
+  .nav-links {
+    display: flex;
+  }
+  
+  .nav-links a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+  }
+  
+  .auth-buttons {
+    display: flex;
+  }
+  
+  .auth-buttons a {
+    margin-left: 12px;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  
+  .register {
+    color: #222;
+  }
+  
+  .login {
+    background-color: #55a7c5;
+    color: #fff;
+  }
+  
+  .banner {
+    background: url('/fondoTutos.png') no-repeat center center/cover;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .carousel-content {
+    text-align: center;
+    background: rgba(255,255,255,0.85);
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .carousel-content h1 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+  }
+  
+  .carousel-content input {
+    padding: 10px 20px;
+    font-size: 1rem;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .courses-container {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  .course-card {
+    background: #fff;
+    display: flex;
+    gap: 20px;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .course-card img {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .course-info {
+    flex: 1;
+  }
+  
+  .course-info h2 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+  }
+  
+  .course-info p {
+    margin: 5px 0;
+  }
+  
+  .course-info button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #60a6d9;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  
+  .course-info button:hover {
+    background-color: #4b90c2;
+  }
+  
+  .temario {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+  .temario span {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .temario small {
+    display: block;
+    font-weight: normal;
+    font-size: 0.85rem;
+  }
+  
+  .pagination {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .pagination a {
+    display: inline-block;
+    margin: 0 6px;
+    padding: 8px 14px;
+    background: #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  
+  .pagination a.active {
+    background: #60a6d9;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .pagination a:hover {
+    background: #bbb;
+  }
+  
+  /* Estilos para el footer */
+  .site-footer {
+    background-color: white;
+    color: #ecf0f1;
+    padding: 3rem 2rem;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  
+  .footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: black;
+  }
+  
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-column ul li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .footer-column a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-column a:hover {
+    color: #3498db;
+  }
+  
+  .contact-info p {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+  
+  .copyright {
+    font-weight: bold;
+    margin-bottom: 1.5rem !important;
+    color: black;
+  }
+  
+  .email, .phone, .address {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: black;
+  }
+  
+  .email::before {
+    content: "✉";
+  }
+  
+  .phone::before {
+    content: "📞";
+  }
+  
+  .address::before {
+    content: "📍";
+  }
+  
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      padding: 16px;
+    }
+    
+    .nav-links {
+      margin: 16px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .auth-buttons {
+      margin-top: 16px;
+    }
+    
+    .course-card {
+      flex-direction: column;
+    }
+    
+    .course-card img {
+      width: 100%;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .footer-column {
+      margin-bottom: 2rem;
+    }
+  }
