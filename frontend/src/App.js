@@ -5,6 +5,7 @@ import Footer from './Components/Footer/Footer';
 import Home from './Pages/Home'
 import Register from './Pages/Register';
 import Singup from './Pages/Singup'
+import PruebaAPI from './Pages/PruebaAPI';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/Register' element={<Register />}></Route>
           <Route path='/Singup' element={<Singup />}></Route>
+
+          <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
