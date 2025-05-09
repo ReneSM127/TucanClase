@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { Link } from 'react-router-dom';
 import './Navbar.css'
 import logo from '../Assets/logo.png'
 import nav_dropdown from '../Assets/nav_dropdown.png'
@@ -27,10 +28,14 @@ const Navbar = () => {
       </ul>
       <div className="buttons">
         <div className='nav-login-cart'>
-          <button>Registrarse</button>
+          <Link to="/Register">
+            <button>Registrarse</button>
+          </Link>
         </div>
         <div className='nav-signup-cart'>
-          <button>Registrarse</button>
+          <Link to="/Singup">
+            <button>Iniciar Sesion</button>
+          </Link>
         </div>
       </div>
     </div>

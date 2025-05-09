@@ -3,18 +3,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 import Home from './Pages/Home'
-import Hero from './Components/Hero/Hero';
-import Beneficios from './Components/Beneficios/Beneficios';
+import Register from './Pages/Register';
+import Singup from './Pages/Singup'
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar />
-        <Hero />
-        <Beneficios/>
         <Routes>
           <Route path='/' element={<Home />}></Route>
+          <Route path='/Register' element={<Register />}></Route>
+          <Route path='/Singup' element={<Singup />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
