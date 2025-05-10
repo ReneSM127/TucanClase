@@ -12,6 +12,16 @@ const getUserById = async (id) => {
   return rows[0];
 };
 
+// Crear un nuevo usuario
+const insertUser = async (nombre, apellidos, email, password, rol) => {
+  const [result] = await db.execute(
+    'INSERT INTO usuarios (nombre, apellidos, email, password, rol ) VALUES (?, ?, ?, ?, ?)',
+    [nombre, apellidos, email, password, rol]
+  );
+  return result.insertId;
+};
+
 module.exports = {
   getUserById,
+  insertUser,
 };
