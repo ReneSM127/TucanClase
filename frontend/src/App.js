@@ -6,6 +6,7 @@ import Home from './Pages/Home'
 import Register from './Pages/Register';
 import Singup from './Pages/Singup'
 import PruebaAPI from './Pages/PruebaAPI';
+import Tutorial from './Pages/Tutorial';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<Home />}></Route>
           <Route path='/Register' element={<Register />}></Route>
           <Route path='/Singup' element={<Singup />}></Route>
+          <Route path='/Tutorial' element={<Tutorial />} />
 
           <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
         </Routes>

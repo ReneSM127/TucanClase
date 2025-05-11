@@ -1,6 +1,7 @@
 import React from 'react';
 import './Hero.css';
 
+
 const Hero = () => {
   // Lista de materias ccon enlaces a las futuras páginas, por el momento no hacen nada más que la animación 
   const subjects = [
@@ -22,7 +23,7 @@ const Hero = () => {
         
         <div className="hero-buttons">
           <Link to="/Tutorial">
-              <button className="hero-button">Ver tutorías</button>
+           <button className="hero-button">Ver tutorías</button>
           </Link>
           <button className="hero-button">Ver Precios</button>
         </div>
