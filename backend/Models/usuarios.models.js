@@ -21,7 +21,23 @@ const insertUser = async (nombre, apellidos, email, password, rol) => {
   return result.insertId;
 };
 
+//Actualizar
+const updateUser = async (id, nombre, apellidos, descripcion, foto_perfil) => {
+  await db.execute(
+    'UPDATE usuarios SET nombre = ?, apellidos = ?, descripcion = ?, foto_perfil = ? WHERE id = ?',
+    [nombre, apellidos, descripcion, foto_perfil, id]
+  );
+};
+
+//Eliminar
+const deleteUserById = async (id) => {
+  await db.execute('DELETE FROM usuarios WHERE id = ?', [id]);
+};
+
+
 module.exports = {
   getUserById,
   insertUser,
+  updateUser,
+  deleteUserById
 };
