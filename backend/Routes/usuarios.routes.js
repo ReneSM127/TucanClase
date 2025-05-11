@@ -12,6 +12,9 @@ otro archivo de rutas*/
 
 router.get('/:id', usuarios.getUser);
 router.post('/', usuarios.createUser);
+router.put('/:id', usuarios.updateUser);
+router.delete('/:id', usuarios.deleteUser)
+
 
 
 module.exports = router;

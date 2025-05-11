@@ -25,11 +25,36 @@ const createUser = async(req, res) => { //Falta encriptar la contraseña
     
   } catch (error) {
     res.status(500).json({ message: 'Error al crear el usuario' });
-    
   }
 }
+
+//Actualizar por id
+const updateUser = async (req, res) => {
+  const { nombre, apellidos, descripcion, foto_perfil } = req.body;
+  try {
+    await User.updateUser(req.params.id, nombre, apellidos, descripcion, foto_perfil);
+    res.json({ message: 'Usuario actualizado correctamente' });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Error al actualizar el usuario' });
+  }
+};
+
+//Eliminar usuario por id
+const deleteUser = async (req, res) => {
+  try {
+    await User.deleteUserById(req.params.id);
+    res.status(204).send(); // No Content
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar el usuario' });
+  }
+};
+
+
 
 module.exports = {
   getUser,
   createUser,
+  updateUser,
+  deleteUser
 };
