@@ -21,7 +21,9 @@ const Hero = () => {
         <p>Aprende de la mano de tus compañeros</p>
         
         <div className="hero-buttons">
-          <button className="hero-button">Ver tutorías</button>
+          <Link to="/Tutorial">
+              <button className="hero-button">Ver tutorías</button>
+          </Link>
           <button className="hero-button">Ver Precios</button>
         </div>
       </div>
