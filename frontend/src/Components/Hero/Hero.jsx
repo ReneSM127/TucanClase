@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
 import './Hero.css';
 
 
@@ -22,10 +24,8 @@ const Hero = () => {
         <p>Aprende de la mano de tus compañeros</p>
         
         <div className="hero-buttons">
-          <Link to="/Tutorial">
-           <button className="hero-button">Ver tutorías</button>
-          </Link>
-          <button className="hero-button">Ver Precios</button>
+          <Link className="hero-button" to="/Tutorial">Ver tutorías</Link>
+          <Link className="hero-button" to="/Tutorial">Ver Precios</Link>
         </div>
       </div>
       

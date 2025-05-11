@@ -1,5 +1,5 @@
 import React from 'react';
-import './tutorial.css';
+import '../Styles/tutorial.css';
 
 const Tutorial = () => {
   return (
