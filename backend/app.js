@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const pruebaruta = require('./Routes/prueba');
 const rutaUsuarios = require('./Routes/usuarios.routes');
+const inscripcionesRouter = require('./Routes/inscripciones.routes');
 
 app.use(cors()); // Habilita CORS 
 
@@ -14,6 +15,7 @@ app.use(morgan("dev"));
 
 app.use('/api/', pruebaruta);
 app.use('/api/usuario', rutaUsuarios);
+app.use('/api/inscripciones', inscripcionesRouter);
 
 
 module.exports = app;
