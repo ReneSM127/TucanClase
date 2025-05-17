@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-05-2025 a las 06:55:53
+-- Tiempo de generación: 17-05-2025 a las 07:21:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -147,6 +147,57 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `password`, `rol`,
 (4, 'carlos', 'caamal', 'caamal@gmail.com', '$2b$10$ad9Bm6ibg5R8C.hYIrHhFOdr9LDM67PCg5DRu3F1sxR9IqYtguIUO', 'Estudiante', 'Me gusta peto', 'default.png', '2025-05-16 23:28:24'),
 (5, 'carlos', 'zetina', 'zetina@gmail.com', '$2b$10$cR8YAPXTbQjctGSp8vPNYO0JsFT2lsA4a3e4BpSM5RUPU7mVibU6K', 'Tutor', 'Me gustan las monas chinas', 'default.png', '2025-05-16 23:29:10'),
 (6, 'emilio', 'loeza', 'emilio@gmail.com', '$2b$10$.z3TkcCBxnPgP1TeFJMGWeMo5dNkTZn.iJFb38Fgz0EebqyQYOhg2', 'Estudiante', 'Me gustan las bandidas', 'default.png', '2025-05-16 23:29:48');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_inscripciones_completas`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_inscripciones_completas` (
+`id_inscripcion` int(11)
+,`id_tutor` int(11)
+,`nombre_tutor` varchar(201)
+,`id_tutoria` int(11)
+,`titulo_tutoria` varchar(100)
+,`id_estudiante` int(11)
+,`nombre_estudiante` varchar(201)
+,`estado_inscripcion` enum('Inscrito','Pendiente','Cancelado')
+,`fecha_inscripcion` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `vista_tutorias_reviews`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_tutorias_reviews` (
+`tutoria_id` int(11)
+,`titulo_tutoria` varchar(100)
+,`nombre_tutor` varchar(201)
+,`nombre_estudiante` varchar(201)
+,`estrellas` tinyint(4)
+,`comentario` text
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_inscripciones_completas`
+--
+DROP TABLE IF EXISTS `vista_inscripciones_completas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_inscripciones_completas`  AS SELECT `i`.`id` AS `id_inscripcion`, `t`.`id` AS `id_tutor`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `tut`.`id` AS `id_tutoria`, `tut`.`titulo` AS `titulo_tutoria`, `e`.`id` AS `id_estudiante`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `i`.`estado` AS `estado_inscripcion`, `i`.`fecha_inscripcion` AS `fecha_inscripcion` FROM (((((`inscripciones` `i` join `tutorias` `tut` on(`i`.`tutoria_id` = `tut`.`id`)) join `usuarios` `u_tutor` on(`tut`.`tutor_id` = `u_tutor`.`id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) join `usuarios` `e` on(`i`.`estudiante_id` = `e`.`id`)) join `usuarios` `t` on(`tut`.`tutor_id` = `t`.`id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_tutorias_reviews`
+--
+DROP TABLE IF EXISTS `vista_tutorias_reviews`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `t`.`id` ASC, `u_estudiante`.`nombre` ASC ;
 
 --
 -- Índices para tablas volcadas
