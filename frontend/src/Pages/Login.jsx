@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
-import '../Styles/signup-sty.css';
 import { useNavigate } from 'react-router-dom';
-import { registerService } from '../Services/authService';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthContext';
+import { loginService } from '../Services/authService';
+import '../Styles/signup-sty.css';
 
-const Register = () => {
-  const [nombre, setNombre] = useState('');
-  const [apellidos, setApellidos] = useState('');
+const Login = () => {
+  const { login } = useContext(AuthContext);
+
+  /*Aquí se crean constantes que serán las que se envien al backend*/
+  /*Además se crea su propio setter para el UseState*/
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rol, setRol] = useState('');
 
+  /*Aquí se crean constantes de errores, de cargar y navegación*/
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+
+  /*Función cuando se de clic al boton*/
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      const response = await registerService(nombre, apellidos, email, password, rol);
+      const response = await loginService(email, password);
       // Guardar los datos del usuario en el estado global o localStorage
-
+      login(response.usuario, response.token); 
       // Redirigir al dashboard o página principal
-      navigate('/Login');
+      navigate('/');
     } catch (err) {
       setError(err.message || 'Credenciales inválidas');
     } finally {
@@ -36,31 +42,10 @@ const Register = () => {
     <div>
       <div className="container">
         <div className="login-box">
-          <h2>Registrarse</h2>
-          <p>Cree una cuenta para desbloquear más funciones.</p>
-          <form onSubmit={handleSubmit}>
+          <h2>Iniciar Sesión</h2>
+          <p>¡Bienvenido de nuevo! Inicie sesión para acceder a su cuenta.</p>
+          <form onSubmit={handleSubmit}> {/* Llama a la funcion */}
             {error && <div className="error-message">{error}</div>}
-            <label htmlFor="name">Nombre</label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Ingresa tu nombre"
-              name='nombre'
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)} //Cada vez que se le de clic se actualiza el valor
-              required
-            />
-
-            <label htmlFor="name">Apellidos</label>
-            <input
-              type="text"
-              id="apellidos"
-              placeholder="Ingresa tus apellidos"
-              name='apellidos'
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)} //Cada vez que se le de clic se actualiza el valor
-              required
-            />
 
             <label htmlFor="email">Correo</label>
             <input
@@ -79,44 +64,31 @@ const Register = () => {
                 type="password"
                 id="password"
                 placeholder="Ingresa tu contraseña"
-                name='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} //Cada vez que se le de clic se actualiza el valor
                 required
               />
             </div>
 
-            <label htmlFor="role">Rol</label>
-            <select
-              id="role"
-              className="role-select"
-              name='rol'
-              value={rol}
-              onChange={(e) => setRol(e.target.value)} //Cada vez que se le de clic se actualiza el valor
-              required
-            >
-              <option value="">Selecciona tu rol</option>
-              <option value="Estudiante">Estudiante</option>
-              <option value="Tutor">Tutor</option>
-            </select>
-
-            <div className="remember-forgot2">
-              <label className="remember-label2">
-                <input type="checkbox" /> Aceptar Términos de uso
+            <div className="remember-forgot">
+              <label className="remember-label">
+                <input type="checkbox" /> Recuérdame
               </label>
+              <a href="#">¿Olvidaste tu contraseña?</a>
             </div>
-
             <button
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? 'Cargando...' : 'Registrarse'}
+              {/* Si isLoadign es True, se pone el primer texto, de lo contrario se pone Iniciar Sesion */}
+              {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
             </button>
             <div className="divider">o</div>
             <div className="google-btn">
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" />
-              Registrarse con Google
+              Iniciar con Google
             </div>
+            <p><br />No tienes cuenta? <a href="../Views/register.html">Registrate</a></p>
           </form>
         </div>
       </div>
@@ -124,4 +96,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

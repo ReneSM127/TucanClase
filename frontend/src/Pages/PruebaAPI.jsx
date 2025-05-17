@@ -25,7 +25,9 @@ const PruebaAPI = ({ userId }) => {
     return (
         <div>
       <h2>Usuario</h2>
-      <p>ID: {user.id}</p>
+      <p>ID: {user.nombre}</p>
+      <p>ID: {user.email}</p>
+
     </div>
   );
 };

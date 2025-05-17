@@ -1,17 +1,44 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
 import logo from '../Assets/logo.png'
 import nav_dropdown from '../Assets/nav_dropdown.png'
+import { AuthContext } from '../../Context/AuthContext';
+
 const Navbar = () => {
 
   const [menu, setMenu] = useState("Inicio")
   const menuRef = useRef();
+  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
+
+  const menuItems = [
+    { name: "Inicio", path: "/" },
+    { name: "Tutorias", path: "/Tutorial" },
+    { name: "Crear", path: "/" },
+    { name: "Contactar", path: "/" }
+  ];
+
+
 
   const dropdown_toggle = (e) => {
     menuRef.current.classList.toggle('nav-menu-visible');
     e.target.classList.toggle('open');
   }
+
+  const handleLogin = () => {
+    navigate('/Login');
+  }
+
+  const handleRegister = () => {
+    navigate('/Register');
+  }
+
+  const handleLogout = () => {
+    logout();
+    navigate('/Login');
+  };
 
   return (
     <div className='navbar'>
@@ -21,22 +48,29 @@ const Navbar = () => {
       </div>
       <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt="" />
       <ul ref={menuRef} className='nav-menu'>
-        <li onClick={() => { setMenu("Inicio") }}>Incio{menu === "Inicio" ? <hr /> : <></>}</li>
-        <li onClick={() => { setMenu("Tutorias") }}>Tutorias{menu === "Tutorias" ? <hr /> : <></>}</li>
-        <li onClick={() => { setMenu("Crear") }}>Crear{menu === "Crear" ? <hr /> : <></>}</li>
-        <li onClick={() => { setMenu("Contactar") }}>Contactar{menu === "Contactar" ? <hr /> : <></>}</li>
+        {menuItems.map((item) => (
+          <li key={item.name} onClick={() => setMenu(item.name)}>
+            <Link to={item.path}>{item.name}</Link>
+            {menu === item.name && <hr />}
+          </li>
+        ))}
       </ul>
       <div className="buttons">
-        <div className='nav-login-cart'>
-          <Link to="/Register">
-            <button>Registrarse</button>
-          </Link>
-        </div>
-        <div className='nav-signup-cart'>
-          <Link to="/Singup">
-            <button>Iniciar Sesion</button>
-          </Link>
-        </div>
+        {user ? (
+          <div className='nav-user'>
+            <span>👤 {user.email}</span>
+            <button onClick={handleLogout}>Cerrar sesión</button>
+          </div>
+        ) : (
+          <>
+            <div className='nav-login-cart'>
+              <button onClick={handleRegister}>Registrarse</button>
+            </div>
+            <div className='nav-signup-cart'>
+              <button onClick={handleLogin}>Iniciar Sesión</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

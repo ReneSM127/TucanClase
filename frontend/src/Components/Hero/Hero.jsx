@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
 import './Hero.css';
 
 
@@ -23,7 +25,7 @@ const Hero = () => {
         
         <div className="hero-buttons">
           <Link to="/Tutorial">
-            <button>Ver Tutorias</button>
+           <button className="hero-button">Ver tutorías</button>
           </Link>
           <button className="hero-button">Ver Precios</button>
         </div>

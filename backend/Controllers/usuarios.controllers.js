@@ -20,8 +20,18 @@ const getUser = async (req, res) => {
 const createUser = async(req, res) => { //Falta encriptar la contraseña
   const {nombre, apellidos, email, password, rol} = req.body;
   try {
-    const newUser = await User.insertUser(nombre, apellidos, email, password, rol);
-    res.status(201).json({ id: newUser, nombre});
+
+    //Busca los datos del usuario por su correo
+    const existingUser = await User.getUserByemail(email);    
+    
+    if (existingUser) {
+      return res.status(409).json({ message: 'El correo ya está en uso' });
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 10); //Encripta la contraseña     
+
+    const newUser = await User.insertUser(nombre, apellidos, email, hashedPassword, rol);
+    res.status(201).json({ id: newUser, nombre,hashedPassword});
     
   } catch (error) {
     res.status(500).json({ message: 'Error al crear el usuario' });

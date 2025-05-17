@@ -12,6 +12,11 @@ const getUserById = async (id) => {
   return rows[0];
 };
 
+const getUserByemail = async (email) => {
+  const [rows] = await db.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+  return rows[0];
+};
+
 // Crear un nuevo usuario
 const insertUser = async (nombre, apellidos, email, password, rol) => {
   const [result] = await db.execute(
@@ -39,5 +44,6 @@ module.exports = {
   getUserById,
   insertUser,
   updateUser,
-  deleteUserById
+  deleteUserById,
+  getUserByemail
 };

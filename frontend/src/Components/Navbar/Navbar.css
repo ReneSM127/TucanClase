@@ -45,8 +45,26 @@
     background: #55a7c5;
 }
 
+.nav-menu a {
+  color: black; /* Color para enlaces no visitados */
+  text-decoration: none; /* Esto ya lo tienes inline pero es mejor en CSS */
+}
+
+.nav-menu a:visited {
+  color: black; /* Color para enlaces visitados */
+}
+
+.nav-menu a:hover {
+  color: black; /* Color al pasar el mouse (opcional) */
+}
+
+.nav-menu a:active {
+  color: black; /* Color al hacer clic (opcional) */
+}
+
 .buttons{
     display: flex;
+    gap: 10px;
 }
 
 .nav-login-cart{
