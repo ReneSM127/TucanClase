@@ -9,6 +9,9 @@ import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
+import { ProtectedRoute } from './Components/ProtectedRoutes';
+import Prohibido from './Pages/Prohibido'
+
 
 function App() {
   return (
@@ -21,6 +24,12 @@ function App() {
             <Route path='/Register' element={<Register />}></Route>
             <Route path='/Login' element={<Login />}></Route>
             <Route path='/Tutorial' element={<Tutorial />} />
+
+            <Route path="/crear" element={
+              <ProtectedRoute allowedRoles={['Tutor']}>
+                <Prohibido />
+              </ProtectedRoute>
+            } />
 
             {/*<Route path='/Login' element={<LoginPage />} />*/}
             <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
