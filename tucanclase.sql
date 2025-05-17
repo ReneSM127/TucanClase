@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-05-2025 a las 02:24:53
+-- Tiempo de generación: 17-05-2025 a las 06:55:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,8 +40,9 @@ CREATE TABLE `inscripciones` (
 --
 
 INSERT INTO `inscripciones` (`id`, `estudiante_id`, `tutoria_id`, `fecha_inscripcion`, `estado`) VALUES
-(1, 2, 1, '2025-05-12 19:15:54', 'Inscrito'),
-(2, 5, 2, '2025-05-12 19:16:11', 'Inscrito');
+(1, 2, 1, '2025-05-16 23:46:15', 'Inscrito'),
+(2, 4, 2, '2025-05-16 23:46:43', 'Inscrito'),
+(3, 6, 2, '2025-05-16 23:46:51', 'Inscrito');
 
 -- --------------------------------------------------------
 
@@ -52,7 +53,7 @@ INSERT INTO `inscripciones` (`id`, `estudiante_id`, `tutoria_id`, `fecha_inscrip
 CREATE TABLE `materias` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `descripcion` text DEFAULT NULL
+  `descripcion` text DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -76,43 +77,46 @@ CREATE TABLE `reviews` (
   `id` int(11) NOT NULL,
   `inscripcion_id` int(11) NOT NULL,
   `estrellas` tinyint(4) NOT NULL CHECK (`estrellas` between 1 and 5),
-  `comentario` text DEFAULT NULL
+  `comentario` text DEFAULT '',
+  `fecha_creacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reviews`
 --
 
-INSERT INTO `reviews` (`id`, `inscripcion_id`, `estrellas`, `comentario`) VALUES
-(1, 1, 4, 'Muy bueno'),
-(3, 2, 2, 'Meh');
+INSERT INTO `reviews` (`id`, `inscripcion_id`, `estrellas`, `comentario`, `fecha_creacion`) VALUES
+(1, 1, 4, 'Muy buen tutor', '2025-05-16 23:48:35'),
+(2, 2, 2, 'No sabe explicar', '2025-05-16 23:49:20'),
+(3, 3, 3, 'Habla muy lento', '2025-05-16 23:49:56');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tutorias_materias`
+-- Estructura de tabla para la tabla `tutorias`
 --
 
-CREATE TABLE `tutorias_materias` (
+CREATE TABLE `tutorias` (
   `id` int(11) NOT NULL,
   `tutor_id` int(11) NOT NULL,
   `materia_id` int(11) NOT NULL,
   `titulo` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
+  `descripcion` text DEFAULT '',
   `duracion` int(11) NOT NULL,
-  `max_estudiantes` int(11) DEFAULT NULL,
+  `max_estudiantes` int(11) NOT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   `estado` enum('Programado','En progreso','Completado','Cancelado') DEFAULT 'Programado',
   `fecha_creacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tutorias_materias`
+-- Volcado de datos para la tabla `tutorias`
 --
 
-INSERT INTO `tutorias_materias` (`id`, `tutor_id`, `materia_id`, `titulo`, `descripcion`, `duracion`, `max_estudiantes`, `precio`, `estado`, `fecha_creacion`) VALUES
-(1, 1, 2, 'Calculo avanzado papa', 'Aprende conmigo', 10, 20, 100.00, 'Programado', '2025-05-12 19:12:25'),
-(2, 3, 5, 'Puro debian', 'Aprende a las malas', 20, 3, 144.00, 'Programado', '2025-05-12 19:13:48');
+INSERT INTO `tutorias` (`id`, `tutor_id`, `materia_id`, `titulo`, `descripcion`, `duracion`, `max_estudiantes`, `precio`, `estado`, `fecha_creacion`) VALUES
+(1, 1, 1, 'Algebra', 'Aprende conmigo', 10, 20, 100.00, 'Programado', '2025-05-16 23:40:05'),
+(2, 3, 5, 'Puro Debiam', 'Aprende a las malas', 20, 10, 50.00, 'Programado', '2025-05-16 23:42:14'),
+(3, 5, 3, 'C++', 'Co VSCode', 20, 10, 50.00, 'Programado', '2025-05-16 23:43:28');
 
 -- --------------------------------------------------------
 
@@ -125,10 +129,10 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(100) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `rol` enum('Estudiante','Tutor') NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `foto_perfil` varchar(255) DEFAULT NULL,
+  `descripcion` text DEFAULT '',
+  `foto_perfil` varchar(100) DEFAULT 'default.png',
   `fecha_creacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -137,11 +141,12 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `password`, `rol`, `descripcion`, `foto_perfil`, `fecha_creacion`) VALUES
-(1, 'rene', 'sandoval', 'rene@gmail.com', '123', 'Tutor', 'me gusta nicki Nicole', '/default', '2025-05-12 19:00:33'),
-(2, 'isabel', 'tec', 'isabel@gmail.com', '123', 'Estudiante', 'me gusta el cafe', '/default', '2025-05-12 19:01:31'),
-(3, 'omar', 'lopez', 'omar@gmail.com', '123', 'Tutor', 'me gustan las sirenas', '/default', '2025-05-12 19:02:10'),
-(4, 'carlos', 'caamal', 'caamal@gmail.com', '123', 'Tutor', 'me gusta peto', '/default', '2025-05-12 19:02:47'),
-(5, 'carlos', 'zetina', 'zetina@gmail.com', '123', 'Estudiante', 'me gustan las monas chinas', '/default', '2025-05-12 19:03:32');
+(1, 'rene', 'sadoval moron', 'rene@gmail.com', '$2b$10$CbQB0yCQLftrFrKepQGTyuE4lkTnRWJcat6o49JWTWSr9WkJWADGa', 'Tutor', 'Me gusta Nicki Nicole', 'default.png', '2025-05-16 23:26:21'),
+(2, 'isabel', 'tec balam', 'isabel@gmail.com', '$2b$10$7/0fvPTZEx.v/Dvubyn86ufe/jhktBB8p99rGW5hwZAx7sWh5SJmS', 'Estudiante', 'Me gusta el cafe y los gatos', 'default.png', '2025-05-16 23:26:55'),
+(3, 'omar', 'lopez ibarez', 'omar@gmail.com', '$2b$10$iouH6SJcEKq4B9MOnB5ikee1uEj9Pvg1Ker9XuoIxAH8DgjPWVnNC', 'Tutor', 'Me gustan las sirenas', 'default.png', '2025-05-16 23:27:19'),
+(4, 'carlos', 'caamal', 'caamal@gmail.com', '$2b$10$ad9Bm6ibg5R8C.hYIrHhFOdr9LDM67PCg5DRu3F1sxR9IqYtguIUO', 'Estudiante', 'Me gusta peto', 'default.png', '2025-05-16 23:28:24'),
+(5, 'carlos', 'zetina', 'zetina@gmail.com', '$2b$10$cR8YAPXTbQjctGSp8vPNYO0JsFT2lsA4a3e4BpSM5RUPU7mVibU6K', 'Tutor', 'Me gustan las monas chinas', 'default.png', '2025-05-16 23:29:10'),
+(6, 'emilio', 'loeza', 'emilio@gmail.com', '$2b$10$.z3TkcCBxnPgP1TeFJMGWeMo5dNkTZn.iJFb38Fgz0EebqyQYOhg2', 'Estudiante', 'Me gustan las bandidas', 'default.png', '2025-05-16 23:29:48');
 
 --
 -- Índices para tablas volcadas
@@ -159,8 +164,7 @@ ALTER TABLE `inscripciones`
 -- Indices de la tabla `materias`
 --
 ALTER TABLE `materias`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `reviews`
@@ -170,9 +174,9 @@ ALTER TABLE `reviews`
   ADD UNIQUE KEY `inscripcion_id` (`inscripcion_id`);
 
 --
--- Indices de la tabla `tutorias_materias`
+-- Indices de la tabla `tutorias`
 --
-ALTER TABLE `tutorias_materias`
+ALTER TABLE `tutorias`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tutor_id` (`tutor_id`),
   ADD KEY `materia_id` (`materia_id`);
@@ -192,7 +196,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `inscripciones`
 --
 ALTER TABLE `inscripciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `materias`
@@ -204,19 +208,19 @@ ALTER TABLE `materias`
 -- AUTO_INCREMENT de la tabla `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `tutorias_materias`
+-- AUTO_INCREMENT de la tabla `tutorias`
 --
-ALTER TABLE `tutorias_materias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `tutorias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -226,21 +230,21 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `inscripciones`
 --
 ALTER TABLE `inscripciones`
-  ADD CONSTRAINT `inscripciones_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `inscripciones_ibfk_2` FOREIGN KEY (`tutoria_id`) REFERENCES `tutorias_materias` (`id`);
+  ADD CONSTRAINT `inscripciones_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `inscripciones_ibfk_2` FOREIGN KEY (`tutoria_id`) REFERENCES `tutorias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`inscripcion_id`) REFERENCES `inscripciones` (`id`);
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`inscripcion_id`) REFERENCES `inscripciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tutorias_materias`
+-- Filtros para la tabla `tutorias`
 --
-ALTER TABLE `tutorias_materias`
-  ADD CONSTRAINT `tutorias_materias_ibfk_1` FOREIGN KEY (`tutor_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `tutorias_materias_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materias` (`id`);
+ALTER TABLE `tutorias`
+  ADD CONSTRAINT `tutorias_ibfk_1` FOREIGN KEY (`tutor_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tutorias_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
