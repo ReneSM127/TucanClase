@@ -14,7 +14,7 @@ const login = async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: 'Credenciales inválidas' });
 
         //Se guardan los siguientes datos en el LocalStorage
-        const usuario = { id: user.id, nombre: user.nombre, email: user.email };
+        const usuario = { id: user.id, nombre: user.nombre, email: user.email, rol: user.rol};
         const token = jwt.sign(usuario, 'mi_clave_secreta', { expiresIn: '1h' }); // usar una clave más segura
         
         //Enviamos al frontend los 2 tokens
