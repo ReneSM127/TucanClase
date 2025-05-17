@@ -23,7 +23,7 @@ const Hero = () => {
         
         <div className="hero-buttons">
           <Link to="/Tutorial">
-           <button className="hero-button">Ver tutorías</button>
+            <button>Ver Tutorias</button>
           </Link>
           <button className="hero-button">Ver Precios</button>
         </div>
