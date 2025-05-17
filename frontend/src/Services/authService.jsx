@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Opcional: Configuración global de Axios
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/auth', // Ajusta según tu backend
+  baseURL: 'http://localhost:5000/api', // Ajusta según tu backend
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ const api = axios.create({
 
 export const login = async (email, password) => {
   try {
-    const response = await api.post('/login', { email, password });
+    const response = await api.post('auth/login', { email, password });
     return response.data;
   } catch (error) {
     // Manejo de errores más detallado con Axios
@@ -24,5 +24,14 @@ export const login = async (email, password) => {
       // Algo pasó al configurar la solicitud
       throw new Error('Error al configurar la solicitud');
     }
+  }
+};
+
+export const register = async (nombre, apellidos, email, password, rol) => {
+  try {
+    const response = await api.post('usuario', {nombre, apellidos, email, password, rol});
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error en el registro');
   }
 };

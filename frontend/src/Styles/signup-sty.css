@@ -232,4 +232,24 @@ input, textarea {
     display: block;
     margin-top: 50px;
   }
+
+  /* Agrega esto a tu archivo CSS */
+
+.role-select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.role-select:focus {
+  outline: none;
+  border-color: #55a7c5;
+  box-shadow: 0 0 0 2px rgba(85, 167, 197, 0.2);
+}
   
