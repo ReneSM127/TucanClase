@@ -1,14 +1,17 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Navbar.css'
 import logo from '../Assets/logo.png'
 import nav_dropdown from '../Assets/nav_dropdown.png'
+import { AuthContext } from '../../Context/AuthContext';
+
 const Navbar = () => {
 
   const [menu, setMenu] = useState("Inicio")
   const menuRef = useRef();
   const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
 
   const menuItems = [
     { name: "Inicio", path: "/" },
@@ -32,6 +35,11 @@ const Navbar = () => {
     navigate('/Register');
   }
 
+  const handleLogout = () => {
+    logout();
+    navigate('/Login');
+  };
+
   return (
     <div className='navbar'>
       <div className='nav-logo'>
@@ -48,12 +56,21 @@ const Navbar = () => {
         ))}
       </ul>
       <div className="buttons">
-        <div className='nav-login-cart'>
-          <button onClick={handleRegister}>Registrarse</button>
-        </div>
-        <div className='nav-signup-cart'>
-          <button onClick={handleLogin}>Iniciar Sesion</button>
-        </div>
+        {user ? (
+          <div className='nav-user'>
+            <span>👤 {user.email}</span>
+            <button onClick={handleLogout}>Cerrar sesión</button>
+          </div>
+        ) : (
+          <>
+            <div className='nav-login-cart'>
+              <button onClick={handleRegister}>Registrarse</button>
+            </div>
+            <div className='nav-signup-cart'>
+              <button onClick={handleLogin}>Iniciar Sesión</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

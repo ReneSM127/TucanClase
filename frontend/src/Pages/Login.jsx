@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../Services/authService';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthContext';
+import { loginService } from '../Services/authService';
 import '../Styles/signup-sty.css';
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+
   /*Aquí se crean constantes que serán las que se envien al backend*/
   /*Además se crea su propio setter para el UseState*/
   const [email, setEmail] = useState('');
@@ -22,10 +26,9 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await login(email, password);
+      const response = await loginService(email, password);
       // Guardar los datos del usuario en el estado global o localStorage
-      localStorage.setItem('user', JSON.stringify(response.user));
-
+      login(response.usuario, response.token); 
       // Redirigir al dashboard o página principal
       navigate('/');
     } catch (err) {

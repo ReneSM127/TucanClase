@@ -7,25 +7,28 @@ import Register from './Pages/Register';
 import Login from './Pages/Login'
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
+import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/Register' element={<Register />}></Route>
-          <Route path='/Login' element={<Login />}></Route>
-          <Route path='/Tutorial' element={<Tutorial />} />
+    <AuthProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/Register' element={<Register />}></Route>
+            <Route path='/Login' element={<Login />}></Route>
+            <Route path='/Tutorial' element={<Tutorial />} />
 
-          {/*<Route path='/Login' element={<LoginPage />} />*/}
-          <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div>
+            {/*<Route path='/Login' element={<LoginPage />} />*/}
+            <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </div>
+    </AuthProvider>
   );
 }
 

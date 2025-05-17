@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../Styles/signup-sty.css';
 import { useNavigate } from 'react-router-dom';
-import { login, register } from '../Services/authService';
+import { registerService } from '../Services/authService';
 
 const Register = () => {
   const [nombre, setNombre] = useState('');
@@ -20,7 +20,7 @@ const Register = () => {
     setError('');
 
     try {
-      const response = await register(nombre, apellidos, email, password, rol);
+      const response = await registerService(nombre, apellidos, email, password, rol);
       // Guardar los datos del usuario en el estado global o localStorage
 
       // Redirigir al dashboard o página principal
