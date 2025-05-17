@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const auth = require('../Models/auth.models');
 
 const login = async (req, res) => {
@@ -11,8 +12,13 @@ const login = async (req, res) => {
         const isMatch = bcrypt.compareSync(password, user.password);
                 
         if (!isMatch) return res.status(401).json({ message: 'Credenciales inválidas' });
+
+        //Se guardan los siguientes datos en el LocalStorage
+        const usuario = { id: user.id, nombre: user.nombre, email: user.email };
+        const token = jwt.sign(usuario, 'mi_clave_secreta', { expiresIn: '1h' }); // usar una clave más segura
         
-        res.json({user: { id: user.id, name: user.nombre, email: user.email } });
+        //Enviamos al frontend los 2 tokens
+        res.json({ usuario, token });
 
     } catch (error) {
         res.status(500).json({ message: 'Error al iniciar sesión' });
