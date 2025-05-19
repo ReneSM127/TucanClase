@@ -46,3 +46,13 @@ export const registerService = async (nombre, apellidos, email, password, rol) =
     throw new Error(error.response?.data?.message || 'Error en el registro');
   }
 };
+
+export const updateProfileService = async (id, userData) => {
+  try {
+    const response = await api.put(`usuario/${id}`, userData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error al actualizar el perfil');
+  }
+};
+

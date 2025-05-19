@@ -40,9 +40,9 @@ const createUser = async(req, res) => { //Falta encriptar la contraseña
 
 //Actualizar por id
 const updateUser = async (req, res) => {
-  const { nombre, apellidos, descripcion, foto_perfil } = req.body;
+  const { nombre, apellidos, descripcion, email } = req.body;
   try {
-    await User.updateUser(req.params.id, nombre, apellidos, descripcion, foto_perfil);
+    await User.updateUser(req.params.id, nombre, apellidos, email, descripcion);
     res.json({ message: 'Usuario actualizado correctamente' });
   } catch (error) {
     console.log(error)

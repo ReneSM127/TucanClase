@@ -2,10 +2,14 @@ import React, { useState, useContext, useEffect} from "react";
 import { FiEdit, FiSave, FiLock } from "react-icons/fi";
 import "../Styles/Perfil.css";
 import { AuthContext } from "../Context/AuthContext";
+import { updateProfileService } from "../Services/authService";
+
 
 const Perfil = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [error, setError] = useState(null);
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -18,7 +22,6 @@ const Perfil = () => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  // Sincronizar datos del usuario cuando estén disponibles
   useEffect(() => {
     if (user) {
       setFormData({
@@ -33,23 +36,53 @@ const Perfil = () => {
 
   const handleEdit = () => {
     setEditMode(true);
+    setError(null);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    setEditMode(false);
-    console.log("Datos a actualizar:", formData);
+    setIsUpdating(true);
+    setError(null);
+
+    try {
+      // Actualizar en el backend
+      const updatedUser = await updateProfileService(user.id, {
+        nombre: formData.nombre,
+        apellidos: formData.apellidos,
+        email: formData.email,
+        descripcion: formData.biografia,
+      });
+
+      // Actualizar en el contexto y localStorage
+      const updatedUserData = {
+        ...user,
+        nombre: formData.nombre,
+        apellidos: formData.apellidos,
+        email: formData.email,
+        descripcion: formData.biografia,
+      };
+
+      localStorage.setItem('usuario', JSON.stringify(updatedUserData));
+      setUser(updatedUserData);
+
+      setEditMode(false);
+    } catch (err) {
+      setError(err.message || 'Error al actualizar el perfil');
+    } finally {
+      setEditMode(false);
+      setIsUpdating(false);
+    }
   };
 
   const handleCancel = () => {
     setEditMode(false);
-    // Restaurar valores del usuario actual
     setFormData({
       nombre: user.nombre || "",
       apellidos: user.apellidos || "",
       email: user.email || "",
       biografia: user.descripcion || "",
     });
+    setError(null);
   };
 
   const handleInputChange = (e) => {
@@ -61,13 +94,8 @@ const Perfil = () => {
   };
 
   if (loading) {
-    return (
-      <div className="perfil-contraseña-container">
-        <div className="loading-message">Cargando perfil...</div>
-      </div>
-    );
+    return <div className="perfil-contraseña-container">Cargando perfil...</div>;
   }
-
 
   return (
     <div className="perfil-contraseña-container">

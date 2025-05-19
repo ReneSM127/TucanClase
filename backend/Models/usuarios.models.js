@@ -27,10 +27,10 @@ const insertUser = async (nombre, apellidos, email, password, rol) => {
 };
 
 //Actualizar
-const updateUser = async (id, nombre, apellidos, descripcion, foto_perfil) => {
+const updateUser = async (id, nombre, apellidos, email, descripcion, ) => {
   await db.execute(
-    'UPDATE usuarios SET nombre = ?, apellidos = ?, descripcion = ?, foto_perfil = ? WHERE id = ?',
-    [nombre, apellidos, descripcion, foto_perfil, id]
+    'UPDATE usuarios SET nombre = ?, apellidos = ?, email = ?, descripcion = ? WHERE id = ?',
+    [nombre, apellidos, email, descripcion, id]
   );
 };
 
