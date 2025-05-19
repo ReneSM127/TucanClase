@@ -6,6 +6,7 @@ import Home from './Pages/Home'
 import Register from './Pages/Register';
 import Login from './Pages/Login'
 import PerfilUsuario from './Pages/Perfil';
+import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
 import { AuthProvider } from './Context/AuthContext';
@@ -26,6 +27,7 @@ function App() {
             <Route path='/Login' element={<Login />}></Route>
             <Route path='/Tutorial' element={<Tutorial />} />
             <Route path='/Perfil' element={<PerfilUsuario/>}/>
+            <Route path='/DashboardP' element={<DashboardP/>}/>
 
             <Route path="/crear" element={
               <ProtectedRoute allowedRoles={['Tutor']}>
