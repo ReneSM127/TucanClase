@@ -9,6 +9,7 @@ import PerfilUsuario from './Pages/Perfil';
 import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
+import AlumnosDashboard from './Pages/AlumnosDashboard';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
@@ -28,6 +29,7 @@ function App() {
             <Route path='/Tutorial' element={<Tutorial />} />
             <Route path='/Perfil' element={<PerfilUsuario/>}/>
             <Route path='/DashboardP' element={<DashboardP/>}/>
+            <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
 
             <Route path="/crear" element={
               <ProtectedRoute allowedRoles={['Tutor']}>
