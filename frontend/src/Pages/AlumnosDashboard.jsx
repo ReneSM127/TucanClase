@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {FaEnvelope, FaBook, FaUsers, FaStar, FaComment, FaCalendarAlt, FaTimes } from 'react-icons/fa';
+import {FaEnvelope, FaBook, FaUsers, FaStar, FaComment, FaCalendarAlt } from 'react-icons/fa';
 import '../Styles/AlumnosDashboard.css';
 
 const AlumnosDashboard = () => {
@@ -322,75 +322,6 @@ const AlumnosDashboard = () => {
         </section>
       </div>
 
-      {/* Modal de Mensajes */}
-      {showMessagesModal && (
-        <div 
-            className="modal-messages"
-            onClick={(e) => {
-            // Cerrar solo si se hace clic en el fondo oscuro, no en el contenido
-            if (e.target === e.currentTarget) {
-                setShowMessagesModal(false);
-                setActiveMessage(null);
-            }
-            }}
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Mensajes ({dashboardData.messages.length})</h2>
-              <button 
-                className="close-modal"
-                onClick={() => {
-                  setShowMessagesModal(false);
-                  setActiveMessage(null);
-                }}
-              >
-                <FaTimes />
-              </button>
-            </div>
-
-            <div className="messages-container">
-              <div className="messages-list">
-                {dashboardData.messages.map(message => (
-                  <div 
-                    key={message.id} 
-                    className={`message-item ${!message.read ? 'unread' : ''} ${activeMessage?.id === message.id ? 'active' : ''}`}
-                    onClick={() => handleOpenMessage(message)}
-                  >
-                    <div className="message-header">
-                      <h4>{message.from}</h4>
-                      <span className="message-date">{message.date}</span>
-                    </div>
-                    <p className="message-subject">{message.subject}</p>
-                    {!message.read && <span className="unread-dot"></span>}
-                  </div>
-                ))}
-              </div>
-
-              <div className="message-content">
-                {activeMessage ? (
-                  <>
-                    <div className="message-content-header">
-                      <h3>{activeMessage.subject}</h3>
-                      <div className="message-meta">
-                        <span className="message-from">De: {activeMessage.from}</span>
-                        <span className="message-date">{activeMessage.date}</span>
-                      </div>
-                    </div>
-                    <div className="message-text">
-                      <p>{activeMessage.content}</p>
-                    </div>
-                  </>
-                ) : (
-                  <div className="no-message-selected">
-                    <FaEnvelope size={48} />
-                    <p>Selecciona un mensaje para leerlo</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

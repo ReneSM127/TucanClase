@@ -11,6 +11,7 @@ import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
 import AlumnosDashboard from './Pages/AlumnosDashboard';
+import Chat from './Components/Chat/Chat';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
@@ -42,6 +43,7 @@ function App() {
             {/*<Route path='/Login' element={<LoginPage />} />*/}
             <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
           </Routes>
+          <Chat/>
           <Footer />
         </BrowserRouter>
       </div>
