@@ -1,0 +1,33 @@
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.star {
+  font-size: 1.2rem;
+  color: #ddd; /* Color base para estrellas vacías */
+  margin-right: 2px;
+}
+
+.star.full {
+  color: #ffc107; /* Amarillo para estrellas llenas */
+}
+
+.star.half {
+  position: relative;
+}
+
+.star.half:before {
+  position: absolute;
+  content: '★';
+  width: 50%;
+  overflow: hidden;
+  color: #ffc107;
+}
+
+.rating-text {
+  margin-left: 5px;
+  font-size: 0.9rem;
+  color: #666;
+}
