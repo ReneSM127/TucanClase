@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const materiasController = require('../Controllers/materias.controller');
+const materiasController = require('../Controllers/materias.controllers');
 
 router.get('/', materiasController.getAllMaterias);
 /*router.get('/con-tutorias', materiasController.getMateriasConTutorias); */
