@@ -1,0 +1,513 @@
+.instructor-profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Header del perfil */
+.profile-header {
+  display: flex;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.avatar-container {
+  flex: 1;
+  max-width: 300px;
+  padding-right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instructor-avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-badge {
+  background: #f8f9fa;
+  padding: 8px 15px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+.instructor-badge svg {
+  color: #e67e22;
+}
+
+.profile-info {
+  flex: 2;
+}
+
+.profile-info h1 {
+  margin: 0 0 5px 0;
+  font-size: 32px;
+  color: #2c3e50;
+}
+
+.profile-info h2 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: #7f8c8d;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.star {
+  color: #ddd;
+  font-size: 18px;
+}
+
+.star.filled {
+  color: #f1c40f;
+}
+
+.stats-container {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.stat-icon {
+  color: #3498db;
+}
+
+.bio-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.bio-container p {
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.contact-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.contact-container p {
+  margin: 0 0 10px 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.social-links a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+/* Tabs de navegación */
+.profile-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+}
+
+.tab {
+  padding: 15px 25px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: #7f8c8d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.tab.active {
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+}
+
+.tab:hover {
+  color: #2c3e50;
+  background: #f8f9fa;
+}
+
+/* Contenido del perfil */
+.profile-content {
+  min-height: 400px;
+}
+
+/* Estilos para la sección de cursos */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.course-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-card.expanded {
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.course-card:hover .course-image img {
+  transform: scale(1.05);
+}
+
+.course-info {
+  padding: 20px;
+}
+
+.course-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.level {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #e1f7ed;
+  color: #27ae60;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.course-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+.course-meta svg {
+  margin-right: 5px;
+}
+
+.course-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.course-details p {
+  margin: 0 0 15px 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.course-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-tag {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  background: #e1f0fa;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+/* Estilos para la sección de reseñas */
+.reviews-container h2 {
+  margin: 0 0 30px 0;
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+.overall-rating {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+.rating-circle {
+  text-align: center;
+  min-width: 120px;
+}
+
+.rating-circle span {
+  font-size: 36px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.rating-circle div {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+
+.rating-circle p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.review-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.reviewer-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.review-rating span {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.review-comment {
+  margin: 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Estilos para la sección "Sobre el instructor" */
+.about-container h2 {
+  margin: 0 0 30px 0;
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+.experience-item {
+  margin-bottom: 30px;
+}
+
+.experience-item h3 {
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  color: #2c3e50;
+  position: relative;
+  padding-left: 25px;
+}
+
+.experience-item h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  background: #3498db;
+  border-radius: 50%;
+}
+
+.experience-item ul {
+  margin: 0;
+  padding-left: 25px;
+  list-style-type: none;
+}
+
+.experience-item li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.experience-item li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #3498db;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .profile-header {
+    flex-direction: column;
+  }
+  
+  .avatar-container {
+    max-width: 100%;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+  
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-tabs {
+    flex-direction: column;
+  }
+  
+  .tab {
+    justify-content: center;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+  
+  .tab.active {
+    border-bottom: none;
+    border-left: 3px solid #3498db;
+  }
+  
+  .overall-rating {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .course-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .price-tag {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
