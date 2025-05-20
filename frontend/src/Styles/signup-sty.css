@@ -1,29 +1,4 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  body {
-    background-color: #f9f9f9;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background: #fff;
-  }
-  
-  nav a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-  }
-  
+
   .auth-buttons a {
     margin-left: 15px;
     padding: 8px 16px;
@@ -177,7 +152,7 @@ input, textarea {
   }
   
   button {
-    width: 100%;
+    margin-left: 12px;
     padding: 12px;
     background: #55a7c5;
     color: #fff;
