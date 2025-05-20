@@ -15,7 +15,7 @@ const login = async (req, res) => {
 
         //Se guardan los siguientes datos en el LocalStorage
         const usuario = { id: user.id, nombre: user.nombre,apellidos: user.apellidos, email: user.email, descripcion:user.descripcion, rol: user.rol};
-        const token = jwt.sign(usuario, 'mi_clave_secreta', { expiresIn: '1h' }); // usar una clave más segura
+        const token = jwt.sign(usuario, 'mi_clave_secreta', { expiresIn: '1h' }); 
         
         //Enviamos al frontend los 2 tokens
         res.json({ usuario, token });
