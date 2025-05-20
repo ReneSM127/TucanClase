@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-05-2025 a las 07:21:24
+-- Tiempo de generación: 20-05-2025 a las 02:27:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -169,6 +169,33 @@ CREATE TABLE `vista_inscripciones_completas` (
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `vista_tutorias_completas`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `vista_tutorias_completas` (
+`tutoria_id` int(11)
+,`titulo_tutoria` varchar(100)
+,`descripcion_tutoria` text
+,`duracion_minutos` int(11)
+,`max_estudiantes` int(11)
+,`precio` decimal(10,2)
+,`estado_tutoria` enum('Programado','En progreso','Completado','Cancelado')
+,`fecha_creacion_tutoria` datetime
+,`tutor_id` int(11)
+,`nombre_tutor` varchar(201)
+,`email_tutor` varchar(100)
+,`descripcion_tutor` text
+,`foto_tutor` varchar(100)
+,`materia_id` int(11)
+,`nombre_materia` varchar(50)
+,`descripcion_materia` text
+,`estudiantes_inscritos` bigint(21)
+,`promedio_calificacion` decimal(7,4)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura Stand-in para la vista `vista_tutorias_reviews`
 -- (Véase abajo para la vista actual)
 --
@@ -189,6 +216,15 @@ CREATE TABLE `vista_tutorias_reviews` (
 DROP TABLE IF EXISTS `vista_inscripciones_completas`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_inscripciones_completas`  AS SELECT `i`.`id` AS `id_inscripcion`, `t`.`id` AS `id_tutor`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `tut`.`id` AS `id_tutoria`, `tut`.`titulo` AS `titulo_tutoria`, `e`.`id` AS `id_estudiante`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `i`.`estado` AS `estado_inscripcion`, `i`.`fecha_inscripcion` AS `fecha_inscripcion` FROM (((((`inscripciones` `i` join `tutorias` `tut` on(`i`.`tutoria_id` = `tut`.`id`)) join `usuarios` `u_tutor` on(`tut`.`tutor_id` = `u_tutor`.`id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) join `usuarios` `e` on(`i`.`estudiante_id` = `e`.`id`)) join `usuarios` `t` on(`tut`.`tutor_id` = `t`.`id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `vista_tutorias_completas`
+--
+DROP TABLE IF EXISTS `vista_tutorias_completas`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_completas`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`descripcion` AS `descripcion_tutoria`, `t`.`duracion` AS `duracion_minutos`, `t`.`max_estudiantes` AS `max_estudiantes`, `t`.`precio` AS `precio`, `t`.`estado` AS `estado_tutoria`, `t`.`fecha_creacion` AS `fecha_creacion_tutoria`, `u_tutor`.`id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `u_tutor`.`email` AS `email_tutor`, `u_tutor`.`descripcion` AS `descripcion_tutor`, `u_tutor`.`foto_perfil` AS `foto_tutor`, `m`.`id` AS `materia_id`, `m`.`nombre` AS `nombre_materia`, `m`.`descripcion` AS `descripcion_materia`, count(`i`.`id`) AS `estudiantes_inscritos`, ifnull(avg(`r`.`estrellas`),0) AS `promedio_calificacion` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `materias` `m` on(`t`.`materia_id` = `m`.`id`)) left join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id` and `i`.`estado` = 'Inscrito')) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) GROUP BY `t`.`id` ;
 
 -- --------------------------------------------------------
 
