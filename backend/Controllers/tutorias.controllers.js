@@ -118,6 +118,16 @@ const getTutoriasCompletas = async (req, res) => {
   }
 };
 
+// Eliminar tutoría
+const getTutoriasCompletasByTutor = async (req, res) => {
+  try {
+    const tutorias =  await Tutoria.getTutoriasCompletasByTutorId(req.params.id);
+    res.json(tutorias);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al encontrar' });
+  }
+};
+
 module.exports = {
   getAllTutorias,
   getTutoria,
@@ -126,5 +136,6 @@ module.exports = {
   createTutoria,
   updateTutoria,
   deleteTutoria,
-  getTutoriasCompletas
+  getTutoriasCompletas,
+  getTutoriasCompletasByTutor
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaChalkboardTeacher,
   FaGraduationCap,
@@ -9,94 +9,103 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { FiMessageSquare, FiShare2 } from "react-icons/fi";
+import { useParams } from "react-router-dom";
+import {
+  getTutorById,
+  getAllReviewsByTutorId,
+  getAllTutoriasById,
+} from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
 
 const CourseInstructorProfile = () => {
   const [activeTab, setActiveTab] = useState("courses");
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [tutorias, setTutorias] = useState([]);
 
-  // Datos del instructor
-  const instructor = {
-    name: "Dra. María González",
-    title: "Profesora de Matemáticas Avanzadas",
-    bio: "Doctora en Matemáticas con 10 años de experiencia docente. Especializada en álgebra lineal y cálculo multivariable. Apasionada por hacer las matemáticas accesibles para todos.",
-    avatar: "MG",
-    rating: 4.8,
-    reviews: 128,
-    students: 1500,
-    courses: 8,
-    contact: "prof.maria.gonzalez@universidad.edu",
-    social: {
-      twitter: "@mathprofg",
-      linkedin: "linkedin.com/in/mariagonzalezmath",
-    },
+  const [instructor, setInstructor] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
+
+  // Función para formatear la fecha
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("es-ES", options);
   };
 
-  // Cursos del instructor
-  const courses = [
-    {
-      id: 1,
-      title: "Álgebra Lineal desde Cero",
-      description:
-        "Curso completo que cubre desde los fundamentos hasta aplicaciones avanzadas de álgebra lineal.",
-      level: "Principiante",
-      students: 450,
-      rating: 4.9,
-      duration: "6 semanas",
-      price: "$49.99",
-      image: "algebra",
-    },
-    {
-      id: 2,
-      title: "Cálculo Multivariable",
-      description:
-        "Domina las técnicas de cálculo en múltiples variables con aplicaciones prácticas.",
-      level: "Intermedio",
-      students: 320,
-      rating: 4.7,
-      duration: "8 semanas",
-      price: "$59.99",
-      image: "calculus",
-    },
-    {
-      id: 3,
-      title: "Ecuaciones Diferenciales",
-      description:
-        "Resolución de ecuaciones diferenciales ordinarias y sus aplicaciones en física e ingeniería.",
-      level: "Avanzado",
-      students: 280,
-      rating: 4.8,
-      duration: "10 semanas",
-      price: "$69.99",
-      image: "differential",
-    },
-  ];
+  const formatPrice = (price) => {
+    return parseFloat(price).toLocaleString("es-MX", {
+      style: "currency",
+      currency: "MXN",
+    });
+  };
 
-  // Reseñas de estudiantes
-  const reviews = [
-    {
-      id: 1,
-      student: "Carlos Martínez",
-      rating: 5,
-      comment:
-        "La Dra. González explica conceptos complejos de manera clara y accesible. ¡El mejor curso de álgebra que he tomado!",
-      date: "15/03/2023",
-    },
-    {
-      id: 2,
-      student: "Ana Rodríguez",
-      rating: 4,
-      comment:
-        "Excelente material, aunque me gustaría más ejemplos prácticos en algunas secciones.",
-      date: "02/03/2023",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const tutorData = await getTutorById(id);
+        const reviewsData = await getAllReviewsByTutorId(id);
+        const tutoriasData = await getAllTutoriasById(id);
+
+        // Transformar los datos del tutor al formato esperado
+        const transformedTutor = {
+          id: tutorData.id,
+          name: `${tutorData.nombre} ${tutorData.apellidos}`,
+          title: "Tutor", // Puedes personalizar esto según tus necesidades
+          bio:
+            tutorData.descripcion ||
+            "Tutor con experiencia en diversas materias.",
+          avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
+          rating: calculateAverageRating(reviewsData),
+          reviews: reviewsData.length,
+          courses: tutoriasData.length, // Necesitarías obtener este dato de otra API
+          contact: tutorData.email,
+          social: {
+            twitter: "", // Puedes agregar estos datos si están disponibles
+            linkedin: "",
+          },
+          photo: tutorData.foto_perfil,
+        };
+
+        setInstructor(transformedTutor);
+
+        // Transformar las reseñas al formato esperado
+        const transformedReviews = reviewsData.map((review) => ({
+          id: review.tutoria_id,
+          student: review.nombre_estudiante,
+          rating: review.estrellas,
+          comment: review.comentario,
+          date: formatDate(review.fecha_review), // Puedes agregar la fecha si está disponible
+          course: review.titulo_tutoria,
+        }));
+
+        setReviews(transformedReviews);
+        setTutorias(tutoriasData);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.estrellas, 0);
+    return (sum / reviews.length).toFixed(1);
+  };
 
   const renderStars = (rating) => {
     const stars = [];
+    const numericRating =
+      typeof rating === "string" ? parseFloat(rating) : rating;
+
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        i <= Math.floor(rating) ? (
+        i <= Math.floor(numericRating) ? (
           <FaStar key={i} className="star filled" />
         ) : (
           <FaRegStar key={i} className="star" />
@@ -106,17 +115,29 @@ const CourseInstructorProfile = () => {
     return stars;
   };
 
+  if (loading) return <div className="loading">Cargando perfil...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
+  if (!instructor) return <div className="error">No se encontró el tutor</div>;
+
   return (
     <div className="instructor-profile">
       {/* Header del perfil */}
       <div className="profile-header">
         <div className="avatar-container">
-          <div className="instructor-avatar">{instructor.avatar}</div>
+          {instructor.photo && instructor.photo !== "default.png" ? (
+            <img
+              src={`http://localhost:5000/uploads/${instructor.photo}`}
+              alt={instructor.name}
+              className="instructor-avatar"
+            />
+          ) : (
+            <div className="instructor-avatar">{instructor.avatar}</div>
+          )}
         </div>
 
         <div className="profile-info">
           <h1>{instructor.name}</h1>
-          {/*<h2>{instructor.title}</h2>*/}
+          <h2>{instructor.title}</h2>
 
           <div className="rating-container">
             <div className="stars">
@@ -128,12 +149,8 @@ const CourseInstructorProfile = () => {
 
           <div className="stats-container">
             <div className="stat">
-              <FaUsers className="stat-icon" />
-              <span>{instructor.students} estudiantes</span>
-            </div>
-            <div className="stat">
               <FaBook className="stat-icon" />
-              <span>{instructor.courses} cursos</span>
+              <span>{instructor.courses} Tutorias</span>
             </div>
           </div>
 
@@ -155,7 +172,7 @@ const CourseInstructorProfile = () => {
           className={`tab ${activeTab === "courses" ? "active" : ""}`}
           onClick={() => setActiveTab("courses")}
         >
-          <FaBook /> Cursos
+          <FaBook /> Tutorias
         </button>
         <button
           className={`tab ${activeTab === "reviews" ? "active" : ""}`}
@@ -169,60 +186,46 @@ const CourseInstructorProfile = () => {
       <div className="profile-content">
         {activeTab === "courses" && (
           <div className="courses-grid">
-            {courses.map((course) => (
-              <div
-                className={`course-card ${
-                  selectedCourse === course.id ? "expanded" : ""
-                }`}
-                key={course.id}
-                onClick={() =>
-                  setSelectedCourse(
-                    selectedCourse === course.id ? null : course.id
-                  )
-                }
-              >
-                <div className="course-image">
-                  <img
-                    src={`https://source.unsplash.com/random/400x300/?${course.image}`}
-                    alt={course.title}
-                  />
-                </div>
+            {tutorias.length > 0 ? (
+              tutorias.map((tutoria) => (
+                <div className="course-card" key={tutoria.tutoria_id}>
+                  <div className="course-info">
+                    <h2>{tutoria.titulo}</h2>
+                    <p>{tutoria.descripcion}</p>
 
-                <div className="course-info">
-                  <h3>{course.title}</h3>
-                  <p className="level">{course.level}</p>
-
-                  <div className="course-meta">
-                    <span>
-                      <FaUsers /> {course.students} estudiantes
-                    </span>
-                    <span>
-                      <FaStar /> {course.rating}
-                    </span>
-                    <span>
-                      <FaCalendarAlt /> {course.duration}
-                    </span>
-                  </div>
-
-                  {selectedCourse === course.id && (
-                    <div className="course-details">
-                      <p>{course.description}</p>
-                      <div className="course-actions">
-                        <button className="price-tag">{course.price}</button>
-                        <div className="action-buttons">
-                          <button className="action-btn">
-                            <FiMessageSquare /> Más información
-                          </button>
-                          <button className="action-btn">
-                            <FiShare2 /> Compartir
-                          </button>
-                        </div>
-                      </div>
+                    <div className="tutoria-details">
+                      <p>
+                        <strong>Duración:</strong> {tutoria.duracion}{" "}
+                        minutos
+                      </p>
+                      <p>
+                        <strong>Precio:</strong> {formatPrice(tutoria.precio)}
+                      </p>
+                      <p>
+                        <strong>Cupos:</strong> {tutoria.estudiantes_inscritos}/
+                        {tutoria.max_estudiantes} estudiantes
+                      </p>
+                      <p>
+                        <strong>Estado:</strong> {tutoria.estado}
+                      </p>
+                      
                     </div>
-                  )}
+
+                    <button
+                      onClick={() =>
+                        (window.location.href = `/tutoria/${tutoria.tutoria_id}`)
+                      }
+                    >
+                      Ver Tutoria
+                    </button>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="no-courses">
+                <p>Actualmente no hay tutorías disponibles para este tutor.</p>
               </div>
-            ))}
+            )}
           </div>
         )}
 
@@ -235,29 +238,37 @@ const CourseInstructorProfile = () => {
                 <div>{renderStars(instructor.rating)}</div>
                 <p>{instructor.reviews} reseñas</p>
               </div>
-              <div className="rating-details">
-                {/* Aquí podrías agregar un desglose por estrellas */}
-              </div>
             </div>
 
             <div className="reviews-list">
-              {reviews.map((review) => (
-                <div className="review-card" key={review.id}>
-                  <div className="review-header">
-                    <div className="reviewer-avatar">
-                      {review.student.charAt(0)}
-                    </div>
-                    <div className="reviewer-info">
-                      <h4>{review.student}</h4>
-                      <div className="review-rating">
-                        {renderStars(review.rating)}
-                        <span>{review.date}</span>
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div
+                    className="review-card"
+                    key={`${review.id}-${review.student}`}
+                  >
+                    <div className="review-header">
+                      <div className="reviewer-avatar">
+                        {review.student.charAt(0)}
+                      </div>
+                      <div className="reviewer-info">
+                        <h4>{review.student}</h4>
+                        <div className="review-rating">
+                          {renderStars(review.rating)}
+                          <span>{review.date}</span>{" "}
+                          {/* Mostramos la fecha formateada */}
+                        </div>
+                        <p className="course-name">{review.course}</p>
                       </div>
                     </div>
+                    <p className="review-comment">{review.comment}</p>
                   </div>
-                  <p className="review-comment">{review.comment}</p>
+                ))
+              ) : (
+                <div className="no-reviews">
+                  <p>Este tutor aún no tiene reseñas.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}

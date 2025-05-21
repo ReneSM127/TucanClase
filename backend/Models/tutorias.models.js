@@ -52,6 +52,12 @@ const getTutoriasCompletas = async () => {
   return rows;
 };
 
+// Obtener tutorías con información completa (usando la vista)
+const getTutoriasCompletasByTutorId = async (id) => {
+  const [rows] = await db.execute('SELECT * FROM vista_tutorias_completas WHERE tutor_id = ? ', [id]);
+  return rows;
+};
+
 module.exports = {
   getAllTutorias,
   getTutoriaById,
@@ -60,5 +66,6 @@ module.exports = {
   insertTutoria,
   updateTutoria,
   deleteTutoriaById,
-  getTutoriasCompletas
+  getTutoriasCompletas,
+  getTutoriasCompletasByTutorId
 };

@@ -14,6 +14,10 @@ router.post('/', tutorias.createTutoria);
 //Eliminar
 router.delete('/:id', tutorias.deleteTutoria);
 
+//getTutoriasByEstado
+router.get('/tutor/:id', tutorias.getTutoriasCompletasByTutor);
+
+
 module.exports = router;
 
 

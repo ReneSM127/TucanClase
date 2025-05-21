@@ -40,7 +40,7 @@ function App() {
               </ProtectedRoute>
               }/>
             
-            <Route path='/PerfilSocial' element={<PerfilSocial/>}/>
+            <Route path='/PerfilSocial/:id' element={<PerfilSocial/>}/>
             
             <Route path='/DashboardP' element={<DashboardP/>}/>
             
