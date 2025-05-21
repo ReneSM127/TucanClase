@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  FaChalkboardTeacher,
-  FaGraduationCap,
   FaStar,
   FaRegStar,
   FaBook,
-  FaUsers,
-  FaCalendarAlt,
 } from "react-icons/fa";
-import { FiMessageSquare, FiShare2 } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import {
   getTutorById,
@@ -54,17 +49,12 @@ const CourseInstructorProfile = () => {
           name: `${tutorData.nombre} ${tutorData.apellidos}`,
           title: "Tutor", // Puedes personalizar esto según tus necesidades
           bio:
-            tutorData.descripcion ||
-            "Tutor con experiencia en diversas materias.",
+            tutorData.descripcion,
           avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
           rating: calculateAverageRating(reviewsData),
           reviews: reviewsData.length,
-          courses: tutoriasData.length, // Necesitarías obtener este dato de otra API
+          courses: tutoriasData.length,
           contact: tutorData.email,
-          social: {
-            twitter: "", // Puedes agregar estos datos si están disponibles
-            linkedin: "",
-          },
           photo: tutorData.foto_perfil,
         };
 

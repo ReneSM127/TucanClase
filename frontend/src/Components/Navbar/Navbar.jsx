@@ -58,7 +58,7 @@ const Navbar = () => {
       <div className="buttons">
         {user ? (
           <div className='nav-user'>
-            <span>👤 {user.email}</span>
+            <span><a href="/editar">👤 {user.email}</a></span>
             <button onClick={handleLogout}>Cerrar sesión</button>
           </div>
         ) : (
