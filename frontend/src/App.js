@@ -5,7 +5,7 @@ import Footer from './Components/Footer/Footer';
 import Home from './Pages/Home'
 import Register from './Pages/Register';
 import Login from './Pages/Login'
-import PerfilUsuario from './Pages/Perfil';
+import EditarPerfil from './Pages/editarPerfil';
 import PerfilSocial from './Pages/PerfilSocial';
 import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
@@ -25,13 +25,25 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
+            
             <Route path='/' element={<Home />}></Route>
+            
             <Route path='/Register' element={<Register />}></Route>
+            
             <Route path='/Login' element={<Login />}></Route>
+            
             <Route path='/Tutorial' element={<Tutorial />} />
-            <Route path='/Perfil' element={<PerfilUsuario/>}/>
+            
+            <Route path='/editar' element={
+              <ProtectedRoute allowedRoles={['Tutor','Estudiante']}>
+                <EditarPerfil/>
+              </ProtectedRoute>
+              }/>
+            
             <Route path='/PerfilSocial' element={<PerfilSocial/>}/>
+            
             <Route path='/DashboardP' element={<DashboardP/>}/>
+            
             <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
 
             <Route path="/crear" element={
@@ -43,7 +55,7 @@ function App() {
             {/*<Route path='/Login' element={<LoginPage />} />*/}
             <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>
           </Routes>
-          <Chat/>
+          {/*<Chat/>*/}
           <Footer />
         </BrowserRouter>
       </div>

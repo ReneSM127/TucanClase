@@ -5,7 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { updateProfileService } from "../Services/authService";
 
 
-const Perfil = () => {
+const EditarPerfil = () => {
   const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -239,4 +239,4 @@ const Perfil = () => {
   );
 };
 
-export default Perfil;
+export default EditarPerfil;
