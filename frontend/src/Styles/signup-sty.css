@@ -55,7 +55,7 @@ input, textarea {
   border-radius: 1rem;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 35%;
+  max-width: 30%;
   margin: 30px;
 }
   
@@ -152,7 +152,7 @@ input, textarea {
   }
   
   button {
-    margin-left: 12px;
+    width: 100%;
     padding: 12px;
     background: #55a7c5;
     color: #fff;
