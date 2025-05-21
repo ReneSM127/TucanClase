@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Rating from '../Components/Rating/Rating';
-import { getTutorias } from '../Services/TutoriaService';
+import { getTutorias } from '../Services/TutoresService';
 import '../Styles/tutorial.css';
 
 const Tutorial = () => {
