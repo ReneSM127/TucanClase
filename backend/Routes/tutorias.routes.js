@@ -5,7 +5,6 @@ const tutorias = require('../Controllers/tutorias.controllers');
 router.get('/all', tutorias.getTutoriasCompletas);
 router.get('/', tutorias.getAllTutorias);
 router.get('/:id', tutorias.getTutoria);
-router.get('/tutor/:tutorId', tutorias.getTutoriasByTutor);
 router.get('/materia/:materiaId', tutorias.getTutoriasByMateria);
 //Actualizar
 router.put('/:id', tutorias.updateTutoria);

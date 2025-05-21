@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaStar,
-  FaRegStar,
-  FaBook,
-} from "react-icons/fa";
+import { FaStar, FaRegStar, FaBook } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import {
   getTutorById,
@@ -11,6 +7,7 @@ import {
   getAllTutoriasById,
 } from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
+import Rating from "../Components/Rating/Rating";
 
 const CourseInstructorProfile = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -48,8 +45,7 @@ const CourseInstructorProfile = () => {
           id: tutorData.id,
           name: `${tutorData.nombre} ${tutorData.apellidos}`,
           title: "Tutor", // Puedes personalizar esto según tus necesidades
-          bio:
-            tutorData.descripcion,
+          bio: tutorData.descripcion,
           avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
           rating: calculateAverageRating(reviewsData),
           reviews: reviewsData.length,
@@ -175,30 +171,42 @@ const CourseInstructorProfile = () => {
       {/* Contenido del perfil */}
       <div className="profile-content">
         {activeTab === "courses" && (
-          <div className="courses-grid">
+          <section className="courses-container">
             {tutorias.length > 0 ? (
               tutorias.map((tutoria) => (
                 <div className="course-card" key={tutoria.tutoria_id}>
+                  <img
+                    src={tutoria.foto_tutor || "../Assets/default-course.jpeg"}
+                    alt={`Tutor ${tutoria.nombre_tutor}`}
+                  />
                   <div className="course-info">
-                    <h2>{tutoria.titulo}</h2>
-                    <p>{tutoria.descripcion}</p>
+                    <h2>{tutoria.titulo_tutoria}</h2>
+                    <p>{tutoria.descripcion_tutoria}</p>
 
                     <div className="tutoria-details">
                       <p>
-                        <strong>Duración:</strong> {tutoria.duracion}{" "}
+                        <strong>Duración:</strong> {tutoria.duracion_minutos}{" "}
                         minutos
                       </p>
                       <p>
                         <strong>Precio:</strong> {formatPrice(tutoria.precio)}
                       </p>
                       <p>
+                        <strong>Tutor:</strong> {tutoria.nombre_tutor}
+                      </p>
+                      <p>
                         <strong>Cupos:</strong> {tutoria.estudiantes_inscritos}/
                         {tutoria.max_estudiantes} estudiantes
                       </p>
                       <p>
-                        <strong>Estado:</strong> {tutoria.estado}
+                        <strong>Estado:</strong> {tutoria.estado_tutoria}
                       </p>
-                      
+                      <p>
+                        <strong>Calificación:</strong>{" "}
+                        <Rating
+                          rating={parseFloat(tutoria.promedio_calificacion)}
+                        />
+                      </p>
                     </div>
 
                     <button
@@ -212,11 +220,11 @@ const CourseInstructorProfile = () => {
                 </div>
               ))
             ) : (
-              <div className="no-courses">
-                <p>Actualmente no hay tutorías disponibles para este tutor.</p>
+              <div className="no-results">
+                No se encontraron tutorías que coincidan con tu búsqueda.
               </div>
             )}
-          </div>
+          </section>
         )}
 
         {activeTab === "reviews" && (
