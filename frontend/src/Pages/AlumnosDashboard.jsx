@@ -153,24 +153,6 @@ const AlumnosDashboard = () => {
     }
   };
 
-  // Abrir mensaje específico
-  const handleOpenMessage = (message) => {
-    // Marcar como leído
-    const updatedMessages = dashboardData.messages.map(m => 
-      m.id === message.id ? {...m, read: true} : m
-    );
-    
-    setDashboardData(prev => ({
-      ...prev,
-      messages: updatedMessages,
-      stats: {
-        ...prev.stats,
-        newMessages: message.read ? prev.stats.newMessages : prev.stats.newMessages - 1
-      }
-    }));
-    
-    setActiveMessage(message);
-  };
 
   // Filtrar tutorías por categoría
   const filteredTutorias = filter === 'Todas' 
@@ -213,14 +195,6 @@ const AlumnosDashboard = () => {
               <p>Mensajes nuevos</p>
             </div>
           </div>
-        </div>
-
-        {/* Botón de mensajes flotante */}
-        <div className="floating-message-btn" onClick={() => setShowMessagesModal(true)}>
-          <FaEnvelope />
-          {dashboardData.stats.newMessages > 0 && (
-            <span className="message-badge">{dashboardData.stats.newMessages}</span>
-          )}
         </div>
 
         {/* Tutorías en curso */}
