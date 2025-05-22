@@ -29,5 +29,14 @@ export const getAllTutors = async () => {
   }
 };
 
+export const getAllStudent = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/estudiantes`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Error al obtener el usuario' };
+  }
+};
+
 
 
