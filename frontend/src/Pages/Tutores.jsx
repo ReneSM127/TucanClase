@@ -1,5 +1,8 @@
 import React from 'react';
 import '../Styles/Tutores.css';
+import TutorsSection from '../Components/Tutors/TutorsSection';
+import TutorsCarousel from '../Components/Tutors/TutorsCarousel';
+import TutorsGrid from '../Components/Tutors/TutorsGrid';
 
 const TutorsPage = () => {
   // Datos de tutores destacados (para el carrusel)
@@ -74,6 +77,7 @@ const TutorsPage = () => {
     }
   ];
 
+
   return (
     <div className="tutors-page">
       <header className="page-header">
@@ -81,43 +85,13 @@ const TutorsPage = () => {
         <p>Encuentra al tutor perfecto para tus necesidades educativas</p>
       </header>
 
-      <section className="featured-tutors">
-        <h2>Tutores Destacados</h2>
-        <div className="tutors-carousel">
-          {featuredTutors.map(tutor => (
-            <div key={tutor.id} className="tutor-card featured">
-              <div className="tutor-avatar">
-                <img src={tutor.avatar} alt={tutor.name} />
-              </div>
-              <div className="tutor-info">
-                <h3>{tutor.name}</h3>
-                <p className="subject">{tutor.subject}</p>
-                <p className="review">"{tutor.review}"</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TutorsSection title="Tutores Destacados">
+        <TutorsCarousel tutors={featuredTutors} />
+      </TutorsSection>
 
-      <section className="all-tutors">
-        <h2>Nuestros Tutores</h2>
-        <div className="tutors-grid">
-          {allTutors.map(tutor => (
-            <div key={tutor.id} className="tutor-card">
-              <div className="tutor-header">
-                <h3>{tutor.name}</h3>
-              </div>
-              <p className="description">{tutor.description}</p>
-              <div className="subjects">
-                {tutor.subjects.map((subject, index) => (
-                  <span key={index} className="subject-tag">{subject}</span>
-                ))}
-              </div>
-              <button className="profile-button">Revisar Perfil</button>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TutorsSection title="Nuestros Tutores">
+        <TutorsGrid tutors={allTutors} />
+      </TutorsSection>
     </div>
   );
 };
