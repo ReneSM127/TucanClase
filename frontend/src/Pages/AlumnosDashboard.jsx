@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {FaEnvelope, FaBook, FaUsers, FaStar, FaComment, FaCalendarAlt } from 'react-icons/fa';
+import {FaBook, FaUsers, FaStar, FaComment, FaCalendarAlt } from 'react-icons/fa';
 import '../Styles/AlumnosDashboard.css';
 
 const AlumnosDashboard = () => {
@@ -19,8 +19,7 @@ const AlumnosDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('Todas');
-  const [showMessagesModal, setShowMessagesModal] = useState(false);
-  const [activeMessage, setActiveMessage] = useState(null);
+
 
   // Simulación de fetch a la API
   useEffect(() => {

@@ -13,7 +13,6 @@ import Tutorial from './Pages/Tutorial';
 import Tutores from './Pages/Tutores';
 import Contactar from './Pages/Contactar';
 import AlumnosDashboard from './Pages/AlumnosDashboard';
-import Chat from './Components/Chat/Chat';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
