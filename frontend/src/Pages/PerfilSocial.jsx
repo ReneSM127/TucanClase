@@ -7,7 +7,7 @@ import {
   getAllTutoriasById,
 } from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
-import Rating from "../Components/Rating/Rating";
+import TutoriasList from "../Components/TutoriasList/TutoriasList";
 
 const CourseInstructorProfile = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -23,13 +23,6 @@ const CourseInstructorProfile = () => {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
-  };
-
-  const formatPrice = (price) => {
-    return parseFloat(price).toLocaleString("es-MX", {
-      style: "currency",
-      currency: "MXN",
-    });
   };
 
   useEffect(() => {
@@ -171,60 +164,12 @@ const CourseInstructorProfile = () => {
       {/* Contenido del perfil */}
       <div className="profile-content">
         {activeTab === "courses" && (
-          <section className="courses-container">
-            {tutorias.length > 0 ? (
-              tutorias.map((tutoria) => (
-                <div className="course-card" key={tutoria.tutoria_id}>
-                  <img
-                    src={tutoria.foto_tutor || "../Assets/default-course.jpeg"}
-                    alt={`Tutor ${tutoria.nombre_tutor}`}
-                  />
-                  <div className="course-info">
-                    <h2>{tutoria.titulo_tutoria}</h2>
-                    <p>{tutoria.descripcion_tutoria}</p>
-
-                    <div className="tutoria-details">
-                      <p>
-                        <strong>Duración:</strong> {tutoria.duracion_minutos}{" "}
-                        minutos
-                      </p>
-                      <p>
-                        <strong>Precio:</strong> {formatPrice(tutoria.precio)}
-                      </p>
-                      <p>
-                        <strong>Tutor:</strong> {tutoria.nombre_tutor}
-                      </p>
-                      <p>
-                        <strong>Cupos:</strong> {tutoria.estudiantes_inscritos}/
-                        {tutoria.max_estudiantes} estudiantes
-                      </p>
-                      <p>
-                        <strong>Estado:</strong> {tutoria.estado_tutoria}
-                      </p>
-                      <p>
-                        <strong>Calificación:</strong>{" "}
-                        <Rating
-                          rating={parseFloat(tutoria.promedio_calificacion)}
-                        />
-                      </p>
-                    </div>
-
-                    <button
-                      onClick={() =>
-                        (window.location.href = `/tutoria/${tutoria.tutoria_id}`)
-                      }
-                    >
-                      Ver Tutoria
-                    </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="no-results">
-                No se encontraron tutorías que coincidan con tu búsqueda.
-              </div>
-            )}
-          </section>
+          <TutoriasList 
+        tutorias={tutorias}
+        loading={loading}
+        error={error}
+        itemsPerPage={5} // Puedes ajustar este valor según necesites
+      />
         )}
 
         {activeTab === "reviews" && (
