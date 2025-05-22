@@ -163,6 +163,10 @@ input, textarea {
     margin-bottom: 20px;
   }
   
+  .checkresult {
+    width: 100%;
+    margin-left: 0px;
+  }
   .divider {
     display: flex;
     align-items: center;

@@ -106,7 +106,7 @@ const Register = () => {
               </label>
             </div>
 
-            <button
+            <button className="checkresult"
               type="submit"
               disabled={isLoading}
             >

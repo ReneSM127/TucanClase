@@ -76,7 +76,7 @@ const Login = () => {
               </label>
               <a href="#">¿Olvidaste tu contraseña?</a>
             </div>
-            <button
+            <button className='checkresult'
               type="submit"
               disabled={isLoading}
             >
