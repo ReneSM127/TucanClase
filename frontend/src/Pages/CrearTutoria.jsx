@@ -17,7 +17,7 @@ const CrearTutoria = () => {
     category: '',
     description: '',
     duration: 4,
-    price: 0
+    virtualLink: ''
   });
 
   const [categories, setCategories] = useState(initialCategories);
@@ -188,21 +188,17 @@ const CrearTutoria = () => {
                 required
               />
             </div>
-
-            <div className="form-group">
-              <label>Precio (por sesión)</label>
+          </div>
+          <div className="form-group">
+              <label>Enlace para tutoría virtual (opcional)</label>
               <input
-                type="number"
-                name="price"
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-                value={formData.price}
+                type="url"
+                name="virtualLink"
+                value={formData.virtualLink}
                 onChange={handleInputChange}
-                required
+                placeholder="https://meet.google.com/..."
               />
             </div>
-          </div>
         </div>
 
         <div className="form-actions">
