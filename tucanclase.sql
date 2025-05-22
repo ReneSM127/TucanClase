@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-05-2025 a las 02:27:02
+-- Tiempo de generación: 22-05-2025 a las 03:30:50
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -141,7 +141,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `password`, `rol`, `descripcion`, `foto_perfil`, `fecha_creacion`) VALUES
-(1, 'rene', 'sadoval moron', 'rene@gmail.com', '$2b$10$CbQB0yCQLftrFrKepQGTyuE4lkTnRWJcat6o49JWTWSr9WkJWADGa', 'Tutor', 'Me gusta Nicki Nicole', 'default.png', '2025-05-16 23:26:21'),
+(1, 'Rene', 'sadoval moron', 'rene@gmail.com', '$2b$10$CbQB0yCQLftrFrKepQGTyuE4lkTnRWJcat6o49JWTWSr9WkJWADGa', 'Tutor', 'Me gusta Nicki Nicole', 'default.png', '2025-05-16 23:26:21'),
 (2, 'isabel', 'tec balam', 'isabel@gmail.com', '$2b$10$7/0fvPTZEx.v/Dvubyn86ufe/jhktBB8p99rGW5hwZAx7sWh5SJmS', 'Estudiante', 'Me gusta el cafe y los gatos', 'default.png', '2025-05-16 23:26:55'),
 (3, 'omar', 'lopez ibarez', 'omar@gmail.com', '$2b$10$iouH6SJcEKq4B9MOnB5ikee1uEj9Pvg1Ker9XuoIxAH8DgjPWVnNC', 'Tutor', 'Me gustan las sirenas', 'default.png', '2025-05-16 23:27:19'),
 (4, 'carlos', 'caamal', 'caamal@gmail.com', '$2b$10$ad9Bm6ibg5R8C.hYIrHhFOdr9LDM67PCg5DRu3F1sxR9IqYtguIUO', 'Estudiante', 'Me gusta peto', 'default.png', '2025-05-16 23:28:24'),
@@ -202,10 +202,12 @@ CREATE TABLE `vista_tutorias_completas` (
 CREATE TABLE `vista_tutorias_reviews` (
 `tutoria_id` int(11)
 ,`titulo_tutoria` varchar(100)
+,`tutor_id` int(11)
 ,`nombre_tutor` varchar(201)
 ,`nombre_estudiante` varchar(201)
 ,`estrellas` tinyint(4)
 ,`comentario` text
+,`fecha_review` datetime
 );
 
 -- --------------------------------------------------------
@@ -233,7 +235,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vista_tutorias_reviews`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `t`.`id` ASC, `u_estudiante`.`nombre` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`tutor_id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario`, `r`.`fecha_creacion` AS `fecha_review` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `r`.`fecha_creacion` DESC, `t`.`id` ASC ;
 
 --
 -- Índices para tablas volcadas
