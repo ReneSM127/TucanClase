@@ -6,7 +6,7 @@ import Home from './Pages/Home'
 import Register from './Pages/Register';
 import Login from './Pages/Login'
 import EditarPerfil from './Pages/editarPerfil';
-import PerfilSocial from './Pages/PerfilSocial';
+import Perfil from './Pages/Perfil';
 import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
@@ -40,7 +40,7 @@ function App() {
               </ProtectedRoute>
               }/>
             
-            <Route path='/PerfilSocial/:id' element={<PerfilSocial/>}/>
+            <Route path='/Perfil/:id' element={<Perfil/>}/>
             
             <Route path='/DashboardP' element={<DashboardP/>}/>
             

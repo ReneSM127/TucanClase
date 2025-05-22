@@ -9,7 +9,7 @@ import {
 import "../Styles/PerfilSocial.css";
 import TutoriasList from "../Components/TutoriasList/TutoriasList";
 
-const CourseInstructorProfile = () => {
+const EstudiantePerfil = () => {
   const [activeTab, setActiveTab] = useState("courses");
   const [tutorias, setTutorias] = useState([]);
 
@@ -37,7 +37,7 @@ const CourseInstructorProfile = () => {
         const transformedTutor = {
           id: tutorData.id,
           name: `${tutorData.nombre} ${tutorData.apellidos}`,
-          title: "Tutor", // Puedes personalizar esto según tus necesidades
+          title: "Estudiante", // Puedes personalizar esto según tus necesidades
           bio: tutorData.descripcion,
           avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
           rating: calculateAverageRating(reviewsData),
@@ -171,53 +171,9 @@ const CourseInstructorProfile = () => {
         itemsPerPage={5} // Puedes ajustar este valor según necesites
       />
         )}
-
-        {activeTab === "reviews" && (
-          <div className="reviews-container">
-            <h2>Reseñas de estudiantes</h2>
-            <div className="overall-rating">
-              <div className="rating-circle">
-                <span>{instructor.rating}</span>
-                <div>{renderStars(instructor.rating)}</div>
-                <p>{instructor.reviews} reseñas</p>
-              </div>
-            </div>
-
-            <div className="reviews-list">
-              {reviews.length > 0 ? (
-                reviews.map((review) => (
-                  <div
-                    className="review-card"
-                    key={`${review.id}-${review.student}`}
-                  >
-                    <div className="review-header">
-                      <div className="reviewer-avatar">
-                        {review.student.charAt(0)}
-                      </div>
-                      <div className="reviewer-info">
-                        <h4>{review.student}</h4>
-                        <div className="review-rating">
-                          {renderStars(review.rating)}
-                          <span>{review.date}</span>{" "}
-                          {/* Mostramos la fecha formateada */}
-                        </div>
-                        <p className="course-name">{review.course}</p>
-                      </div>
-                    </div>
-                    <p className="review-comment">{review.comment}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="no-reviews">
-                  <p>Este tutor aún no tiene reseñas.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 };
 
-export default CourseInstructorProfile;
+export default EstudiantePerfil;
