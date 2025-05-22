@@ -76,9 +76,30 @@ const deleteUser = async (req, res) => {
   }
 };
 
+//Buscar usuario por id
+const getTutores = async (req, res) => {
+  try {
+      const user = await User.getTutors();
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener las tutorías completas' });
+    }
+  }
+
+  const getEstudiantes = async (req, res) => {
+  try {
+      const user = await User.getStudents();
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener las tutorías completas' });
+    }
+  }
+
 module.exports = {
   getUser,
   createUser,
   updateUser,
   deleteUser,
+  getTutores,
+  getEstudiantes
 };

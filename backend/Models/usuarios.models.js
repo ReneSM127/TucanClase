@@ -39,11 +39,23 @@ const deleteUserById = async (id) => {
   await db.execute('DELETE FROM usuarios WHERE id = ?', [id]);
 };
 
+const getTutors = async () => {
+  const [rows] = await db.execute('SELECT * FROM usuarios WHERE rol = ?',["Tutor"]);
+  return rows;
+};
+
+const getStudents = async () => {
+  const [rows] = await db.execute('SELECT * FROM usuarios WHERE rol = ?',["Estudiante"]);
+  return rows;
+};
+
 
 module.exports = {
   getUserById,
   insertUser,
   updateUser,
   deleteUserById,
-  getUserByemail
+  getUserByemail,
+  getTutors,
+  getStudents
 };
