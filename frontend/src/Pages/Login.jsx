@@ -47,8 +47,8 @@ const Login = () => {
           <form onSubmit={handleSubmit}> {/* Llama a la funcion */}
             {error && <div className="error-message">{error}</div>}
 
-            <label htmlFor="email">Correo</label>
-            <input
+            <label className='labelogin' htmlFor="email">Correo</label>
+            <input className='inputlogin'
               type="email"
               id="email"
               placeholder="Ingresa tu correo"
@@ -58,9 +58,9 @@ const Login = () => {
               required
             />
 
-            <label htmlFor="password">Contraseña</label>
+            <label className='labelogin' htmlFor="password">Contraseña</label>
             <div className="password-wrapper">
-              <input
+              <input className='inputlogin'
                 type="password"
                 id="password"
                 placeholder="Ingresa tu contraseña"
@@ -72,7 +72,7 @@ const Login = () => {
 
             <div className="remember-forgot">
               <label className="remember-label">
-                <input type="checkbox" /> Recuérdame
+                <input className='inputlogin' type="checkbox" /> Recuérdame
               </label>
               <a href="#">¿Olvidaste tu contraseña?</a>
             </div>

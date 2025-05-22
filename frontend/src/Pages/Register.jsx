@@ -40,8 +40,8 @@ const Register = () => {
           <p>Cree una cuenta para desbloquear más funciones.</p>
           <form onSubmit={handleSubmit}>
             {error && <div className="error-message">{error}</div>}
-            <label htmlFor="name">Nombre</label>
-            <input
+            <label className='labelogin' htmlFor="name">Nombre</label>
+            <input className='inputlogin'
               type="text"
               id="name"
               placeholder="Ingresa tu nombre"
@@ -51,8 +51,8 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="name">Apellidos</label>
-            <input
+            <label className='labelogin' htmlFor="name">Apellidos</label>
+            <input className='inputlogin'
               type="text"
               id="apellidos"
               placeholder="Ingresa tus apellidos"
@@ -62,8 +62,8 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="email">Correo</label>
-            <input
+            <label className='labelogin' htmlFor="email">Correo</label>
+            <input className='inputlogin'
               type="email"
               id="email"
               placeholder="Ingresa tu correo"
@@ -73,9 +73,9 @@ const Register = () => {
               required
             />
 
-            <label htmlFor="password">Contraseña</label>
+            <label className='labelogin' htmlFor="password">Contraseña</label>
             <div className="password-wrapper">
-              <input
+              <input className='inputlogin'
                 type="password"
                 id="password"
                 placeholder="Ingresa tu contraseña"
@@ -86,7 +86,7 @@ const Register = () => {
               />
             </div>
 
-            <label htmlFor="role">Rol</label>
+            <label className='labelogin' htmlFor="role">Rol</label>
             <select
               id="role"
               className="role-select"
@@ -102,7 +102,7 @@ const Register = () => {
 
             <div className="remember-forgot2">
               <label className="remember-label2">
-                <input type="checkbox" /> Aceptar Términos de uso
+                <input className='inputlogin' type="checkbox" /> Aceptar Términos de uso
               </label>
             </div>
 

@@ -1,34 +1,33 @@
-
-  .auth-buttons a {
-    margin-left: 15px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-  }
+.auth-buttons a {
+  margin-left: 15px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
   
-  .auth-buttons a:first-child {
+.auth-buttons a:first-child {
     color: #333;
-  }
+}
   
-  .auth-buttons a:last-child {
-    background: #55a7c5;
-    color: #fff;
-  }
+.auth-buttons a:last-child {
+  background: #55a7c5;
+  color: #fff;
+}
   
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
-  .container2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 120%;
-  }
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120%;
+}
 
 .info-container {
     width: 18%;
@@ -39,7 +38,7 @@
 .form-group {
     margin-bottom: 15px;
 }
-input, textarea {
+.inputlogin{
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -59,160 +58,156 @@ input, textarea {
   margin: 30px;
 }
   
-  .login-box h2 {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 28px;
-  }
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
   
-  .login-box p {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #666;
-  }
+.login-box p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+}
 
-  .About-box {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 12px;
-    width: 50%;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    justify-content: center;
-  }
-  label {
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-  }
-  
-  input[type="tel"],
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-  
-  .password-wrapper {
-    position: relative;
-  }
-  
-  .password-wrapper input {
-    padding-right: 40px;
-  }
-  
-  .password-wrapper .eye-icon {
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    cursor: pointer;
-  }
-  
-  .remember-forgot { 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 14px;
-  }
-  
-  .remember-label {
-    display: flex;
-    align-items: center;
-    gap: 5px; 
-    line-height: 1.4;
-  }
+.About-box {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  width: 50%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+}
 
-  .remember-label input[type="checkbox"] {
-    vertical-align: middle;
-    transform: translateY(9px); 
-  }
+.labelogin {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+  
+.inputlogin[type="tel"],
+.inputlogin[type="text"],
+.inputlogin[type="email"],
+.inputlogin[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+  
+.password-wrapper {
+  position: relative;
+}
+  
+.password-wrapper input {
+  padding-right: 40px;
+}
+  
+.password-wrapper .eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+}
+  
+.remember-forgot { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+  
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+  line-height: 1.4;
+}
 
-  .remember-forgot2 { 
-    display: flex;
-    justify-content: flex-start; /* Alinea al principio */
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 14px;
-  }
-  
-  .remember-label2 {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap; /* Esto evita que el texto se divida en varias líneas */
-  }
-  
-  .remember-label2 input[type="checkbox"] {
-    vertical-align: middle;
-    transform: translateY(9px); /* Asegura que el checkbox esté alineado verticalmente con el texto */
-  }
-  
-  button {
-    margin-left: 12px;
-    padding: 12px;
-    background: #55a7c5;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .checkresult {
-    width: 100%;
-    margin-left: 0px;
-  }
-  .divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-  }
-  
-  .divider::before,
-  .divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .divider:not(:empty)::before {
-    margin-right: .75em;
-  }
-  
-  .divider:not(:empty)::after {
-    margin-left: .75em;
-  }
-  
-  .google-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .google-btn img {
-    width: 20px;
-    margin-right: 10px;
-  }
+.remember-label input[type="checkbox"] {
+  vertical-align: middle;
+  transform: translateY(9px); 
+}
 
-  .img-centro {
-    margin: 10px auto 10px;
-    display: block;
-    margin-top: 50px;
-  }
+.remember-forgot2 { 
+  display: flex;
+  justify-content: flex-start; /* Alinea al principio */
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+  
+.remember-label2 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap; /* Esto evita que el texto se divida en varias líneas */
+}
+  
+.remember-label2 input[type="checkbox"] {
+  vertical-align: middle;
+  transform: translateY(9px); /* Asegura que el checkbox esté alineado verticalmente con el texto */
+}
+  
+.checkresult {
+  padding: 12px;
+  background: #55a7c5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 100%;
+  margin-left: 0px;
+}
 
-  /* Agrega esto a tu archivo CSS */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+  
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+  
+.divider:not(:empty)::before {
+  margin-right: .75em;
+}
+  
+.divider:not(:empty)::after {
+  margin-left: .75em;
+}
+  
+.google-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+  
+.google-btn img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.img-centro {
+  margin: 10px auto 10px;
+  display: block;
+  margin-top: 50px;
+}
 
 .role-select {
   width: 100%;
