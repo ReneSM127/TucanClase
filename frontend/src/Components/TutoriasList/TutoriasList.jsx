@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Rating from '../Rating/Rating';
 import { FaSearch } from 'react-icons/fa';
-import '../../Styles/tutorial.css';
 
 const TutoriasList = ({ 
   tutorias: initialTutorias, 

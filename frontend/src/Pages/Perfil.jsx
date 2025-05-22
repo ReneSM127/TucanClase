@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getUserById } from '../Services/usuarios';
 import { useParams } from "react-router-dom";
-import TutorPerfil from '../Components/TutorPerfil';
-import EstudiantePerfil from '../Components/EstudiantePerfil';
+import TutorPerfil from './TutorPerfil';
+import EstudiantePerfil from './EstudiantePerfil';
 
 const Perfil = () => {
 
