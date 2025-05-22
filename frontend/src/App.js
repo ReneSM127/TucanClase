@@ -10,6 +10,8 @@ import Perfil from './Pages/Perfil';
 import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
+import Tutores from './Pages/Tutores';
+import Contactar from './Pages/Contactar';
 import AlumnosDashboard from './Pages/AlumnosDashboard';
 import Chat from './Components/Chat/Chat';
 import { AuthProvider } from './Context/AuthContext';
@@ -46,11 +48,15 @@ function App() {
             
             <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
 
-            <Route path="/crear" element={
+            <Route path='/Tutores' element={<Tutores/>}/>
+
+            <Route path='/Contactar' element={<Contactar/>}/>
+
+            {/* <Route path="/crear" element={
               <ProtectedRoute allowedRoles={['Tutor']}>
                 <Prohibido />
               </ProtectedRoute>
-            } />
+            } /> */}
 
             {/*<Route path='/Login' element={<LoginPage />} />*/}
             <Route path='/prueba' element={<PruebaAPI userId={1} />}></Route>

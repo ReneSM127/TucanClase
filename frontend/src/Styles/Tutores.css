@@ -1,0 +1,219 @@
+/* Estilos generales */
+.tutors-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}
+
+/* Sección de tutores destacados */
+.featured-tutors {
+  margin-bottom: 50px;
+}
+
+.featured-tutors h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tutors-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #3498db #f1f1f1;
+}
+
+.tutors-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tutors-carousel::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.tutors-carousel::-webkit-scrollbar-thumb {
+  background-color: #3498db;
+  border-radius: 10px;
+}
+
+/* Tarjeta de tutor destacado */
+.tutor-card.featured {
+  min-width: 300px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.tutor-card.featured:hover {
+  transform: translateY(-5px);
+}
+
+.tutor-avatar {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.tutor-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border: 3px solid #3498db;
+}
+
+.rating {
+  position: absolute;
+  bottom: 0;
+  right: calc(50% - 75px);
+  background: #3498db;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.tutor-info h3 {
+  margin: 10px 0 5px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.subject {
+  text-align: center;
+  color: #3498db;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.review {
+  font-style: italic;
+  color: #7f8c8d;
+  text-align: center;
+}
+
+/* Sección de todos los tutores */
+.all-tutors {
+  margin-top: 40px;
+}
+
+.all-tutors h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.tutors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* Tarjeta de tutor normal */
+.tutor-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: transform 0.3s ease;
+}
+
+.tutor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tutor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.tutor-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+.description {
+  color: #7f8c8d;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.subject-tag {
+  background: #e8f4fc;
+  color: #3498db;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.profile-button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.profile-button:hover {
+  background: #2980b9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tutors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .featured-tutors h2, .all-tutors h2 {
+    font-size: 1.5rem;
+  }
+}

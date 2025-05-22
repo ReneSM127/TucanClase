@@ -49,7 +49,7 @@ const Hero = () => {
           <iframe 
             width="560" 
             height="315" 
-            src="https://www.youtube.com/1" 
+            src="https://www.youtube.com/watch?v=lv88bCi7eyg" 
             title="Video de lección" 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
