@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import '../Styles/DashboardP.css';
 
-const ProfesorDashboard = () => {
+const TutorDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [tutoriaForm, setTutoriaForm] = useState({
     title: '',
@@ -402,4 +402,4 @@ const SessionsSection = () => {
   );
 };
 
-export default ProfesorDashboard;
+export default TutorDashboard;

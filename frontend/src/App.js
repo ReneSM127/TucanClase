@@ -7,19 +7,17 @@ import Register from './Pages/Register';
 import Login from './Pages/Login'
 import EditarPerfil from './Pages/editarPerfil';
 import Perfil from './Pages/Perfil';
-import DashboardP from './Pages/ProfesorDashboard';
 import PruebaAPI from './Pages/PruebaAPI';
 import Tutorial from './Pages/Tutorial';
 import Tutores from './Pages/Tutores';
 import Contactar from './Pages/Contactar';
-import AlumnosDashboard from './Pages/AlumnosDashboard';
 import CrearTutoria from './Pages/CrearTutoria';
 import DetallesCursos from './Pages/DetallesCursos';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
 import Prohibido from './Pages/Prohibido'
-import Dash from './Pages/Dash'
+import Dashboard from './Pages/Dashboard';
 
 
 function App() {
@@ -46,13 +44,14 @@ function App() {
             
             <Route path='/Perfil/:id' element={<Perfil/>}/>
             
-            <Route path='/DashboardP' element={<DashboardP/>}/>
 
             <Route path='/Crear' element={<CrearTutoria/>}/>
 
-            <Route path='/Dash' element={<Dash/>}/>
-            
-            <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
+            <Route path='/Dashboard' element={
+              <ProtectedRoute allowedRoles={['Tutor','Estudiante']}>
+                <Dashboard/>
+              </ProtectedRoute>
+              }/>
 
             <Route path="/DetallesCursos" element={<DetallesCursos/>} />  
 
