@@ -18,6 +18,7 @@ import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
 import Prohibido from './Pages/Prohibido'
+import Dash from './Pages/Dash'
 
 
 function App() {
@@ -47,6 +48,8 @@ function App() {
             <Route path='/DashboardP' element={<DashboardP/>}/>
 
             <Route path='/Crear' element={<CrearTutoria/>}/>
+
+            <Route path='/Dash' element={<Dash/>}/>
             
             <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
 

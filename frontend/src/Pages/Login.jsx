@@ -30,7 +30,7 @@ const Login = () => {
       // Guardar los datos del usuario en el estado global o localStorage
       login(response.usuario, response.token); 
       // Redirigir al dashboard o página principal
-      navigate('/');
+      navigate('/Dash');
     } catch (err) {
       setError(err.message || 'Credenciales inválidas');
     } finally {
