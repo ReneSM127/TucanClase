@@ -14,6 +14,7 @@ import Tutores from './Pages/Tutores';
 import Contactar from './Pages/Contactar';
 import AlumnosDashboard from './Pages/AlumnosDashboard';
 import CrearTutoria from './Pages/CrearTutoria';
+import DetallesCursos from './Pages/DetallesCursos';
 import { AuthProvider } from './Context/AuthContext';
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from './Components/ProtectedRoutes';
@@ -52,6 +53,8 @@ function App() {
             <Route path='/Dash' element={<Dash/>}/>
             
             <Route path='/Dashboard-Alumnos' element={<AlumnosDashboard/>}/>
+
+            <Route path="/DetallesCursos" element={<DetallesCursos/>} />  
 
             <Route path='/Tutores' element={<Tutores/>}/>
 

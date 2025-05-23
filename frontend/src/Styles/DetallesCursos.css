@@ -1,0 +1,107 @@
+.course-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.intro h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #003b57;
+  margin-bottom: 0.5rem;
+}
+
+.intro p {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+.intro-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn-outline {
+  border: 1px solid #aaa;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.comments {
+  margin-top: 3rem;
+}
+
+.comments h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.comment {
+  background: #f1f1f1;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.comment .name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.comment .text {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.profilepic {
+  background: url('../Components/Assets/Tutor.jpg') no-repeat center center/cover;
+  height: 80px;
+  width: 80px;
+  border-radius: 80%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.info a {
+  text-decoration: none;
+  color: black;
+}
+
+.btn-secundario {
+  padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+
+.fixed-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}

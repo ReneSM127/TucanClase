@@ -24,13 +24,15 @@ const Tutorial = () => {
   }, []);
 
   return (
-    <div>
-      {/* Banner */}
-      <section className="banner">
-        <div className="carousel-content">
-          <h1>Descubre Más</h1>
-        </div>
-      </section>
+  <div>
+    {/* Banner */}
+    <section className="banner">
+      <div className="carousel-content">
+        <h1 className="banner-title">Descubre Más</h1>
+        <p className="banner-subtitle">Conéctate, estudia y alcanza tus metas con apoyo personalizado</p>
+      </div>
+    </section>
+
 
       {/* Componente reutilizable de tutorías con funcionalidad integrada */}
       <TutoriasList 
