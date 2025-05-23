@@ -146,7 +146,7 @@ const AlumnosDashboard = () => {
         tutorias={tutorias}
         loading={loading}
         error={error}
-        itemsPerPage={5} // Puedes ajustar este valor según necesites
+        itemsPerPage={2} // Puedes ajustar este valor según necesites
       />
 
       </div>

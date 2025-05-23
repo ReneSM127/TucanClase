@@ -43,3 +43,39 @@ export const createMateriaService = async (nombre, descripcion) => {
     throw new Error(error.response?.data?.message || 'Error al crear la materia');
   }
 };
+
+export const getAllTutoriasById= async (id) => {
+  try {
+    const response = await api.get(`/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
+  }
+};
+
+export const updateTutoriaById = async (id, userData) => {
+  try {
+    const response = await api.put(`tutorias/${id}`, userData);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error al actualizar el perfil');
+  }
+};
+
+export const updateMateriaById = async (id, nombre, descripcion) => {
+  try {
+    const response = await api.put(`materias/${id}`, {nombre, descripcion});
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error al actualizar el perfil');
+  }
+};
+
+export const deleteTutoriaById = async (id) => {
+  try {
+    const response = await api.delete(`tutorias/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error al actualizar el perfil');
+  }
+};

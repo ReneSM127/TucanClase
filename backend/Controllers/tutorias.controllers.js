@@ -74,19 +74,16 @@ const createTutoria = async (req, res) => {
 
 // Actualizar tutoría
 const updateTutoria = async (req, res) => {
-  const { tutorId, materiaId, titulo, descripcion, duracion, maxEstudiantes, precio, estado } = req.body;
+  const { materiaId, titulo, descripcion, duracion, maxEstudiantes } = req.body;
   
   try {
     await Tutoria.updateTutoria(
       req.params.id,
-      tutorId, 
       materiaId, 
       titulo, 
       descripcion, 
       duracion, 
-      maxEstudiantes, 
-      precio, 
-      estado
+      maxEstudiantes
     );
     
     res.json({ message: 'Tutoría actualizada correctamente' });
@@ -125,6 +122,15 @@ const getTutoriasCompletasByTutor = async (req, res) => {
     res.status(500).json({ message: 'Error al encontrar' });
   }
 };
+const getTutoriasCompletasByTutoria = async (req, res) => {
+  try {
+    const tutorias =  await Tutoria.getTutoriasCompletasByTutoriaId(req.params.id);
+    res.json(tutorias);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al encontrar' });
+  }
+};
+
 
 module.exports = {
   getAllTutorias,
@@ -135,5 +141,6 @@ module.exports = {
   updateTutoria,
   deleteTutoria,
   getTutoriasCompletas,
-  getTutoriasCompletasByTutor
+  getTutoriasCompletasByTutor,
+  getTutoriasCompletasByTutoria
 };

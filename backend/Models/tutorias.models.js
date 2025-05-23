@@ -48,28 +48,15 @@ const insertTutoria = async (
 // Actualizar tutoría
 const updateTutoria = async (
   id,
-  tutorId,
   materiaId,
   titulo,
   descripcion,
   duracion,
-  maxEstudiantes,
-  precio,
-  estado
+  maxEstudiantes
 ) => {
   await db.execute(
-    "UPDATE tutorias SET tutor_id = ?, materia_id = ?, titulo = ?, descripcion = ?, duracion = ?, max_estudiantes = ?, precio = ?, estado = ? WHERE id = ?",
-    [
-      tutorId,
-      materiaId,
-      titulo,
-      descripcion,
-      duracion,
-      maxEstudiantes,
-      precio,
-      estado,
-      id,
-    ]
+    "UPDATE tutorias SET materia_id = ?, titulo = ?, descripcion = ?, duracion = ?, max_estudiantes = ? WHERE id = ?",
+    [materiaId, titulo, descripcion, duracion, maxEstudiantes, id]
   );
 };
 
@@ -93,6 +80,15 @@ const getTutoriasCompletasByTutorId = async (id) => {
   return rows;
 };
 
+// Obtener tutorías con información completa (usando la vista)
+const getTutoriasCompletasByTutoriaId = async (id) => {
+  const [rows] = await db.execute(
+    "SELECT * FROM vista_tutorias_completas WHERE tutoria_id = ? ",
+    [id]
+  );
+  return rows;
+};
+
 module.exports = {
   getAllTutorias,
   getTutoriaById,
@@ -103,4 +99,5 @@ module.exports = {
   deleteTutoriaById,
   getTutoriasCompletas,
   getTutoriasCompletasByTutorId,
+  getTutoriasCompletasByTutoriaId,
 };

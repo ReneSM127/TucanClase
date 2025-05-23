@@ -44,8 +44,11 @@ function App() {
             
             <Route path='/Perfil/:id' element={<Perfil/>}/>
             
-
-            <Route path='/Crear' element={<CrearTutoria/>}/>
+            <Route path='/Crear' element={
+              <ProtectedRoute allowedRoles={['Tutor']}>
+                <CrearTutoria/>
+              </ProtectedRoute>
+            }/>
 
             <Route path='/Dashboard' element={
               <ProtectedRoute allowedRoles={['Tutor','Estudiante']}>
