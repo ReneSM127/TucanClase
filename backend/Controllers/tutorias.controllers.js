@@ -59,9 +59,7 @@ const createTutoria = async (req, res) => {
       titulo, 
       descripcion, 
       duracion, 
-      maxEstudiantes, 
-      precio, 
-      estado || 'Programado'
+      maxEstudiantes
     );
     
     res.status(201).json({ 

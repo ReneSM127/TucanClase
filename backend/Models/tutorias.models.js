@@ -25,10 +25,10 @@ const getTutoriasByMateriaId = async (materiaId) => {
 };
 
 // Crear una nueva tutoría
-const insertTutoria = async (tutorId, materiaId, titulo, descripcion, duracion, maxEstudiantes, precio, estado) => {
+const insertTutoria = async (tutorId, materiaId, titulo, descripcion, duracion, maxEstudiantes) => {
   const [result] = await db.execute(
-    'INSERT INTO tutorias (tutor_id, materia_id, titulo, descripcion, duracion, max_estudiantes, precio, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [tutorId, materiaId, titulo, descripcion, duracion, maxEstudiantes, precio, estado]
+    'INSERT INTO tutorias (tutor_id, materia_id, titulo, descripcion, duracion, max_estudiantes,) VALUES (?, ?, ?, ?, ?, ?)',
+    [tutorId, materiaId, titulo, descripcion, duracion, maxEstudiantes]
   );
   return result.insertId;
 };

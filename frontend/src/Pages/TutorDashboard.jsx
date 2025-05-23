@@ -28,6 +28,10 @@ const AlumnosDashboard = () => {
     return new Date(dateString).toLocaleDateString("es-ES", options);
   };
 
+  const handleClick = () =>{
+    navigate("/Crear");
+  }
+
   // Efecto para obtener el ID del tutor
   useEffect(() => {
     const getCurrentTutorId = () => {
@@ -131,7 +135,7 @@ const AlumnosDashboard = () => {
               <div className="section-header">
                 <h2>Tutorías Activas</h2>
                 <div className="section-actions">
-                  <button className="add-btn">
+                  <button className="add-btn" onClick={handleClick}>
                     <FaPlus /> Nueva Tutoría
                   </button>
                 </div>
