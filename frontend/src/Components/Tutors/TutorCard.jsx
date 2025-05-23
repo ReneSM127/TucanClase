@@ -16,6 +16,8 @@ const TutorCard = ({ tutor }) => {
           {tutor.nombre} {tutor.apellidos}
         </h3>
       </div>
+      <div className="instructor-avatar">{tutor.nombre.charAt(0) + tutor.apellidos.charAt(0)}</div>
+
       <p className="description">{tutor.descripcion}</p>
       <button className="profile-button" onClick={handleClick}>
         Revisar Perfil
