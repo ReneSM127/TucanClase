@@ -32,17 +32,6 @@ const GestionarTutoria = () => {
     },
   });
 
-  /*const [formData, setFormData] = useState({
-    titulo: "",
-    materiaId: "",
-    descripcion: "",
-    duracion: 1,
-    maxEstudiantes: 1,
-    nuevaMateria: {
-      nombre: "",
-      descripcion: "",
-    },
-  });*/
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -58,14 +47,12 @@ const GestionarTutoria = () => {
         throw new Error("No se encontró la tutoría solicitada");
       }
 
-      const tutoria = Array.isArray(response) ? response[0] : response;
-
       setFormData({
-        titulo: tutoria.titulo_tutoria || "",
-        materiaId: tutoria.materia_id || "",
-        descripcion: tutoria.descripcion_tutoria || "",
-        duracion: tutoria.duracion_minutos || 1,
-        maxEstudiantes: tutoria.max_estudiantes || 1,
+        titulo: response.titulo_tutoria || "",
+        materiaId: response.materia_id || "",
+        descripcion: response.descripcion_tutoria || "",
+        duracion: response.duracion_minutos || 1,
+        maxEstudiantes: response.max_estudiantes || 1,
         nuevaMateria: {
           nombre: "",
           descripcion: "",
@@ -123,8 +110,34 @@ const GestionarTutoria = () => {
 
   const handleCancel = () => {
     setEditMode(false);
+    fetchTutoriaData();
     
   }
+
+  const fetchTutoriaData = async () => {
+    if (!tutoriaId) return;
+    
+    try {
+      setIsLoadingData(true);
+      const response = await getATutoriaById(tutoriaId);
+
+      setFormData({
+        titulo: response.titulo_tutoria || "",
+        materiaId: response.materia_id || "",
+        descripcion: response.descripcion_tutoria || "",
+        duracion: response.duracion_minutos || 1,
+        maxEstudiantes: response.max_estudiantes || 1,
+        nuevaMateria: {
+          nombre: "",
+          descripcion: "",
+        },
+      });
+    } catch (err) {
+      setError(err.message || "Error al recargar los datos");
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,7 +195,7 @@ const GestionarTutoria = () => {
     <div className="crear-tutoria-container">
       <form className="crear-tutoria-form" onSubmit={handleSubmit}>
         <div className="crear-tutoria-header">
-          <h1>Crear Nueva Tutoría</h1>
+          <h1>Editar tutoria</h1>
         </div>
 
         {error && <div className="error-message">{error}</div>}

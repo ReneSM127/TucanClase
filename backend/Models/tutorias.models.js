@@ -86,7 +86,7 @@ const getTutoriasCompletasByTutoriaId = async (id) => {
     "SELECT * FROM vista_tutorias_completas WHERE tutoria_id = ? ",
     [id]
   );
-  return rows;
+  return rows[0];
 };
 
 module.exports = {
