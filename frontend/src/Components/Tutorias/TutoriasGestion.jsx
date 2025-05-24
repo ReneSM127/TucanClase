@@ -69,7 +69,7 @@ const TutoriasGestion = ({
                 <button onClick={() => window.location.href=`/tutoria/${tutoria.tutoria_id}`}>
                   Ver Tutoria
                 </button>
-                <button onClick={() => window.location.href=`/tutoria/${tutoria.tutoria_id}`}>
+                <button onClick={() => window.location.href=`/gestionar/${tutoria.tutoria_id}`}>
                   Gestionar
                 </button>
               </div>

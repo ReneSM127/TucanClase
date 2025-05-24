@@ -44,14 +44,24 @@ export const createMateriaService = async (nombre, descripcion) => {
   }
 };
 
-export const getAllTutoriasById= async (id) => {
+/*export const getAllTutoriasById= async (id) => {
   try {
     const response = await api.get(`/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
   }
+};*/
+
+export const getATutoriaById= async (tutoriaId) => {
+  try {
+    const response = await api.get(`tutorias/${tutoriaId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
+  }
 };
+
 
 export const updateTutoriaById = async (id, userData) => {
   try {
