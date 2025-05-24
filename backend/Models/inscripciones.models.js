@@ -10,8 +10,8 @@ const getInscripcionesByEstudiante = async (estudiante_id) => {
   return rows;
 };
 
-const getInscripcionesByTutoria = async (tutoria_id) => {
-  const [rows] = await db.execute('SELECT * FROM inscripciones WHERE tutoria_id = ?', [tutoria_id]);
+const getInscripcionesByTutoria = async (id_tutoria) => {
+  const [rows] = await db.execute('SELECT * FROM getInscripcionesCompletasByTutoriaId WHERE id_tutoria = ?', [id_tutoria]);
   return rows;
 };
 
@@ -29,6 +29,7 @@ const updateInscripcion = async (id, estado) => {
     [estado, id]
   );
 };
+
 
 
 

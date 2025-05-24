@@ -24,7 +24,7 @@ const getInscripcionesByEstudiante = async (req, res) => {
 // Obtener inscripciones por tutoría
 const getInscripcionesByTutoria = async (req, res) => {
   try {
-    const inscripciones = await Inscripcion.getInscripcionesByTutoria(req.params.tutoria_id);
+    const inscripciones = await Inscripcion.getInscripcionesByTutoria(req.params.id_tutoria);
     res.json(inscripciones);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener las inscripciones de la tutoría' });

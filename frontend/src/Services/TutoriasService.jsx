@@ -89,3 +89,12 @@ export const deleteTutoriaById = async (id) => {
     throw new Error(error.response?.data?.message || 'Error al actualizar el perfil');
   }
 };
+
+export const getEstudiantesInscritosByTutoriaId= async (tutoriaId) => {
+  try {
+    const response = await api.get(`inscripciones/tutorias/${tutoriaId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
+  }
+};
