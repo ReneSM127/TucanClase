@@ -92,7 +92,7 @@ export const deleteTutoriaById = async (id) => {
 
 export const getEstudiantesInscritosByTutoriaId= async (tutoriaId) => {
   try {
-    const response = await api.get(`inscripciones/tutorias/${tutoriaId}`);
+    const response = await api.get(`inscripciones/tutoria/${tutoriaId}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'error al encontrar tutoria');

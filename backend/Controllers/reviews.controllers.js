@@ -72,6 +72,15 @@ const getAllReviewByTutor = async (req, res) => {
   }
 };
 
+//getAllReviewByTutorId
+const getAllReviewByTutoria = async (req, res) => {
+  try {
+    const reviews = await reviewsModel.getAllReviewByTutoriaId(req.params.id);
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getReview,
@@ -80,5 +89,6 @@ module.exports = {
   updateReview,
   deleteReview,
   getAllReviews,
-  getAllReviewByTutor
+  getAllReviewByTutor,
+  getAllReviewByTutoria
 };

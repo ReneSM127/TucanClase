@@ -39,6 +39,11 @@ const getAllReviewByTutorId = async (id) => {
   return rows;
 };
 
+const getAllReviewByTutoriaId = async (id) => {
+  const [rows] = await db.execute('select * from vista_tutorias_reviews where tutoria_id= ?',[id]);
+  return rows;
+};
+
 module.exports = {
   getReviewById,
   getReviewsByInscripcionId,
@@ -46,5 +51,6 @@ module.exports = {
   updateReview,
   deleteReviewById,
   getAllReviews,
-  getAllReviewByTutorId
+  getAllReviewByTutorId,
+  getAllReviewByTutoriaId
 };

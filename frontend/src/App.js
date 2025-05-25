@@ -12,13 +12,13 @@ import Tutorial from "./Pages/Tutorial";
 import Tutores from "./Pages/Tutores";
 import Contactar from "./Pages/Contactar";
 import CrearTutoria from "./Pages/CrearTutoria";
-import DetallesCursos from "./Pages/DetallesCursos";
 import { AuthProvider } from "./Context/AuthContext";
 /*import LoginPage from './Pages/LoginPage';*/
 import { ProtectedRoute } from "./Components/ProtectedRoutes";
 import Prohibido from "./Pages/Prohibido";
 import Dashboard from "./Pages/Dashboard";
 import GestionarTutoria from "./Pages/GestionarTutoria";
+import DetallesCursos from "./Pages/DetallesCursos";
 
 function App() {
   return (
@@ -66,8 +66,7 @@ function App() {
 
             <Route path="/gestionar/:tutoriaId" element={<GestionarTutoria/>}></Route>
 
-
-            <Route path="/DetallesCursos" element={<DetallesCursos />} />
+            <Route path="/tutoria/:tutoriaId" element={<DetallesCursos/>}></Route>
 
             <Route path="/Tutores" element={<Tutores />} />
 

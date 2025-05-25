@@ -11,8 +11,13 @@ const getInscripcionesByEstudiante = async (estudiante_id) => {
 };
 
 const getInscripcionesByTutoria = async (id_tutoria) => {
-  const [rows] = await db.execute('SELECT * FROM getInscripcionesCompletasByTutoriaId WHERE id_tutoria = ?', [id_tutoria]);
-  return rows;
+  try {
+    const [rows] = await db.execute('SELECT * FROM vista_inscripciones_completas WHERE id_tutoria = ?', [id_tutoria]);
+    return rows;
+    
+  } catch (error) {
+    return error;
+  }
 };
 
 const createInscripcion = async (estudiante_id, tutoria_id, estado = 'Inscrito') => {

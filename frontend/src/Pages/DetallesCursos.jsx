@@ -1,55 +1,162 @@
-import React, { useEffect, useState } from 'react';
-import '../Styles/DetallesCursos.css';
-import TutorsSection from '../Components/Tutors/TutorsSection';
-import TutorsCarousel from '../Components/Tutors/TutorsCarousel';
-import { getAllStudents } from '../Services/usuarios';
-
-const Cursos = () => {
+import React, { useEffect, useState } from "react";
+import "../Styles/DetallesCursos.css";
+import { FaStar, FaRegStar, FaBook } from "react-icons/fa";
+import { useParams, useNavigate } from "react-router-dom";
+import TutorsSection from "../Components/Tutors/TutorsSection";
+import TutorsCarousel from "../Components/Tutors/TutorsCarousel";
+import {
+  getATutoriaById, getEstudiantesInscritosByTutoriaId
+} from "../Services/TutoriasService";
+import { getTutorById, getAllReviewsByTutoriaId } from "../Services/TutoresService";
+import UsuariosInscritosCarousel from "../Components/UsuariosInscritos/UsuariosInscritosCarousel";
+const DetallesCursos = () => {
   const [estudiantes, setEstudiantes] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [tutoria, setTutoria] = useState({
+
+    titulo_tutoria: "",
+    descripcion_tutoria: "",
+    max_estudiantes: "",
+    tutor_id: "",
+    nombre_tutor: "",
+    avatar: "",
+    email_tutor: "",
+    rating: "",
+  });
+  const navigate = useNavigate();
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  const { tutoriaId } = useParams();
 
   useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchTutoriaData = async () => {
       try {
-        const data = await getAllStudents();
-        setEstudiantes(data);
-      } catch (error) {
-        console.error('Error al cargar estudiantes:', error);
+        // Caso 2: Hay ID (edición existente)
+        setIsLoadingData(true);
+        const response = await getATutoriaById(tutoriaId);
+        const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
+
+        if (!response) {
+          throw new Error("No se encontró la tutoría solicitada");
+        }
+
+        const InfoTutor = await getTutorById(response.tutor_id);
+        const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(tutoriaId);
+
+        setEstudiantes(infoEstudiantes);
+
+        setTutoria({
+          titulo_tutoria: response.titulo_tutoria,
+          descripcion_tutoria: response.descripcion_tutoria,
+          max_estudiantes: response.max_estudiantes,
+          tutor_id: response.tutor_id,
+          nombre_tutor: response.nombre_tutor,
+          avatar: InfoTutor.nombre.charAt(0) + InfoTutor.apellidos.charAt(0),
+          email_tutor: response.email_tutor,
+          rating: calculateAverageRating(reviewsData)
+        });
+        const transformedReviews = reviewsData.map((review) => ({
+          id: review.tutoria_id,
+          student: review.nombre_estudiante,
+          rating: review.estrellas,
+          comment: review.comentario,
+          date: formatDate(review.fecha_review), // Puedes agregar la fecha si está disponible
+          course: review.titulo_tutoria,
+        }));
+
+        setReviews(transformedReviews);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoadingData(false);
       }
     };
 
-    fetchStudents();
-  }, []);
+    fetchTutoriaData();
+  }, [tutoriaId]);
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.estrellas, 0);
+    return (sum / reviews.length).toFixed(1);
+  };
+
+  // Función para formatear la fecha
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("es-ES", options);
+  };
+
+  const renderStars = (rating) => {
+      const stars = [];
+      const numericRating =
+        typeof rating === "string" ? parseFloat(rating) : rating;
+  
+      for (let i = 1; i <= 5; i++) {
+        stars.push(
+          i <= Math.floor(numericRating) ? (
+            <FaStar key={i} className="star filled" />
+          ) : (
+            <FaRegStar key={i} className="star" />
+          )
+        );
+      }
+      return stars;
+    };
 
   return (
     <div className="course-container">
       <section className="intro">
         <div className="info">
-          <img className="profilepic" src="../Styles/DetallesCursos.css"/>
-          <h1>Barry Keoghan</h1>
+          <div className="instructor-avatar">{tutoria.avatar}</div>
+          <h1>{tutoria.nombre_tutor}</h1>
         </div>
-        <button className="btn-secundario fixed-btn">Inscribirse a la tutoría</button>
+        <button className="btn-secundario fixed-btn">
+          Inscribirse a la tutoría
+        </button>
 
-        <h1>Curso de Matemáticas</h1>
-        <p>
-          ¡Bienvenido a nuestro curso de Matemáticas! Este programa completo te brindará los conocimientos y habilidades necesarias para desarrollar el pensamiento lógico y la resolución de problemas en diversas áreas matemáticas...
-        </p>
+        <h1>{tutoria.titulo_tutoria}</h1>
+        <p>{tutoria.descripcion_tutoria}</p>
       </section>
 
-      <TutorsSection title="Estudiantes Interesados">
-        <TutorsCarousel tutors={estudiantes} />
-      </TutorsSection>
+      <div className="reviews-container">
+        <h2>Reseñas de estudiantes</h2>
 
-      <section className="comments">
-        <h2>Comentarios</h2>
-        <div className="comment">
-          <p className="name">Rene Sandoval Maron ⭐⭐⭐⭐☆</p>
-          <p className="text">
-            La tutoría de diseño web proporcionó una base sólida para mí. ¡Lo recomiendo encarecidamente!
-          </p>
+        <div className="reviews-list">
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div
+                className="review-card"
+                key={`${review.id}-${review.student}`}
+              >
+                <div className="review-header">
+                  <div className="reviewer-avatar">
+                    {review.student.charAt(0)}
+                  </div>
+                  <div className="reviewer-info">
+                    <h4>{review.student}</h4>
+                    <div className="review-rating">
+                          {renderStars(review.rating)}
+
+                      <span>{review.date}</span>{" "}
+                      {/* Mostramos la fecha formateada */}
+                    </div>
+                    <p className="course-name">{review.course}</p>
+                  </div>
+                </div>
+                <p className="review-comment">{review.comment}</p>
+              </div>
+            ))
+          ) : (
+            <div className="no-reviews">
+              <p>Este tutor aún no tiene reseñas.</p>
+            </div>
+          )}
         </div>
-      </section>
+      </div>
+      <UsuariosInscritosCarousel estudiantes={estudiantes}/>
     </div>
   );
 };
 
-export default Cursos;
+export default DetallesCursos;
