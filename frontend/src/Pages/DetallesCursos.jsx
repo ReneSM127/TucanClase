@@ -3,7 +3,7 @@ import "../Styles/DetallesCursos.css";
 import { AuthContext } from "../Context/AuthContext";
 import { FaStar, FaRegStar, FaBook } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
-import { createInscripcion } from "../Services/InscripcionesService";
+import { createInscripcion, deleteInscripcion } from "../Services/InscripcionesService";
 import {
   getATutoriaById,
   getEstudiantesInscritosByTutoriaId,
@@ -18,6 +18,10 @@ const DetallesCursos = () => {
   const { user } = useContext(AuthContext);
   const [estudiantes, setEstudiantes] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [estaInscrito, setEstaInscrito] = useState(false);
+  const [inscripcion, setInscripcion] = useState({
+    id: 0,
+  });
   const [tutoria, setTutoria] = useState({
     titulo_tutoria: "",
     descripcion_tutoria: "",
@@ -36,6 +40,9 @@ const DetallesCursos = () => {
   useEffect(() => {
     const fetchTutoriaData = async () => {
       try {
+        if (user) {
+          console.log(user.id);
+        }
         // Caso 2: Hay ID (edición existente)
         setIsLoadingData(true);
         const response = await getATutoriaById(tutoriaId);
@@ -51,6 +58,19 @@ const DetallesCursos = () => {
         );
 
         setEstudiantes(infoEstudiantes);
+
+        // Verificar si el usuario actual está inscrito
+        if (user && infoEstudiantes) {
+          const usuarioInscrito = infoEstudiantes.find(
+            (estudiante) => estudiante.id_estudiante === user.id
+          );
+          setEstaInscrito(!!usuarioInscrito);
+
+          // Si está inscrito, guardar también el ID de la inscripción
+          if (usuarioInscrito) {
+            setInscripcion({ id: usuarioInscrito.id_inscripcion });
+          }
+        }
 
         setTutoria({
           titulo_tutoria: response.titulo_tutoria,
@@ -80,13 +100,7 @@ const DetallesCursos = () => {
     };
 
     fetchTutoriaData();
-  }, [tutoriaId]);
-
-  useEffect(() => {
-    if (user) {
-      console.log(user.id);
-    }
-  }, [user]);
+  }, [tutoriaId, user]);
 
   const handleClick = async () => {
     try {
@@ -98,12 +112,25 @@ const DetallesCursos = () => {
       console.log(user.id);
       console.log(tutoriaId);
 
-      await createInscripcion(user.id, tutoriaId);
-      alert("Inscrito");
+      const response = await createInscripcion(user.id, tutoriaId);
+      setInscripcion({ id: response.id });
+      alert(`${response.id}`);
+      setEstaInscrito(true);
     } catch (error) {
       console.error("Error en inscripción:", error);
       alert(error.response?.data?.message || "Error al inscribirse");
     }
+  };
+
+  const handleDelete = async () =>{
+    try {
+      await deleteInscripcion(inscripcion.id);
+      alert("Se ha borrado");
+      
+    } catch (error) {
+      alert(`Ocurrio un error ${error}`);
+    }
+
   };
 
   const calculateAverageRating = (reviews) => {
@@ -142,9 +169,15 @@ const DetallesCursos = () => {
           <div className="instructor-avatar">{tutoria.avatar}</div>
           <h1>{tutoria.nombre_tutor}</h1>
         </div>
-        <button className="btn-secundario fixed-btn" onClick={handleClick}>
-          Inscribirse a la tutoría
-        </button>
+        {estaInscrito === false ? (
+          <button className="btn-secundario fixed-btn" onClick={handleClick}>
+            Inscribirse a la tutoría
+          </button>
+        ) : (
+          <button className="btn-secundario fixed-btn" onClick={handleDelete}>
+            Salirse
+          </button>
+        )}
 
         <h1>{tutoria.titulo_tutoria}</h1>
         <p>{tutoria.descripcion_tutoria}</p>
@@ -184,7 +217,11 @@ const DetallesCursos = () => {
           )}
         </div>
       </div>
+        <div className="reviews-list">
+          <h2>Estudiantes inscritos</h2>
       <UsuariosInscritosCarousel estudiantes={estudiantes} />
+        </div>
+
     </div>
   );
 };

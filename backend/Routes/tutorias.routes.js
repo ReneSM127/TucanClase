@@ -9,6 +9,8 @@ router.get('/:id', tutorias.getTutoriasCompletasByTutoria);
 //getTutoriasNoInscritasById
 
 router.get('/noinscritas/:id', tutorias.getTutoriasNoInscritas);
+//getTutoriasInscritas
+router.get('/inscritas/:id', tutorias.getTutoriasInscritas);
 
 router.get('/materia/:materiaId', tutorias.getTutoriasByMateria);
 //Actualizar

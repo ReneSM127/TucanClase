@@ -8,5 +8,6 @@ router.get('/estudiante/:estudiante_id', inscripciones.getInscripcionesByEstudia
 router.get('/tutoria/:id_tutoria', inscripciones.getInscripcionesByTutoria);
 router.post('/', inscripciones.createInscripcion);
 router.put('/:id', inscripciones.updateInscripcion);
+router.delete('/:id', inscripciones.deleteInscripcionById);
 
 module.exports = router;

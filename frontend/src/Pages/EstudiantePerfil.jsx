@@ -8,6 +8,7 @@ import {
 } from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
 import TutoriasList from "../Components/TutoriasList/TutoriasList";
+import {getTutoriasByIdAlumnos} from '../Services/TutoriasService'
 
 const EstudiantePerfil = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -31,7 +32,7 @@ const EstudiantePerfil = () => {
         setLoading(true);
         const tutorData = await getTutorById(id);
         const reviewsData = await getAllReviewsByTutorId(id);
-        const tutoriasData = await getAllTutoriasById(id);
+        const tutoriasData = await getTutoriasByIdAlumnos(id);
 
         // Transformar los datos del tutor al formato esperado
         const transformedTutor = {
@@ -151,13 +152,7 @@ const EstudiantePerfil = () => {
           className={`tab ${activeTab === "courses" ? "active" : ""}`}
           onClick={() => setActiveTab("courses")}
         >
-          <FaBook /> Tutorias
-        </button>
-        <button
-          className={`tab ${activeTab === "reviews" ? "active" : ""}`}
-          onClick={() => setActiveTab("reviews")}
-        >
-          <FaStar /> Reseñas
+          <FaBook /> Tutorias inscritas
         </button>
       </div>
 

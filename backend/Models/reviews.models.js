@@ -40,7 +40,7 @@ const getAllReviewByTutorId = async (id) => {
 };
 
 const getAllReviewByTutoriaId = async (id) => {
-  const [rows] = await db.execute('select * from vista_tutorias_reviews where tutoria_id= ?',[id]);
+  const [rows] = await db.execute('SELECT * FROM vista_tutorias_reviews WHERE tutoria_id = ? AND estrellas IS NOT NULL',[id]);
   return rows;
 };
 

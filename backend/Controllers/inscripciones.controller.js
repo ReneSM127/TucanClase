@@ -53,11 +53,22 @@ const updateInscripcion = async (req, res) => {
   }
 };
 
+// Actualizar estado de inscripción
+const deleteInscripcionById = async (req, res) => {
+  try {
+    await Inscripcion.deleteInscripcion(req.params.id);
+    res.json({ message: 'Inscripción borrada' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al borrar la inscripción' });
+  }
+};
+
 
 module.exports = {
   getInscripcion,
   getInscripcionesByEstudiante,
   getInscripcionesByTutoria,
   createInscripcion,
-  updateInscripcion
+  updateInscripcion,
+  deleteInscripcionById
 };

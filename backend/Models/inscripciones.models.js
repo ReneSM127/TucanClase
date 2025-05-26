@@ -35,6 +35,13 @@ const updateInscripcion = async (id, estado) => {
   );
 };
 
+const deleteInscripcion = async (id) => {
+  await db.execute(
+    'DELETE FROM inscripciones WHERE id = ?',
+    [id]
+  );
+};
+
 
 
 
@@ -43,5 +50,6 @@ module.exports = {
   getInscripcionesByEstudiante,
   getInscripcionesByTutoria,
   createInscripcion,
-  updateInscripcion
+  updateInscripcion,
+  deleteInscripcion
 };

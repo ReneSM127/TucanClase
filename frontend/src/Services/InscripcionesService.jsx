@@ -25,3 +25,13 @@ export const createInscripcion = async (estudiante_id, tutoria_id) => {
     throw new Error('No se pudieron cargar las materias');
   }
 };
+
+export const deleteInscripcion = async (id) => {
+  try {
+    const response = await api.delete(`/inscripciones/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching materias:', error);
+    throw new Error('Error al borrar');
+  }
+};

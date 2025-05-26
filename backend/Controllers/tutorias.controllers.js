@@ -140,6 +140,16 @@ const getTutoriasNoInscritas = async (req, res) => {
   }
 };
 
+//getTutoriasInscritasById
+const getTutoriasInscritas = async (req, res) => {
+  try {
+    const tutorias =  await Tutoria.getTutoriasInscritasById(req.params.id);
+    res.json(tutorias);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al encontrar' });
+  }
+};
+
 
 module.exports = {
   getAllTutorias,
@@ -152,5 +162,6 @@ module.exports = {
   getTutoriasCompletas,
   getTutoriasCompletasByTutor,
   getTutoriasCompletasByTutoria,
-  getTutoriasNoInscritas
+  getTutoriasNoInscritas,
+  getTutoriasInscritas
 };

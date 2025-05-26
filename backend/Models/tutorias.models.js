@@ -92,9 +92,21 @@ const getTutoriasCompletasByTutoriaId = async (id) => {
 //obtener todas las tutorias donde el usuario no esté inscrito
 const getTutoriasNoInscritasById = async (id) => {
   try {
-    
     const [rows] = await db.execute(
       "SELECT vtc.* FROM vista_tutorias_completas vtc WHERE vtc.tutoria_id NOT IN (SELECT tutoria_id FROM inscripciones WHERE estudiante_id = ?)",
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    return error;
+  }
+};
+
+//obtener todas las tutorias donde el usuario esté inscrito
+const getTutoriasInscritasById = async (id) => {
+  try {
+    const [rows] = await db.execute(
+      "SELECT vtc.* FROM vista_tutorias_completas vtc WHERE vtc.tutoria_id IN (SELECT tutoria_id FROM inscripciones WHERE estudiante_id = ?)",
       [id]
     );
     return rows;
@@ -114,5 +126,6 @@ module.exports = {
   getTutoriasCompletas,
   getTutoriasCompletasByTutorId,
   getTutoriasCompletasByTutoriaId,
-  getTutoriasNoInscritasById
+  getTutoriasNoInscritasById,
+  getTutoriasInscritasById
 };
