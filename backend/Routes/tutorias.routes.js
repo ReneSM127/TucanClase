@@ -6,6 +6,9 @@ router.get('/all', tutorias.getTutoriasCompletas);
 router.get('/', tutorias.getAllTutorias);
 //router.get('/:id', tutorias.getTutoria);
 router.get('/:id', tutorias.getTutoriasCompletasByTutoria);
+//getTutoriasNoInscritasById
+
+router.get('/noinscritas/:id', tutorias.getTutoriasNoInscritas);
 
 router.get('/materia/:materiaId', tutorias.getTutoriasByMateria);
 //Actualizar

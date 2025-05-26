@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { getTutorias } from '../Services/TutoresService';
+import React, { useState, useEffect, useContext } from 'react';
 import TutoriasList from '../Components/TutoriasList/TutoriasList';
 import '../Styles/tutorial.css';
+import { AuthContext } from "../Context/AuthContext";
+import {getEstudiantesNoInscritosByTutoriaId} from "../Services/TutoriasService"
+
 
 const Tutorial = () => {
   const [tutorias, setTutorias] = useState([]);
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useEffect(()=>{
+    if (user) {
+      console.log(user.id);
+      
+      
+    }
+
+  },[user]);
+  
+  
   useEffect(() => {
     const fetchTutorias = async () => {
       try {
-        const data = await getTutorias();
+        const data = await getEstudiantesNoInscritosByTutoriaId(user.id);
         setTutorias(data);
         setLoading(false);
       } catch (err) {

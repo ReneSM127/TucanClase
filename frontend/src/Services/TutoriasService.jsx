@@ -98,3 +98,12 @@ export const getEstudiantesInscritosByTutoriaId= async (tutoriaId) => {
     throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
   }
 };
+
+export const getEstudiantesNoInscritosByTutoriaId= async (id) => {
+  try {
+    const response = await api.get(`tutorias/noinscritas/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'error al encontrar tutoria');
+  }
+};
