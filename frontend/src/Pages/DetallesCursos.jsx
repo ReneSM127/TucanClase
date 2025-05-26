@@ -24,7 +24,7 @@ const DetallesCursos = () => {
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [hoverRating, setHoverRating] = useState(0);
-
+  const [dejoReviews, setDejoReview] = useState(false);
   const [estudiantes, setEstudiantes] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [estaInscrito, setEstaInscrito] = useState(false);
@@ -93,6 +93,7 @@ const DetallesCursos = () => {
         });
         const transformedReviews = reviewsData.map((review) => ({
           id: review.tutoria_id,
+          estudiante_id: review.estudiante_id,
           student: review.nombre_estudiante,
           rating: review.estrellas,
           comment: review.comentario,
@@ -101,6 +102,10 @@ const DetallesCursos = () => {
         }));
 
         setReviews(transformedReviews);
+        const userReview = transformedReviews.find(
+          (review) => review.estudiante_id === user?.id
+        );
+        setDejoReview(!!userReview);
       } catch (err) {
         console.error(err);
       } finally {
@@ -161,6 +166,7 @@ const DetallesCursos = () => {
       setReviews(transformedReviews);
 
       alert("¡Gracias por tu reseña!");
+      setDejoReview(true);
     } catch (error) {
       console.error("Error al enviar la reseña:", error);
       alert(error.response?.data?.message || "Error al enviar la reseña");
@@ -231,7 +237,7 @@ const DetallesCursos = () => {
 
       <div className="reviews-container">
         <h2>Reseñas de estudiantes</h2>
-        {estaInscrito && !showReviewForm && (
+        {estaInscrito && !showReviewForm && !dejoReviews && (
           <button
             className="btn-secundario"
             onClick={() => setShowReviewForm(true)}

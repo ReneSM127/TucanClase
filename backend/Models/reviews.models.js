@@ -12,7 +12,7 @@ const getReviewsByInscripcionId = async (inscripcion_id) => {
 
 const insertReview = async (inscripcion_id, estrellas, comentario) => {
   const [result] = await db.execute(
-    'INSERT INTO reviews (inscripcion_id, estrellas, comentario, fecha_creacion) VALUES (?, ?, ?, NOW())',
+    'INSERT INTO reviews (inscripcion_id, estrellas, comentario) VALUES (?, ?, ?)',
     [inscripcion_id, estrellas, comentario]
   );
   return result.insertId;
