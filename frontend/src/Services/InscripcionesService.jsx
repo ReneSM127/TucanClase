@@ -35,3 +35,13 @@ export const deleteInscripcion = async (id) => {
     throw new Error('Error al borrar');
   }
 };
+
+export const createReview = async (inscripcion_id, estrellas, comentario) => {
+  try {
+    const response = await api.post(`/reviews/`, {inscripcion_id, estrellas, comentario});
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching materias:', error);
+    throw new Error('Error al borrar');
+  }
+};

@@ -3,7 +3,11 @@ import "../Styles/DetallesCursos.css";
 import { AuthContext } from "../Context/AuthContext";
 import { FaStar, FaRegStar, FaBook } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
-import { createInscripcion, deleteInscripcion } from "../Services/InscripcionesService";
+import {
+  createInscripcion,
+  deleteInscripcion,
+  createReview,
+} from "../Services/InscripcionesService";
 import {
   getATutoriaById,
   getEstudiantesInscritosByTutoriaId,
@@ -16,6 +20,11 @@ import UsuariosInscritosCarousel from "../Components/UsuariosInscritos/UsuariosI
 
 const DetallesCursos = () => {
   const { user } = useContext(AuthContext);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState("");
+  const [hoverRating, setHoverRating] = useState(0);
+
   const [estudiantes, setEstudiantes] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [estaInscrito, setEstaInscrito] = useState(false);
@@ -122,15 +131,52 @@ const DetallesCursos = () => {
     }
   };
 
-  const handleDelete = async () =>{
+  const handleDelete = async () => {
     try {
       await deleteInscripcion(inscripcion.id);
       alert("Se ha borrado");
-      
     } catch (error) {
       alert(`Ocurrio un error ${error}`);
     }
+  };
 
+  const handleSummitReview = async () => {
+    try {
+      await createReview(inscripcion.id, reviewRating, reviewComment);
+      // Resetear el formulario
+      setReviewRating(0);
+      setReviewComment("");
+      setShowReviewForm(false);
+
+      // Recargar las reseñas para mostrar la nueva
+      const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
+      const transformedReviews = reviewsData.map((review) => ({
+        id: review.tutoria_id,
+        student: review.nombre_estudiante,
+        rating: review.estrellas,
+        comment: review.comentario,
+        date: formatDate(review.fecha_review),
+        course: review.titulo_tutoria,
+      }));
+      setReviews(transformedReviews);
+
+      alert("¡Gracias por tu reseña!");
+    } catch (error) {
+      console.error("Error al enviar la reseña:", error);
+      alert(error.response?.data?.message || "Error al enviar la reseña");
+    }
+  };
+
+  const handleStarClick = (rating) => {
+    setReviewRating(rating);
+  };
+
+  const handleStarHover = (rating) => {
+    setHoverRating(rating);
+  };
+
+  const handleStarLeave = () => {
+    setHoverRating(0);
   };
 
   const calculateAverageRating = (reviews) => {
@@ -185,6 +231,69 @@ const DetallesCursos = () => {
 
       <div className="reviews-container">
         <h2>Reseñas de estudiantes</h2>
+        {estaInscrito && !showReviewForm && (
+          <button
+            className="btn-secundario"
+            onClick={() => setShowReviewForm(true)}
+            style={{ margin: "20px 0" }}
+          >
+            Dejar una reseña
+          </button>
+        )}
+
+        {showReviewForm && (
+          <div className="review-form-container">
+            <h3>Escribe tu reseña</h3>
+            <form onSubmit={handleSummitReview}>
+              <div className="rating-input">
+                <p>Calificación:</p>
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={`star ${
+                        (hoverRating || reviewRating) >= star ? "filled" : ""
+                      }`}
+                      onClick={() => handleStarClick(star)}
+                      onMouseEnter={() => handleStarHover(star)}
+                      onMouseLeave={handleStarLeave}
+                    >
+                      {(hoverRating || reviewRating) >= star ? (
+                        <FaStar />
+                      ) : (
+                        <FaRegStar />
+                      )}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="review-comment">Comentario:</label>
+                <textarea
+                  id="review-comment"
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  required
+                  rows="4"
+                />
+              </div>
+
+              <div className="form-actions">
+                <button type="submit" className="btn-primario">
+                  Enviar reseña
+                </button>
+                <button
+                  type="button"
+                  className="btn-secundario"
+                  onClick={() => setShowReviewForm(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         <div className="reviews-list">
           {reviews.length > 0 ? (
@@ -217,11 +326,10 @@ const DetallesCursos = () => {
           )}
         </div>
       </div>
-        <div className="reviews-list">
-          <h2>Estudiantes inscritos</h2>
-      <UsuariosInscritosCarousel estudiantes={estudiantes} />
-        </div>
-
+      <div className="reviews-list">
+        <h2>Estudiantes inscritos</h2>
+        <UsuariosInscritosCarousel estudiantes={estudiantes} />
+      </div>
     </div>
   );
 };
