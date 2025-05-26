@@ -33,9 +33,9 @@ const getInscripcionesByTutoria = async (req, res) => {
 
 // Crear nueva inscripción
 const createInscripcion = async (req, res) => {
-  const { estudiante_id, tutoria_id, estado } = req.body;
+  const { estudiante_id, tutoria_id } = req.body;
   try {
-    const newInscripcion = await Inscripcion.createInscripcion(estudiante_id, tutoria_id, estado);
+    const newInscripcion = await Inscripcion.createInscripcion(estudiante_id, tutoria_id);
     res.status(201).json({ id: newInscripcion });
   } catch (error) {
     res.status(500).json({ message: 'Error al crear la inscripción', error: error.message });

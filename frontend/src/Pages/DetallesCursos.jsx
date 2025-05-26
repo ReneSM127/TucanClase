@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../Styles/DetallesCursos.css";
+import { AuthContext } from "../Context/AuthContext";
 import { FaStar, FaRegStar, FaBook } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
-import TutorsSection from "../Components/Tutors/TutorsSection";
-import TutorsCarousel from "../Components/Tutors/TutorsCarousel";
+import { createInscripcion } from "../Services/InscripcionesService";
 import {
-  getATutoriaById, getEstudiantesInscritosByTutoriaId
+  getATutoriaById,
+  getEstudiantesInscritosByTutoriaId,
 } from "../Services/TutoriasService";
-import { getTutorById, getAllReviewsByTutoriaId } from "../Services/TutoresService";
+import {
+  getTutorById,
+  getAllReviewsByTutoriaId,
+} from "../Services/TutoresService";
 import UsuariosInscritosCarousel from "../Components/UsuariosInscritos/UsuariosInscritosCarousel";
+
 const DetallesCursos = () => {
+  const { user } = useContext(AuthContext);
   const [estudiantes, setEstudiantes] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [tutoria, setTutoria] = useState({
-
     titulo_tutoria: "",
     descripcion_tutoria: "",
     max_estudiantes: "",
@@ -41,7 +46,9 @@ const DetallesCursos = () => {
         }
 
         const InfoTutor = await getTutorById(response.tutor_id);
-        const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(tutoriaId);
+        const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(
+          tutoriaId
+        );
 
         setEstudiantes(infoEstudiantes);
 
@@ -53,7 +60,7 @@ const DetallesCursos = () => {
           nombre_tutor: response.nombre_tutor,
           avatar: InfoTutor.nombre.charAt(0) + InfoTutor.apellidos.charAt(0),
           email_tutor: response.email_tutor,
-          rating: calculateAverageRating(reviewsData)
+          rating: calculateAverageRating(reviewsData),
         });
         const transformedReviews = reviewsData.map((review) => ({
           id: review.tutoria_id,
@@ -75,6 +82,30 @@ const DetallesCursos = () => {
     fetchTutoriaData();
   }, [tutoriaId]);
 
+  useEffect(() => {
+    if (user) {
+      console.log(user.id);
+    }
+  }, [user]);
+
+  const handleClick = async () => {
+    try {
+      if (!user) {
+        navigate("/login"); // o mostrar un mensaje
+        return;
+      }
+
+      console.log(user.id);
+      console.log(tutoriaId);
+
+      await createInscripcion(user.id, tutoriaId);
+      alert("Inscrito");
+    } catch (error) {
+      console.error("Error en inscripción:", error);
+      alert(error.response?.data?.message || "Error al inscribirse");
+    }
+  };
+
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0;
     const sum = reviews.reduce((acc, review) => acc + review.estrellas, 0);
@@ -88,21 +119,21 @@ const DetallesCursos = () => {
   };
 
   const renderStars = (rating) => {
-      const stars = [];
-      const numericRating =
-        typeof rating === "string" ? parseFloat(rating) : rating;
-  
-      for (let i = 1; i <= 5; i++) {
-        stars.push(
-          i <= Math.floor(numericRating) ? (
-            <FaStar key={i} className="star filled" />
-          ) : (
-            <FaRegStar key={i} className="star" />
-          )
-        );
-      }
-      return stars;
-    };
+    const stars = [];
+    const numericRating =
+      typeof rating === "string" ? parseFloat(rating) : rating;
+
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        i <= Math.floor(numericRating) ? (
+          <FaStar key={i} className="star filled" />
+        ) : (
+          <FaRegStar key={i} className="star" />
+        )
+      );
+    }
+    return stars;
+  };
 
   return (
     <div className="course-container">
@@ -111,7 +142,7 @@ const DetallesCursos = () => {
           <div className="instructor-avatar">{tutoria.avatar}</div>
           <h1>{tutoria.nombre_tutor}</h1>
         </div>
-        <button className="btn-secundario fixed-btn">
+        <button className="btn-secundario fixed-btn" onClick={handleClick}>
           Inscribirse a la tutoría
         </button>
 
@@ -136,8 +167,7 @@ const DetallesCursos = () => {
                   <div className="reviewer-info">
                     <h4>{review.student}</h4>
                     <div className="review-rating">
-                          {renderStars(review.rating)}
-
+                      {renderStars(review.rating)}
                       <span>{review.date}</span>{" "}
                       {/* Mostramos la fecha formateada */}
                     </div>
@@ -154,7 +184,7 @@ const DetallesCursos = () => {
           )}
         </div>
       </div>
-      <UsuariosInscritosCarousel estudiantes={estudiantes}/>
+      <UsuariosInscritosCarousel estudiantes={estudiantes} />
     </div>
   );
 };

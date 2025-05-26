@@ -20,12 +20,12 @@ const getInscripcionesByTutoria = async (id_tutoria) => {
   }
 };
 
-const createInscripcion = async (estudiante_id, tutoria_id, estado = 'Inscrito') => {
-  const [result] = await db.execute(
-    'INSERT INTO inscripciones (estudiante_id, tutoria_id, estado) VALUES (?, ?, ?)',
-    [estudiante_id, tutoria_id, estado]
-  );
-  return result.insertId;
+const createInscripcion = async (estudiante_id, tutoria_id) => {
+    const [result] = await db.execute(
+      'INSERT INTO inscripciones (estudiante_id, tutoria_id) VALUES (?, ?)',
+      [estudiante_id, tutoria_id]
+    );
+    return result.insertId;
 };
 
 const updateInscripcion = async (id, estado) => {

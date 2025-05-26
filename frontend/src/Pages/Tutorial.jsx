@@ -14,8 +14,6 @@ const Tutorial = () => {
   useEffect(()=>{
     if (user) {
       console.log(user.id);
-      
-      
     }
 
   },[user]);
