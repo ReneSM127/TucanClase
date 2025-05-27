@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-05-2025 a las 03:30:50
+-- Tiempo de generación: 27-05-2025 a las 02:20:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -204,6 +204,7 @@ CREATE TABLE `vista_tutorias_reviews` (
 ,`titulo_tutoria` varchar(100)
 ,`tutor_id` int(11)
 ,`nombre_tutor` varchar(201)
+,`estudiante_id` int(11)
 ,`nombre_estudiante` varchar(201)
 ,`estrellas` tinyint(4)
 ,`comentario` text
@@ -235,7 +236,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vista_tutorias_reviews`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`tutor_id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario`, `r`.`fecha_creacion` AS `fecha_review` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `r`.`fecha_creacion` DESC, `t`.`id` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`tutor_id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `u_estudiante`.`id` AS `estudiante_id`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario`, `r`.`fecha_creacion` AS `fecha_review` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `r`.`fecha_creacion` DESC, `t`.`id` ASC ;
 
 --
 -- Índices para tablas volcadas
