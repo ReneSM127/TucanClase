@@ -200,3 +200,15 @@
         transform: scale(0.8);
     }
 }
+
+.nav-user{
+    margin: 10px 10px;
+    padding: 10px 20px;
+    background-color: #60a6d9;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}

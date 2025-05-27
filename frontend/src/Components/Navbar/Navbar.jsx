@@ -57,9 +57,9 @@ const Navbar = () => {
       </ul>
       <div className="buttons">
         {user ? (
-          <div className='nav-user'>
+          <div>
             <span><a href="/Dashboard">👤 {user.email}</a></span>
-            <button onClick={handleLogout}>Cerrar sesión</button>
+            <button className='nav-user' onClick={handleLogout}>Cerrar sesión</button>
           </div>
         ) : (
           <>

@@ -220,16 +220,16 @@ const DetallesCursos = () => {
         <div className="info">
           <div className="instructor-avatar">{tutoria.avatar}</div>
           <h1>{tutoria.nombre_tutor}</h1>
-        </div>
         {estaInscrito === false ? (
-          <button className="btn-secundario fixed-btn" onClick={handleClick}>
-            Inscribirse a la tutoría
+          <button className="btn-secundario" onClick={handleClick}>
+            Inscribirse
           </button>
         ) : (
-          <button className="btn-secundario fixed-btn" onClick={handleDelete}>
+          <button className="btn-secundario" onClick={handleDelete}>
             Salirse
           </button>
         )}
+        </div>
 
         <h1>{tutoria.titulo_tutoria}</h1>
         <p>{tutoria.descripcion_tutoria}</p>

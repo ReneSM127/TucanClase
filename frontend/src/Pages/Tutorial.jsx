@@ -36,7 +36,7 @@ const Tutorial = () => {
     };
 
     fetchTutorias();
-  }, []);
+  }, [user]);
 
   return (
   <div>
@@ -47,7 +47,7 @@ const Tutorial = () => {
         <p className="banner-subtitle">Conéctate, estudia y alcanza tus metas con apoyo personalizado</p>
       </div>
     </section>
-      <h2>Tutorias Disponibles</h2>
+      <h2 className='titulo-tutoria'>Tutorias Disponibles</h2>
 
       {/* Componente reutilizable de tutorías con funcionalidad integrada */}
       <TutoriasList 
@@ -56,7 +56,7 @@ const Tutorial = () => {
         error={error}
         itemsPerPage={2} // Puedes ajustar este valor según necesites //tutoriasInscritras
       />
-      <h2>Tutorias Inscritas</h2>
+      <h2 className='titulo-tutoria'>Tutorias Inscritas</h2>
       <TutoriasList 
         tutorias={tutoriasInscritras}
         loading={loading}

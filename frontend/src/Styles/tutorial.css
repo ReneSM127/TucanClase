@@ -10,7 +10,7 @@
 
 .banner-title {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 800px;
   color: #1a1a1a;
   margin-bottom: 10px;
   text-align: center;
@@ -172,4 +172,23 @@
 
 .tutorias-container{
   margin-top: 0px;
+}
+
+.search-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-bar input{
+    width: 500px;
+    font-size: 20px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.titulo-tutoria{
+  margin-left: 50px;
+  font-size: 30px;
 }

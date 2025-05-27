@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Rating from '../Rating/Rating';
 import { FaSearch } from 'react-icons/fa';
+import "./tutoriaslist.css"; 
 
 const TutoriasList = ({ 
   tutorias: initialTutorias, 
@@ -93,13 +94,11 @@ const TutoriasList = ({
                 
                 <div className="tutoria-details">
                   <p><strong>Duración:</strong> {tutoria.duracion_minutos} minutos</p>
-                  <p><strong>Precio:</strong> {formatPrice(tutoria.precio)}</p>
                   <p><strong>Tutor:</strong> {tutoria.nombre_tutor}</p>
                   <p>
                     <strong>Cupos:</strong> {tutoria.estudiantes_inscritos}/{tutoria.max_estudiantes} estudiantes
                   </p>
                   <p>
-                    <strong>Estado:</strong> {tutoria.estado_tutoria}
                   </p>
                   <p>
                     <strong>Calificación:</strong> <Rating rating={parseFloat(tutoria.promedio_calificacion) || 0} />

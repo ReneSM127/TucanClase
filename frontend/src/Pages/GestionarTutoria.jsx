@@ -374,11 +374,10 @@ const GestionarTutoria = () => {
               </div>
             )}
           </div>
+            <button className="eliminar" onClick={handleEliminar}>Eliminar tutoria</button>
         </form>
-      </div>
       <div className="crear-tutoria-header">
-        <h1>eliminar</h1>
-        <button onClick={handleEliminar}>Eliminar tutoria</button>
+      </div>
       </div>
     </div>
   );

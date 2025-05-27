@@ -197,3 +197,23 @@
     font-size: 1.5rem;
   }
 }
+
+.eliminar{
+    gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.eliminar {
+  background: rgb(231, 82, 82);
+  color: white;
+  max-width: 30%;
+}
+
+.eliminar:hover {
+  background: red;
+}
