@@ -12,23 +12,18 @@ const Tutorial = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(()=>{
-    if (user) {
-      console.log(user.id);
-    }
-
-  },[user]);
-  
   
   useEffect(() => {
     const fetchTutorias = async () => {
       try {
-        const data = await getEstudiantesNoInscritosByTutoriaId(user.id);
-        const data2 = await getTutoriasByIdAlumnos(user.id)
-        setTutorias(data);
-        setTutoriasInscritras(data2)
-        setLoading(false);
+        if (user){
+          setLoading(true);
+          const data = await getEstudiantesNoInscritosByTutoriaId(user.id);
+          const data2 = await getTutoriasByIdAlumnos(user.id)
+          setTutorias(data);
+          setTutoriasInscritras(data2)
+          setLoading(false);
+        }
       } catch (err) {
         setError(err.message);
         setLoading(false);
