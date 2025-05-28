@@ -1,4 +1,5 @@
 const express = require('express');
+const {verificarToken} = require('../Middlewares/authMiddleware');
 const router = express.Router();
 const tutorias = require('../Controllers/tutorias.controllers');
 
@@ -14,11 +15,11 @@ router.get('/inscritas/:id', tutorias.getTutoriasInscritas);
 
 router.get('/materia/:materiaId', tutorias.getTutoriasByMateria);
 //Actualizar
-router.put('/:id', tutorias.updateTutoria);
+router.put('/:id',verificarToken, tutorias.updateTutoria);
 //Añadir nueva
-router.post('/', tutorias.createTutoria);
+router.post('/',verificarToken ,tutorias.createTutoria);
 //Eliminar
-router.delete('/:id', tutorias.deleteTutoria);
+router.delete('/:id',verificarToken, tutorias.deleteTutoria);
 
 //getTutoriasByEstado
 router.get('/tutor/:id', tutorias.getTutoriasCompletasByTutor);
@@ -26,11 +27,3 @@ router.get('/tutor/:id', tutorias.getTutoriasCompletasByTutor);
 
 module.exports = router;
 
-
-
-
-
-
-
-
-module.exports = router;

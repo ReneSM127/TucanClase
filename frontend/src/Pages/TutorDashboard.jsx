@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import {
   getTutorById,
   getAllReviewsByTutorId,
   getAllTutoriasById,
+  getEstudiantesInscritosByTutor,
 } from "../Services/TutoresService";
 import { AuthContext } from "../Context/AuthContext";
-import '../Styles/DashboardP.css';
+import "../Styles/DashboardP.css";
 import TutoriasGestion from "../Components/Tutorias/TutoriasGestion";
 
 const AlumnosDashboard = () => {
@@ -20,7 +21,6 @@ const AlumnosDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tutorId, setTutorId] = useState(null);
-  
 
   // Función para formatear la fecha
   const formatDate = (dateString) => {
@@ -28,9 +28,9 @@ const AlumnosDashboard = () => {
     return new Date(dateString).toLocaleDateString("es-ES", options);
   };
 
-  const handleClick = () =>{
+  const handleClick = () => {
     navigate("/Crear");
-  }
+  };
 
   // Efecto para obtener el ID del tutor
   useEffect(() => {
@@ -68,6 +68,7 @@ const AlumnosDashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const numEstudiantes = await getEstudiantesInscritosByTutor(tutorId);
         const tutorData = await getTutorById(tutorId);
         const reviewsData = await getAllReviewsByTutorId(tutorId);
         const tutoriasData = await getAllTutoriasById(tutorId);
@@ -80,6 +81,7 @@ const AlumnosDashboard = () => {
           rating: calculateAverageRating(reviewsData),
           reviews: reviewsData.length,
           tutorias: tutoriasData.length,
+          estudiantes: numEstudiantes.length,
           contact: tutorData.email,
         };
 
@@ -109,9 +111,21 @@ const AlumnosDashboard = () => {
 
   const calculateAverageRating = (reviews) => {
     if (!reviews || reviews.length === 0) return 0;
-    const sum = reviews.reduce((acc, review) => acc + review.estrellas, 0);
-    return (sum / reviews.length).toFixed(1);
+
+    // Filtrar las reviews que tienen estrellas no nulas
+    const validReviews = reviews.filter((review) => review.estrellas !== null);
+
+    // Si no hay reviews válidas, retornar 0
+    if (validReviews.length === 0) return 0;
+
+    // Calcular el promedio solo con las reviews válidas
+    const sum = validReviews.reduce((acc, review) => acc + review.estrellas, 0);
+    return (sum / validReviews.length).toFixed(1);
   };
+
+  const handleClic = () =>{
+    navigate("/editar");
+  }
 
   if (loading) return <div className="loading">Cargando perfil...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -122,33 +136,43 @@ const AlumnosDashboard = () => {
       <div className="dashboard-container">
         {/* Sección de Estadísticas */}
         <div className="stats-grid">
-          <StatCard icon="📚" value={instructor.tutorias} label="Tutorías activas" color="blue" />
-          <StatCard icon="👥" value="23" label="Estudiantes" color="green" />
+          <StatCard
+            icon="📚"
+            value={instructor.tutorias}
+            label="Tutorías activas"
+            color="blue"
+          />
+          <StatCard
+            icon="👥"
+            value={instructor.estudiantes}
+            label="Estudiantes"
+            color="green"
+          />
           <StatCard
             icon="⭐"
             value={instructor.rating}
             label="Calificación promedio"
             color="orange"
           />
+          <a className="btnEditarPerfil" onClick={handleClic}><StatCard icon="🔧" value="Editar perfil" color="green" /></a>
+
         </div>
         <section className="tutorias-section">
-              <div className="section-header">
-                <h2>Tutorías Activas</h2>
-                <div className="section-actions">
-                  <button className="add-btn" onClick={handleClick}>
-                    <FaPlus /> Nueva Tutoría
-                  </button>
-                </div>
-              </div>
-      
-            </section>
-        <TutoriasGestion 
-        tutorias={tutorias}
-        loading={loading}
-        error={error}
-        itemsPerPage={2} // Puedes ajustar este valor según necesites
-      />
-
+          <div className="section-header">
+            <h2>Tutorías activas</h2>
+            <div className="section-actions">
+              <button className="add-btn" onClick={handleClick}>
+                <FaPlus /> Nueva Tutoría
+              </button>
+            </div>
+          </div>
+        </section>
+        <TutoriasGestion
+          tutorias={tutorias}
+          loading={loading}
+          error={error}
+          itemsPerPage={2} // Puedes ajustar este valor según necesites
+        />
       </div>
     </div>
   );
@@ -164,7 +188,5 @@ const StatCard = ({ icon, value, label, color }) => (
     </div>
   </div>
 );
-
-
 
 export default AlumnosDashboard;

@@ -34,6 +34,7 @@ const DetallesCursos = () => {
   const [tutoria, setTutoria] = useState({
     titulo_tutoria: "",
     descripcion_tutoria: "",
+    estudiantes_inscritos: 0,
     max_estudiantes: "",
     tutor_id: "",
     nombre_tutor: "",
@@ -60,7 +61,7 @@ const DetallesCursos = () => {
         if (!response) {
           throw new Error("No se encontró la tutoría solicitada");
         }
-
+        
         const InfoTutor = await getTutorById(response.tutor_id);
         const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(
           tutoriaId
@@ -84,6 +85,7 @@ const DetallesCursos = () => {
         setTutoria({
           titulo_tutoria: response.titulo_tutoria,
           descripcion_tutoria: response.descripcion_tutoria,
+          estudiantes_inscritos: response.estudiantes_inscritos,
           max_estudiantes: response.max_estudiantes,
           tutor_id: response.tutor_id,
           nombre_tutor: response.nombre_tutor,
@@ -143,6 +145,10 @@ const DetallesCursos = () => {
     } catch (error) {
       alert(`Ocurrio un error ${error}`);
     }
+  };
+
+  const isTutoriaLlena = () => {
+    return tutoria.estudiantes_inscritos >= tutoria.max_estudiantes;
   };
 
   const handleSummitReview = async () => {
@@ -213,6 +219,8 @@ const DetallesCursos = () => {
     }
     return stars;
   };
+  if (!!isLoadingData) return <div className="loading">Cargando tutoria...</div>;
+
 
   return (
     <div className="course-container">
@@ -221,14 +229,20 @@ const DetallesCursos = () => {
           <div className="instructor-avatar">{tutoria.avatar}</div>
           <h1>{tutoria.nombre_tutor}</h1>
         {estaInscrito === false ? (
-          <button className="btn-secundario" onClick={handleClick}>
-            Inscribirse
-          </button>
-        ) : (
-          <button className="btn-secundario" onClick={handleDelete}>
-            Salirse
-          </button>
-        )}
+            isTutoriaLlena() ? (
+              <button className="btn-secundario" disabled>
+                Cupo lleno
+              </button>
+            ) : (
+              <button className="btn-secundario" onClick={handleClick}>
+                Inscribirse
+              </button>
+            )
+          ) : (
+            <button className="btn-secundario" onClick={handleDelete}>
+              Salirse
+            </button>
+          )}
         </div>
 
         <h1>{tutoria.titulo_tutoria}</h1>

@@ -21,6 +21,16 @@ const getInscripcionesByEstudiante = async (req, res) => {
   }
 };
 
+//getEstudiantesInscritosByTutorId
+const getEstudiantesInscritosByTutor = async (req, res) => {
+  try {
+    const inscripciones = await Inscripcion.getEstudiantesInscritosByTutorId(req.params.id);
+    res.json(inscripciones);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener las inscripciones del estudiante' });
+  }
+};
+
 // Obtener inscripciones por tutoría
 const getInscripcionesByTutoria = async (req, res) => {
   try {
@@ -70,5 +80,6 @@ module.exports = {
   getInscripcionesByTutoria,
   createInscripcion,
   updateInscripcion,
-  deleteInscripcionById
+  deleteInscripcionById,
+  getEstudiantesInscritosByTutor
 };

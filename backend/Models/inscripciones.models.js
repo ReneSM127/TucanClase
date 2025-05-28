@@ -20,6 +20,11 @@ const getInscripcionesByTutoria = async (id_tutoria) => {
   }
 };
 
+const getEstudiantesInscritosByTutorId = async (id) => {
+  const [rows] = await db.execute(`SELECT e.id AS estudiante_id, CONCAT(e.nombre, ' ', e.apellidos) AS nombre_estudiante, t.titulo AS tutoria_inscrita FROM tutorias t JOIN  inscripciones i ON t.id = i.tutoria_id JOIN usuarios e ON i.estudiante_id = e.id WHERE t.tutor_id = ?`, [id]);
+  return rows;
+};
+
 const createInscripcion = async (estudiante_id, tutoria_id) => {
     const [result] = await db.execute(
       'INSERT INTO inscripciones (estudiante_id, tutoria_id) VALUES (?, ?)',
@@ -51,5 +56,6 @@ module.exports = {
   getInscripcionesByTutoria,
   createInscripcion,
   updateInscripcion,
-  deleteInscripcion
+  deleteInscripcion,
+  getEstudiantesInscritosByTutorId
 };

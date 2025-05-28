@@ -66,3 +66,14 @@ export const getTutoriaById = async (id) => {
     throw new Error('No se pudo cargar la tutoría');
   }
 };
+
+//Obtener info del tutor por id
+export const getEstudiantesInscritosByTutor = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/inscripciones/all/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching tutorias:', error);
+    throw new Error('No se pudo cargar la info del tutor');
+  }
+};

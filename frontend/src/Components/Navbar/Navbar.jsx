@@ -7,20 +7,28 @@ import nav_dropdown from '../Assets/nav_dropdown.png'
 import { AuthContext } from '../../Context/AuthContext';
 
 const Navbar = () => {
-
-  const [menu, setMenu] = useState("Inicio")
+  const [menu, setMenu] = useState("Inicio");
   const menuRef = useRef();
   const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
 
-  const menuItems = [
+  // Menú base para usuarios no autenticados o estudiantes
+  const baseMenuItems = [
     { name: "Inicio", path: "/" },
     { name: "Tutorias", path: "/Tutorial" },
     { name: "Tutores", path: "/Tutores" },
     { name: "Contactar", path: "/Contartar" }
   ];
 
+  // Menú para tutores
+  const tutorMenuItems = [
+    { name: "Inicio", path: "/" },
+    { name: "Crear", path: "/Crear" }, // Nueva ruta para tutores
+    { name: "Contactar", path: "/Contartar" }
+  ];
 
+  // Decide qué menú mostrar según el rol
+  const menuItems = user?.rol === "Tutor" ? tutorMenuItems : baseMenuItems;
 
   const dropdown_toggle = (e) => {
     menuRef.current.classList.toggle('nav-menu-visible');
@@ -29,10 +37,12 @@ const Navbar = () => {
 
   const handleLogin = () => {
     navigate('/Login');
+    setMenu(null);
   }
 
   const handleRegister = () => {
     navigate('/Register');
+    setMenu(null);
   }
 
   const handleLogout = () => {

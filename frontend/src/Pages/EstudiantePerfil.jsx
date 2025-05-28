@@ -8,7 +8,6 @@ import {
 } from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
 import TutoriasList from "../Components/TutoriasList/TutoriasList";
-import {getTutoriasByIdAlumnos} from '../Services/TutoriasService'
 
 const EstudiantePerfil = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -32,7 +31,7 @@ const EstudiantePerfil = () => {
         setLoading(true);
         const tutorData = await getTutorById(id);
         const reviewsData = await getAllReviewsByTutorId(id);
-        const tutoriasData = await getTutoriasByIdAlumnos(id);
+        const tutoriasData = await getAllTutoriasById(id);
 
         // Transformar los datos del tutor al formato esperado
         const transformedTutor = {
@@ -41,11 +40,8 @@ const EstudiantePerfil = () => {
           title: "Estudiante", // Puedes personalizar esto según tus necesidades
           bio: tutorData.descripcion,
           avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
-          rating: calculateAverageRating(reviewsData),
-          reviews: reviewsData.length,
           courses: tutoriasData.length,
           contact: tutorData.email,
-          photo: tutorData.foto_perfil,
         };
 
         setInstructor(transformedTutor);

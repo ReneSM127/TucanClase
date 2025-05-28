@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {verificarToken} = require('../Middlewares/authMiddleware')
+const {verificarToken} = require('../Middlewares/authMiddleware');
 const usuarios = require('../Controllers/usuarios.controllers');
 
 router.get('/tutores', usuarios.getTutores);

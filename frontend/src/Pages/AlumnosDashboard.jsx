@@ -9,14 +9,19 @@ import {
 } from "../Services/TutoresService";
 import { AuthContext } from "../Context/AuthContext";
 import '../Styles/DashboardP.css';
+import {getTutoriasByIdAlumnos} from "../Services/TutoriasService"
 import TutoriasGestion from "../Components/Tutorias/TutoriasGestion";
+import TutoriasList from "../Components/TutoriasList/TutoriasList";
+
 
 const AlumnosDashboard = () => {
   const { user: contextUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [tutorias, setTutorias] = useState([]);
   const [instructor, setInstructor] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [tutoriasInscritras, setTutoriasInscritras] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tutorId, setTutorId] = useState(null);
@@ -67,6 +72,9 @@ const AlumnosDashboard = () => {
         const tutorData = await getTutorById(tutorId);
         const reviewsData = await getAllReviewsByTutorId(tutorId);
         const tutoriasData = await getAllTutoriasById(tutorId);
+        const data2 = await getTutoriasByIdAlumnos(tutorId)
+        setTutoriasInscritras(data2);
+
 
         // Transformar los datos del tutor al formato esperado
         const transformedTutor = {
@@ -109,6 +117,10 @@ const AlumnosDashboard = () => {
     return (sum / reviews.length).toFixed(1);
   };
 
+  const handleClic = () =>{
+    navigate("/editar");
+  }
+
   if (loading) return <div className="loading">Cargando perfil...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!instructor) return <div className="error">No se encontró el tutor</div>;
@@ -118,17 +130,11 @@ const AlumnosDashboard = () => {
       <div className="dashboard-container">
         {/* Sección de Estadísticas */}
         <div className="stats-grid">
-          <StatCard icon="📚" value={instructor.tutorias} label="Tutorías activas" color="blue" />
-          <StatCard icon="👥" value="23" label="Estudiantes" color="green" />
-          <StatCard
-            icon="⭐"
-            value={instructor.rating}
-            label="Calificación promedio"
-            color="orange"
-          />
+          <StatCard icon="📚" value={tutoriasInscritras.length} label="Tutorias inscritas" color="blue" />
+          <a className="btnEditarPerfil" onClick={handleClic}><StatCard icon="🔧" value="Editar perfil" color="green" /></a>
         </div>
-        <TutoriasGestion 
-        tutorias={tutorias}
+        <TutoriasList 
+        tutorias={tutoriasInscritras}
         loading={loading}
         error={error}
         itemsPerPage={5} // Puedes ajustar este valor según necesites
