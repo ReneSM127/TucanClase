@@ -11,6 +11,9 @@ import PruebaAPI from "./Pages/PruebaAPI";
 import Tutorial from "./Pages/Tutorial";
 import Tutores from "./Pages/Tutores";
 import Contactar from "./Pages/Contactar";
+import Error404 from "./Pages/Error404";
+import ErrorRuta from "./Pages/ErrorRuta";
+import ErrorAcceso from "./Pages/ErrorAcceso";
 import CrearTutoria from "./Pages/CrearTutoria";
 import { AuthProvider } from "./Context/AuthContext";
 /*import LoginPage from './Pages/LoginPage';*/
@@ -36,6 +39,13 @@ function App() {
             <Route path="/Detalles" element={<DetallesCursos />}></Route>
 
             <Route path="/Tutorial" element={<Tutorial />} />
+
+            <Route path="/Error404" element={<Error404 />} />
+
+            <Route path="/ErrorRuta" element={<ErrorRuta />} />
+
+           <Route path="/ErrorAcceso" element={<ErrorAcceso />} />
+    
 
             <Route
               path="/editar"
