@@ -10,8 +10,8 @@ const NotFound = () => {
         <h1>¡Ups! Página no encontrada</h1>
         <p>Lo sentimos Tucancito, la página que buscas no existe o ha sido movida.</p>
         <div className="error-actions">
-          <a href="../pages/Home" className="error-button">Volver al inicio</a>
-          <a href="/tutorias" className="error-button secondary">Ver tutorías</a>
+          <a href="/" className="error-button">Volver al inicio</a>
+          <a href="/tutorial" className="error-button secondary">Ver tutorías</a>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { getUserById } from '../Services/usuarios';
 import { useParams } from "react-router-dom";
 import TutorPerfil from './TutorPerfil';
 import EstudiantePerfil from './EstudiantePerfil';
+import NotFound from './Error404';
 
 const Perfil = () => {
 
@@ -18,6 +19,7 @@ const Perfil = () => {
           setUser(data);
           console.log(data)
         } catch (err) {
+          return <NotFound/>
           setError(err.message);
         }
       };
@@ -26,7 +28,7 @@ const Perfil = () => {
     }, [id]);
   
     if (error) return <p>Error: {error}</p>;
-    if (!user) return <p>Cargando...</p>;
+    if (!user) return<NotFound/>;
     if (user.rol === "Tutor")
       return(
     <TutorPerfil/>

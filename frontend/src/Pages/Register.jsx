@@ -24,6 +24,7 @@ const Register = () => {
       // Guardar los datos del usuario en el estado global o localStorage
 
       // Redirigir al dashboard o página principal
+      alert("Registro exitoso, inicie sesion")
       navigate('/Login');
     } catch (err) {
       setError(err.message || 'Credenciales inválidas');
@@ -100,23 +101,12 @@ const Register = () => {
               <option value="Tutor">Tutor</option>
             </select>
 
-            <div className="remember-forgot2">
-              <label className="remember-label2">
-                <input className='inputlogin' type="checkbox" /> Aceptar Términos de uso
-              </label>
-            </div>
-
             <button className="checkresult"
               type="submit"
               disabled={isLoading}
             >
               {isLoading ? 'Cargando...' : 'Registrarse'}
             </button>
-            <div className="divider">o</div>
-            <div className="google-btn">
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" />
-              Registrarse con Google
-            </div>
           </form>
         </div>
       </div>

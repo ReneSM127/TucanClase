@@ -2,6 +2,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthContext';
+import AccessDenied from '../Pages/ErrorAcceso';
 
 export const ProtectedRoute = ({ children, allowedRoles }) => {
     const { user } = useContext(AuthContext);
@@ -24,7 +25,7 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
 
     if (!allowedRoles.includes(user.rol)) {
         //Si el usuario no tiene el rol requerido, redirige a una página de no autorizado
-        return <Navigate to="/Tutorial" replace />;
+        return <AccessDenied />;
     }
 
     return children;

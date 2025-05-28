@@ -130,7 +130,7 @@ const DetallesCursos = () => {
 
       const response = await createInscripcion(user.id, tutoriaId);
       setInscripcion({ id: response.id });
-      alert(`${response.id}`);
+      alert(`Te has inscrito exitosamente`);
       setEstaInscrito(true);
     } catch (error) {
       console.error("Error en inscripción:", error);
@@ -141,7 +141,8 @@ const DetallesCursos = () => {
   const handleDelete = async () => {
     try {
       await deleteInscripcion(inscripcion.id);
-      alert("Se ha borrado");
+      alert("Te has salido exitosamente");
+      navigate("/tutorial")
     } catch (error) {
       alert(`Ocurrio un error ${error}`);
     }
@@ -305,7 +306,7 @@ const DetallesCursos = () => {
                 </button>
                 <button
                   type="button"
-                  className="btn-secundario"
+                  className="btn-salirse"
                   onClick={() => setShowReviewForm(false)}
                 >
                   Cancelar

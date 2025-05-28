@@ -38,7 +38,11 @@ function App() {
             
             <Route path="/Detalles" element={<DetallesCursos />}></Route>
 
-            <Route path="/Tutorial" element={<Tutorial />} />
+            <Route path="/Tutorial" element={
+              <ProtectedRoute allowedRoles={["Estudiante"]}>
+                <Tutorial />
+              </ProtectedRoute>
+            } />
 
             <Route path="/Error404" element={<Error404 />} />
 
@@ -80,7 +84,11 @@ function App() {
 
             <Route path="/tutoria/:tutoriaId" element={<DetallesCursos/>}></Route>
 
-            <Route path="/Tutores" element={<Tutores />} />
+            <Route path="/Tutores" element={
+              <ProtectedRoute allowedRoles={["Estudiante"]}>
+                <Tutores />
+              </ProtectedRoute>
+            } />
 
             <Route path="/Contactar" element={<Contactar />} />
 
@@ -92,6 +100,7 @@ function App() {
 
             {/*<Route path='/Login' element={<LoginPage />} />*/}
             <Route path="/prueba" element={<PruebaAPI userId={1} />}></Route>
+            <Route path="*" element={<Error404/>}></Route>
           </Routes>
           {/*<Chat/>*/}
           <Footer />

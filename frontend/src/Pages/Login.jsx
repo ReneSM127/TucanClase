@@ -69,13 +69,6 @@ const Login = () => {
                 required
               />
             </div>
-
-            <div className="remember-forgot">
-              <label className="remember-label">
-                <input className='inputlogin' type="checkbox" /> Recuérdame
-              </label>
-              <a href="#">¿Olvidaste tu contraseña?</a>
-            </div>
             <button className='checkresult'
               type="submit"
               disabled={isLoading}
@@ -83,12 +76,6 @@ const Login = () => {
               {/* Si isLoadign es True, se pone el primer texto, de lo contrario se pone Iniciar Sesion */}
               {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
             </button>
-            <div className="divider">o</div>
-            <div className="google-btn">
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" />
-              Iniciar con Google
-            </div>
-            <p><br />No tienes cuenta? <a href="../Views/register.html">Registrate</a></p>
           </form>
         </div>
       </div>
