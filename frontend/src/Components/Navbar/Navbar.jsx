@@ -17,14 +17,11 @@ const Navbar = () => {
     { name: "Inicio", path: "/" },
     { name: "Tutorias", path: "/Tutorial" },
     { name: "Tutores", path: "/Tutores" },
-    { name: "Contactar", path: "/Contartar" }
   ];
 
   // Menú para tutores
   const tutorMenuItems = [
-    { name: "Inicio", path: "/" },
     { name: "Crear", path: "/Crear" }, // Nueva ruta para tutores
-    { name: "Contactar", path: "/Contartar" }
   ];
 
   // Decide qué menú mostrar según el rol

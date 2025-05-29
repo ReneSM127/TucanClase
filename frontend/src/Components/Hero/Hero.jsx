@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import './Hero.css';
+import imagen from '../Assets/home.jpeg';
 
 
 const Hero = () => {
@@ -19,42 +20,21 @@ const Hero = () => {
     <section className="hero">
       <div className="hero-content">
         <h1>Desbloquea Tu potencial</h1>
-        <h2>con tutorías y material de apoyo</h2>
+        <h2>con tutorías de primer nivel</h2>
         <p>Aprende de la mano de tus compañeros</p>
         
         <div className="hero-buttons">
           <Link to="/Tutorial">
            <button className="hero-button">Ver tutorías</button>
           </Link>
-          <button className="hero-button">Ver Precios</button>
         </div>
       </div>
       
       <div className="hero-divider"></div>
       
-      <div className="hero-subjects">
-        <div className="subjects-list">
-          {subjects.map((subject, index) => (
-            <React.Fragment key={subject.name}>
-              <a href={subject.url} className="subject-link">{subject.name}</a>
-              {index < subjects.length - 1 && <span className="separator"> | </span>}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-      
       <div className="hero-lesson">
-        <h3>LESSON 1</h3>
         <div className="video-container">
-          <iframe 
-            width="560" 
-            height="315" 
-            src="https://www.youtube.com/watch?v=lv88bCi7eyg" 
-            title="Video de lección" 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen>
-          </iframe>
+          <img src={imagen} alt="" />
         </div>
       </div>
     </section>

@@ -131,3 +131,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+.title-testimonios{
+  margin-left: 30px;
+  font-size: 20px;
+}

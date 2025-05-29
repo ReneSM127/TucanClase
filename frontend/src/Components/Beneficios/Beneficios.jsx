@@ -40,7 +40,6 @@ const Beneficios = () => {
       <div className="benefits-header">
         <h2>Beneficios</h2>
         <p>Refuerza tus conocimientos con tutorías personalizadas y mejora tu rendimiento académico de forma sencilla y efectiva</p>
-        <a href="#ver-todo" className="see-all">Ver todo</a>
       </div>
       
       <div className="benefits-grid">

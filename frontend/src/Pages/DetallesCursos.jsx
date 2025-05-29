@@ -21,6 +21,7 @@ import UsuariosInscritosCarousel from "../Components/UsuariosInscritos/UsuariosI
 const DetallesCursos = () => {
   const { user } = useContext(AuthContext);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [esTutor, setEsTutor] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [hoverRating, setHoverRating] = useState(0);
@@ -61,7 +62,7 @@ const DetallesCursos = () => {
         if (!response) {
           throw new Error("No se encontró la tutoría solicitada");
         }
-        
+
         const InfoTutor = await getTutorById(response.tutor_id);
         const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(
           tutoriaId
@@ -80,6 +81,10 @@ const DetallesCursos = () => {
           if (usuarioInscrito) {
             setInscripcion({ id: usuarioInscrito.id_inscripcion });
           }
+        }
+
+        if (user.rol === "Tutor") {
+          setEsTutor(true);
         }
 
         setTutoria({
@@ -142,7 +147,7 @@ const DetallesCursos = () => {
     try {
       await deleteInscripcion(inscripcion.id);
       alert("Te has salido exitosamente");
-      navigate("/tutorial")
+      navigate("/tutorial");
     } catch (error) {
       alert(`Ocurrio un error ${error}`);
     }
@@ -220,8 +225,8 @@ const DetallesCursos = () => {
     }
     return stars;
   };
-  if (!!isLoadingData) return <div className="loading">Cargando tutoria...</div>;
-
+  if (!!isLoadingData)
+    return <div className="loading">Cargando tutoria...</div>;
 
   return (
     <div className="course-container">
@@ -229,21 +234,22 @@ const DetallesCursos = () => {
         <div className="info">
           <div className="instructor-avatar">{tutoria.avatar}</div>
           <h1>{tutoria.nombre_tutor}</h1>
-        {estaInscrito === false ? (
-            isTutoriaLlena() ? (
-              <button className="btn-secundario" disabled>
-                Cupo lleno
-              </button>
+          {!esTutor &&
+            (estaInscrito === false ? (
+              isTutoriaLlena() ? (
+                <button className="btn-secundario" disabled>
+                  Cupo lleno
+                </button>
+              ) : (
+                <button className="btn-secundario" onClick={handleClick}>
+                  Inscribirse
+                </button>
+              )
             ) : (
-              <button className="btn-secundario" onClick={handleClick}>
-                Inscribirse
+              <button className="btn-secundario" onClick={handleDelete}>
+                Salirse
               </button>
-            )
-          ) : (
-            <button className="btn-secundario" onClick={handleDelete}>
-              Salirse
-            </button>
-          )}
+            ))}
         </div>
 
         <h1>{tutoria.titulo_tutoria}</h1>

@@ -66,6 +66,7 @@ const EditarPerfil = () => {
       setUser(updatedUserData);
 
       setEditMode(false);
+      alert("Datos actualizados correctamente");
     } catch (err) {
       setError(err.message || 'Error al actualizar el perfil');
     } finally {
@@ -167,74 +168,6 @@ const EditarPerfil = () => {
           )}
         </div>
       </form>
-
-      {/* Formulario de cambio de contraseña */}
-      <div className="password-section">
-        <h2>
-          <FiLock /> Cambiar contraseña
-        </h2>
-
-        {!showPasswordForm ? (
-          <button
-            className="btn-cambiar-contraseña"
-            onClick={() => setShowPasswordForm(true)}
-          >
-            Cambiar contraseña
-          </button>
-        ) : (
-          <form className="password-form">
-            <div className="campo">
-              <label>Contraseña actual</label>
-              <input
-                type="password"
-                name="actual"
-                value={"password.actual"}
-                required
-              />
-            </div>
-
-            <div className="campo">
-              <label>Nueva contraseña</label>
-              <input
-                type="password"
-                name="nueva"
-                value={"password.nueva"}
-                required
-              />
-            </div>
-
-            <div className="campo">
-              <label>Confirmar nueva contraseña</label>
-              <input
-                type="password"
-                name="confirmacion"
-                value={"password.confirmacion"}
-                required
-              />
-            </div>
-
-            {passwordError && (
-              <div className="error-message">{passwordError}</div>
-            )}
-
-            <div className="password-actions">
-              <button
-                type="button"
-                className="btn-cancelar"
-                onClick={() => {
-                  setShowPasswordForm(false);
-                  setPasswordError("");
-                }}
-              >
-                Cancelar
-              </button>
-              <button type="submit" className="btn-guardar">
-                <FiSave /> Actualizar contraseña
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import {
 } from "../Services/TutoresService";
 import "../Styles/PerfilSocial.css";
 import TutoriasList from "../Components/TutoriasList/TutoriasList";
+import {getTutoriasByIdAlumnos} from "../Services/TutoriasService"
 
 const EstudiantePerfil = () => {
   const [activeTab, setActiveTab] = useState("courses");
@@ -32,6 +33,7 @@ const EstudiantePerfil = () => {
         const tutorData = await getTutorById(id);
         const reviewsData = await getAllReviewsByTutorId(id);
         const tutoriasData = await getAllTutoriasById(id);
+        const data2 = await getTutoriasByIdAlumnos(id);
 
         // Transformar los datos del tutor al formato esperado
         const transformedTutor = {
@@ -57,7 +59,7 @@ const EstudiantePerfil = () => {
         }));
 
         setReviews(transformedReviews);
-        setTutorias(tutoriasData);
+        setTutorias(data2);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -115,18 +117,10 @@ const EstudiantePerfil = () => {
           <h1>{instructor.name}</h1>
           <h2>{instructor.title}</h2>
 
-          <div className="rating-container">
-            <div className="stars">
-              {renderStars(instructor.rating)}
-              <span>{instructor.rating}</span>
-            </div>
-            <span>({instructor.reviews} reseñas)</span>
-          </div>
-
           <div className="stats-container">
             <div className="stat">
               <FaBook className="stat-icon" />
-              <span>{instructor.courses} Tutorias</span>
+              <span>{tutorias.length} Tutorias inscritas</span>
             </div>
           </div>
 

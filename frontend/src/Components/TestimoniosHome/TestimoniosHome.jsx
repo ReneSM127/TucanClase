@@ -30,14 +30,16 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="testimonials-section">  
+    <section className="testimonials-section">
+      <div className="benefits-header">
+        <h2>Testimonios</h2>
+      </div>  
       <div className="container">
         <div className="section-header">
             <h2 className="section-title">Testimonios de nuestros estudiantes👨🏿‍🎓</h2>
                 <p className="section-subtitle">
              Descubra cómo nuestras tutorías han ayudado a otros estudiantes a mejorar su rendimiento académico y ganar confianza en sus habilidades.
              </p>
-               <a href="#all-testimonials" className="view-all-button">View All</a>
         </div>
         
         <div className="divider"></div>
@@ -48,7 +50,6 @@ const Testimonials = () => {
               <blockquote className="testimonial-quote">"{testimonial.quote}"</blockquote>
               <div className="testimonial-footer">
                 <p className="testimonial-author">- {testimonial.author}</p>
-                <a href={testimonial.link} className="read-more-link">Lea la historia completa</a>
               </div>
             </div>
           ))}
