@@ -7,6 +7,8 @@ import {
   createInscripcion,
   deleteInscripcion,
   createReview,
+  updateReview,
+  deleteReview,
 } from "../Services/InscripcionesService";
 import {
   getATutoriaById,
@@ -25,9 +27,10 @@ const DetallesCursos = () => {
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [hoverRating, setHoverRating] = useState(0);
-  const [dejoReviews, setDejoReview] = useState(false);
+  const [dejoReview, setDejoReview] = useState(false);
   const [estudiantes, setEstudiantes] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [editingReview, setEditingReview] = useState(null); // Cambiado de [null] a null
   const [estaInscrito, setEstaInscrito] = useState(false);
   const [inscripcion, setInscripcion] = useState({
     id: 0,
@@ -43,18 +46,27 @@ const DetallesCursos = () => {
     email_tutor: "",
     rating: "",
   });
+
+  const handleEditReview = (review) => {
+    if (!review?.id) {
+      console.error("Reseña inválida recibida:", review);
+      alert("No se puede editar esta reseña");
+      return;
+    }
+    
+    setEditingReview(review);
+    setReviewRating(review.rating);
+    setReviewComment(review.comment || "");
+    setShowReviewForm(true);
+  };
+
   const navigate = useNavigate();
   const [isLoadingData, setIsLoadingData] = useState(true);
-
   const { tutoriaId } = useParams();
 
   useEffect(() => {
     const fetchTutoriaData = async () => {
       try {
-        if (user) {
-          console.log(user.id);
-        }
-        // Caso 2: Hay ID (edición existente)
         setIsLoadingData(true);
         const response = await getATutoriaById(tutoriaId);
         const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
@@ -64,26 +76,22 @@ const DetallesCursos = () => {
         }
 
         const InfoTutor = await getTutorById(response.tutor_id);
-        const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(
-          tutoriaId
-        );
+        const infoEstudiantes = await getEstudiantesInscritosByTutoriaId(tutoriaId);
 
         setEstudiantes(infoEstudiantes);
 
-        // Verificar si el usuario actual está inscrito
         if (user && infoEstudiantes) {
           const usuarioInscrito = infoEstudiantes.find(
             (estudiante) => estudiante.id_estudiante === user.id
           );
           setEstaInscrito(!!usuarioInscrito);
 
-          // Si está inscrito, guardar también el ID de la inscripción
           if (usuarioInscrito) {
             setInscripcion({ id: usuarioInscrito.id_inscripcion });
           }
         }
 
-        if (user.rol === "Tutor") {
+        if (user?.rol === "Tutor") {
           setEsTutor(true);
         }
 
@@ -98,21 +106,29 @@ const DetallesCursos = () => {
           email_tutor: response.email_tutor,
           rating: calculateAverageRating(reviewsData),
         });
+
         const transformedReviews = reviewsData.map((review) => ({
-          id: review.tutoria_id,
+          id: review.id_review,
           estudiante_id: review.estudiante_id,
           student: review.nombre_estudiante,
           rating: review.estrellas,
           comment: review.comentario,
-          date: formatDate(review.fecha_review), // Puedes agregar la fecha si está disponible
+          date: formatDate(review.fecha_review),
           course: review.titulo_tutoria,
         }));
 
         setReviews(transformedReviews);
+        
+        // Buscar y establecer la reseña del usuario actual
         const userReview = transformedReviews.find(
           (review) => review.estudiante_id === user?.id
         );
+        
         setDejoReview(!!userReview);
+        if (userReview) {
+          setEditingReview(userReview);
+        }
+
       } catch (err) {
         console.error(err);
       } finally {
@@ -126,12 +142,9 @@ const DetallesCursos = () => {
   const handleClick = async () => {
     try {
       if (!user) {
-        navigate("/login"); // o mostrar un mensaje
+        navigate("/login");
         return;
       }
-
-      console.log(user.id);
-      console.log(tutoriaId);
 
       const response = await createInscripcion(user.id, tutoriaId);
       setInscripcion({ id: response.id });
@@ -157,33 +170,84 @@ const DetallesCursos = () => {
     return tutoria.estudiantes_inscritos >= tutoria.max_estudiantes;
   };
 
-  const handleSummitReview = async () => {
-    try {
-      await createReview(inscripcion.id, reviewRating, reviewComment);
-      // Resetear el formulario
+  const handleDeleteReview = async (reviewId) => {
+  try {
+    if (window.confirm("¿Estás seguro de que quieres eliminar esta reseña?")) {
+      await deleteReview(reviewId);
+      const updatedReviews = reviews.filter(review => review.id !== reviewId);
+      setReviews(updatedReviews);
+      setDejoReview(false);
+      setEditingReview(null);
+      // Resetear los campos del formulario
       setReviewRating(0);
       setReviewComment("");
-      setShowReviewForm(false);
-
-      // Recargar las reseñas para mostrar la nueva
-      const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
-      const transformedReviews = reviewsData.map((review) => ({
-        id: review.tutoria_id,
-        student: review.nombre_estudiante,
-        rating: review.estrellas,
-        comment: review.comentario,
-        date: formatDate(review.fecha_review),
-        course: review.titulo_tutoria,
-      }));
-      setReviews(transformedReviews);
-
-      alert("¡Gracias por tu reseña!");
-      setDejoReview(true);
-    } catch (error) {
-      console.error("Error al enviar la reseña:", error);
-      alert(error.response?.data?.message || "Error al enviar la reseña");
+      setShowReviewForm(false); // Opcional: cerrar el formulario si está abierto
+      alert("Reseña eliminada correctamente");
     }
-  };
+  } catch (error) {
+    console.error("Error al eliminar la reseña:", error);
+    alert("Error al eliminar la reseña");
+  }
+};
+
+  const handleSubmitReview = async (e) => {
+  e.preventDefault();
+  
+  try {
+    let newReviewData;
+    
+    if (editingReview) {
+      await updateReview(editingReview.id, reviewRating, reviewComment);
+      alert("Reseña actualizada correctamente");
+    } else {
+      // Crear nueva reseña y obtener los datos completos
+      const response = await createReview(inscripcion.id, reviewRating, reviewComment);
+      
+      newReviewData = {
+        id: response.id,
+        student: `${user.nombre} ${user.apellidos}`,
+        rating: reviewRating,
+        comment: reviewComment,
+        date: new Date().toLocaleDateString("es-ES"),
+        estudiante_id: user.id,
+        course: tutoria.titulo_tutoria
+      };
+      
+      alert("¡Reseña creada exitosamente!");
+    }
+
+    // Actualizar la lista de reseñas
+    const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
+    const transformedReviews = reviewsData.map((review) => ({
+      id: review.id_review,
+      estudiante_id: review.estudiante_id,
+      student: review.nombre_estudiante,
+      rating: review.estrellas,
+      comment: review.comentario,
+      date: formatDate(review.fecha_review),
+      course: review.titulo_tutoria,
+    }));
+
+    setReviews(transformedReviews);
+    
+    // Actualizar la reseña del usuario actual
+    const userReview = transformedReviews.find(
+      (review) => review.estudiante_id === user?.id
+    );
+    
+    setDejoReview(!!userReview);
+    setEditingReview(userReview || null); // Esto es clave para que funcione el botón de edición
+    
+    // Resetear el formulario
+    setDejoReview(true); // Esto hará que el botón desaparezca
+    setShowReviewForm(false);
+    setEditingReview(null);
+    
+  } catch (error) {
+    console.error("Error al enviar la reseña:", error);
+    alert(error.response?.data?.message || "Error al enviar la reseña");
+  }
+};
 
   const handleStarClick = (rating) => {
     setReviewRating(rating);
@@ -203,7 +267,6 @@ const DetallesCursos = () => {
     return (sum / reviews.length).toFixed(1);
   };
 
-  // Función para formatear la fecha
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString("es-ES", options);
@@ -211,8 +274,7 @@ const DetallesCursos = () => {
 
   const renderStars = (rating) => {
     const stars = [];
-    const numericRating =
-      typeof rating === "string" ? parseFloat(rating) : rating;
+    const numericRating = typeof rating === "string" ? parseFloat(rating) : rating;
 
     for (let i = 1; i <= 5; i++) {
       stars.push(
@@ -225,8 +287,10 @@ const DetallesCursos = () => {
     }
     return stars;
   };
-  if (!!isLoadingData)
+
+  if (isLoadingData) {
     return <div className="loading">Cargando tutoria...</div>;
+  }
 
   return (
     <div className="course-container">
@@ -258,7 +322,9 @@ const DetallesCursos = () => {
 
       <div className="reviews-container">
         <h2>Reseñas de estudiantes</h2>
-        {estaInscrito && !showReviewForm && !dejoReviews && (
+        
+        {/* Botón inteligente para crear/editar reseña */}
+        {estaInscrito && !showReviewForm && !dejoReview && (
           <button
             className="btn-secundario"
             onClick={() => setShowReviewForm(true)}
@@ -270,8 +336,8 @@ const DetallesCursos = () => {
 
         {showReviewForm && (
           <div className="review-form-container">
-            <h3>Escribe tu reseña</h3>
-            <form onSubmit={handleSummitReview}>
+            <h3>{editingReview ? "Editar tu reseña" : "Escribe una nueva reseña"}</h3>
+            <form onSubmit={handleSubmitReview}>
               <div className="rating-input">
                 <p>Calificación:</p>
                 <div className="star-rating">
@@ -308,12 +374,15 @@ const DetallesCursos = () => {
 
               <div className="form-actions">
                 <button type="submit" className="btn-primario">
-                  Enviar reseña
+                  {editingReview ? "Actualizar reseña" : "Publicar reseña"}
                 </button>
                 <button
                   type="button"
                   className="btn-salirse"
-                  onClick={() => setShowReviewForm(false)}
+                  onClick={() => {
+                    setShowReviewForm(false);
+                    setEditingReview(null);
+                  }}
                 >
                   Cancelar
                 </button>
@@ -325,10 +394,7 @@ const DetallesCursos = () => {
         <div className="reviews-list">
           {reviews.length > 0 ? (
             reviews.map((review) => (
-              <div
-                className="review-card"
-                key={`${review.id}-${review.student}`}
-              >
+              <div className="review-card" key={`${review.id}-${review.student}`}>
                 <div className="review-header">
                   <div className="reviewer-avatar">
                     {review.student.charAt(0)}
@@ -337,13 +403,28 @@ const DetallesCursos = () => {
                     <h4>{review.student}</h4>
                     <div className="review-rating">
                       {renderStars(review.rating)}
-                      <span>{review.date}</span>{" "}
-                      {/* Mostramos la fecha formateada */}
+                      <span>{review.date}</span>
                     </div>
                     <p className="course-name">{review.course}</p>
                   </div>
                 </div>
                 <p className="review-comment">{review.comment}</p>
+                {review.estudiante_id === user?.id && (
+                  <div className="review-actions">
+                    <button 
+                      className="btn-editar" 
+                      onClick={() => handleEditReview(review)}
+                    >
+                      Editar
+                    </button>
+                    <button 
+                      className="btn-eliminar" 
+                      onClick={() => handleDeleteReview(review.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                )}
               </div>
             ))
           ) : (
@@ -353,6 +434,7 @@ const DetallesCursos = () => {
           )}
         </div>
       </div>
+      
       <div className="reviews-list">
         <h2>Estudiantes inscritos</h2>
         <UsuariosInscritosCarousel estudiantes={estudiantes} />

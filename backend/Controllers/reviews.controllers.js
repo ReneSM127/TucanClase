@@ -1,4 +1,5 @@
 const reviewsModel = require('../Models/reviews.models');
+const db = require('../Config/db'); // Añade esta línea para importar la conexión a la DB
 
 const getReview = async (req, res) => {
   try {
@@ -23,11 +24,19 @@ const getReviewsByInscripcion = async (req, res) => {
   }
 };
 
+// En tu controlador del backend
 const createReview = async (req, res) => {
   try {
     const { inscripcion_id, estrellas, comentario } = req.body;
     const newReviewId = await reviewsModel.insertReview(inscripcion_id, estrellas, comentario);
-    res.status(201).json({ id: newReviewId });
+    
+    // Devuelve el objeto completo de la reseña creada
+    const [newReview] = await db.execute(
+      'SELECT * FROM reviews WHERE id = ?',
+      [newReviewId]
+    );
+    
+    res.status(201).json(newReview[0]);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

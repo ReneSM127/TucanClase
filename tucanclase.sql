@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 27-05-2025 a las 02:20:07
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 03-06-2025 a las 01:06:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,9 +40,10 @@ CREATE TABLE `inscripciones` (
 --
 
 INSERT INTO `inscripciones` (`id`, `estudiante_id`, `tutoria_id`, `fecha_inscripcion`, `estado`) VALUES
-(1, 2, 1, '2025-05-16 23:46:15', 'Inscrito'),
 (2, 4, 2, '2025-05-16 23:46:43', 'Inscrito'),
-(3, 6, 2, '2025-05-16 23:46:51', 'Inscrito');
+(3, 6, 2, '2025-05-16 23:46:51', 'Inscrito'),
+(8, 2, 2, '2025-06-02 16:21:22', 'Inscrito'),
+(9, 2, 4, '2025-06-02 18:04:52', 'Inscrito');
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,8 @@ INSERT INTO `materias` (`id`, `nombre`, `descripcion`) VALUES
 (2, 'Calculo integral', 'Integrales dobles y triples'),
 (3, 'Programacion', 'Tirar lineas'),
 (4, 'Taller de Investigacion', 'Preparate para la tesis'),
-(5, 'Redes', 'Conecta 2 switch con SSH');
+(5, 'Redes', 'Conecta 2 switch con SSH'),
+(6, 'Calculo integral', 'prueba');
 
 -- --------------------------------------------------------
 
@@ -86,8 +88,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `inscripcion_id`, `estrellas`, `comentario`, `fecha_creacion`) VALUES
-(1, 1, 4, 'Muy buen tutor', '2025-05-16 23:48:35'),
-(2, 2, 2, 'No sabe explicar', '2025-05-16 23:49:20'),
+(2, 2, 1, 'adios', '2025-05-16 23:49:20'),
 (3, 3, 3, 'Habla muy lento', '2025-05-16 23:49:56');
 
 -- --------------------------------------------------------
@@ -116,7 +117,9 @@ CREATE TABLE `tutorias` (
 INSERT INTO `tutorias` (`id`, `tutor_id`, `materia_id`, `titulo`, `descripcion`, `duracion`, `max_estudiantes`, `precio`, `estado`, `fecha_creacion`) VALUES
 (1, 1, 1, 'Algebra', 'Aprende conmigo', 10, 20, 100.00, 'Programado', '2025-05-16 23:40:05'),
 (2, 3, 5, 'Puro Debiam', 'Aprende a las malas', 20, 10, 50.00, 'Programado', '2025-05-16 23:42:14'),
-(3, 5, 3, 'C++', 'Co VSCode', 20, 10, 50.00, 'Programado', '2025-05-16 23:43:28');
+(3, 5, 3, 'C++', 'Co VSCode', 20, 10, 50.00, 'Programado', '2025-05-16 23:43:28'),
+(4, 1, 6, 'Calculo', 'matematicas', 1, 2, NULL, 'Programado', '2025-05-29 12:57:20'),
+(5, 1, 3, 'Calculo', 'fhfg', 2, 1, NULL, 'Programado', '2025-05-29 12:58:42');
 
 -- --------------------------------------------------------
 
@@ -206,6 +209,7 @@ CREATE TABLE `vista_tutorias_reviews` (
 ,`nombre_tutor` varchar(201)
 ,`estudiante_id` int(11)
 ,`nombre_estudiante` varchar(201)
+,`id_review` int(11)
 ,`estrellas` tinyint(4)
 ,`comentario` text
 ,`fecha_review` datetime
@@ -236,7 +240,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vista_tutorias_reviews`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`tutor_id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `u_estudiante`.`id` AS `estudiante_id`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario`, `r`.`fecha_creacion` AS `fecha_review` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `r`.`fecha_creacion` DESC, `t`.`id` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vista_tutorias_reviews`  AS SELECT `t`.`id` AS `tutoria_id`, `t`.`titulo` AS `titulo_tutoria`, `t`.`tutor_id` AS `tutor_id`, concat(`u_tutor`.`nombre`,' ',`u_tutor`.`apellidos`) AS `nombre_tutor`, `u_estudiante`.`id` AS `estudiante_id`, concat(`u_estudiante`.`nombre`,' ',`u_estudiante`.`apellidos`) AS `nombre_estudiante`, `r`.`id` AS `id_review`, `r`.`estrellas` AS `estrellas`, `r`.`comentario` AS `comentario`, `r`.`fecha_creacion` AS `fecha_review` FROM ((((`tutorias` `t` join `usuarios` `u_tutor` on(`t`.`tutor_id` = `u_tutor`.`id`)) join `inscripciones` `i` on(`t`.`id` = `i`.`tutoria_id`)) join `usuarios` `u_estudiante` on(`i`.`estudiante_id` = `u_estudiante`.`id`)) left join `reviews` `r` on(`i`.`id` = `r`.`inscripcion_id`)) ORDER BY `r`.`fecha_creacion` DESC, `t`.`id` ASC ;
 
 --
 -- Índices para tablas volcadas
@@ -286,25 +290,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `inscripciones`
 --
 ALTER TABLE `inscripciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `materias`
 --
 ALTER TABLE `materias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `tutorias`
 --
 ALTER TABLE `tutorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
