@@ -200,9 +200,9 @@ const GestionarTutoria = () => {
 
       await updateTutoriaById(tutoriaId, tutoriaData);
 
-      // Éxito: puedes redirigir o mostrar mensaje
       alert("Tutoría actualizada exitosamente!");
       setEditMode(false);
+      navigate("/dashboard");
 
       // Resetear formulario
       setFormData({

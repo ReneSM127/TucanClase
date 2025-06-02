@@ -62,13 +62,20 @@ const EditarPerfil = () => {
         descripcion: formData.biografia,
       };
 
+      alert("Datos actualizados correctamente");
       localStorage.setItem('usuario', JSON.stringify(updatedUserData));
       setUser(updatedUserData);
 
       setEditMode(false);
-      alert("Datos actualizados correctamente");
     } catch (err) {
       setError(err.message || 'Error al actualizar el perfil');
+      setFormData({
+        nombre: user.nombre || "",
+        apellidos: user.apellidos || "",
+        email: user.email || "",
+        biografia: user.descripcion || "",
+      });
+      alert(err);
     } finally {
       setEditMode(false);
       setIsUpdating(false);
