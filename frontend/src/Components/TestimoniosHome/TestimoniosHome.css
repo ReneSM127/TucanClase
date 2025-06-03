@@ -136,3 +136,18 @@
   margin-left: 30px;
   font-size: 20px;
 }
+
+.testimonial-rating {
+  margin-bottom: 10px;
+  color: #ffc107;
+}
+
+.testimonial-rating .star {
+  margin-right: 3px;
+}
+
+.testimonial-course {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 5px;
+}

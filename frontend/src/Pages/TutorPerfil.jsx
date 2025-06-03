@@ -33,15 +33,20 @@ const TutorPerfil = () => {
         const reviewsData = await getAllReviewsByTutorId(id);
         const tutoriasData = await getAllTutoriasById(id);
 
+        // Filtrar solo las reseñas válidas (con estrellas o comentario)
+        const validReviews = reviewsData.filter(
+          (review) => review.estrellas !== null || review.comentario !== null
+        );
+
         // Transformar los datos del tutor al formato esperado
         const transformedTutor = {
           id: tutorData.id,
           name: `${tutorData.nombre} ${tutorData.apellidos}`,
-          title: "Tutor", // Puedes personalizar esto según tus necesidades
+          title: "Tutor",
           bio: tutorData.descripcion,
           avatar: tutorData.nombre.charAt(0) + tutorData.apellidos.charAt(0),
-          rating: calculateAverageRating(reviewsData),
-          reviews: reviewsData.length,
+          rating: calculateAverageRating(validReviews), // Usar solo reseñas válidas
+          reviews: validReviews.length, // Contar solo reseñas válidas
           courses: tutoriasData.length,
           contact: tutorData.email,
           photo: tutorData.foto_perfil,
@@ -49,13 +54,13 @@ const TutorPerfil = () => {
 
         setInstructor(transformedTutor);
 
-        // Transformar las reseñas al formato esperado
-        const transformedReviews = reviewsData.map((review) => ({
+        // Transformar solo las reseñas válidas
+        const transformedReviews = validReviews.map((review) => ({
           id: review.tutoria_id,
           student: review.nombre_estudiante,
           rating: review.estrellas,
           comment: review.comentario,
-          date: formatDate(review.fecha_review), // Puedes agregar la fecha si está disponible
+          date: formatDate(review.fecha_review),
           course: review.titulo_tutoria,
         }));
 
@@ -72,9 +77,12 @@ const TutorPerfil = () => {
   }, [id]);
 
   const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) return 0;
-    const sum = reviews.reduce((acc, review) => acc + review.estrellas, 0);
-    return (sum / reviews.length).toFixed(1);
+    // Filtrar solo reseñas con estrellas definidas (no null)
+    const ratedReviews = reviews.filter((review) => review.estrellas !== null);
+    
+    if (!ratedReviews || ratedReviews.length === 0) return 0;
+    const sum = ratedReviews.reduce((acc, review) => acc + review.estrellas, 0);
+    return (sum / ratedReviews.length).toFixed(1);
   };
 
   const renderStars = (rating) => {

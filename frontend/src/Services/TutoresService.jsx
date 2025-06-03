@@ -23,6 +23,16 @@ export const getTutorById = async (id) => {
   }
 };
 
+export const getAllReviews = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/reviews/`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching tutorias:', error);
+    throw new Error('No se pudo cargar la info de todas las reviews');
+  }
+};
+
 //Obtener info de todas las reviews del tutor
 export const getAllReviewsByTutorId = async (id) => {
   try {

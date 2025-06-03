@@ -108,29 +108,31 @@ const GestionarTutoria = () => {
   };
 
   const handleDeleteMateria = async () => {
-  if (!selectedMateriaId) return;
+    if (!selectedMateriaId) return;
 
-  try {
-    setIsLoading(true);
-    await deleteMateriaById(selectedMateriaId);
-    
-    // Recargar las materias
-    const materiasData = await getAllMaterias();
-    setMaterias(materiasData);
-    
-    // Resetear el formulario si estaba usando la materia eliminada
-    if (formData.materiaId === selectedMateriaId) {
-      setFormData(prev => ({ ...prev, materiaId: "" }));
+    try {
+      if (window.confirm("¿Estás seguro de que quieres eliminar esta Materia?")) {
+        setIsLoading(true);
+        await deleteMateriaById(selectedMateriaId);
+        
+        // Recargar las materias
+        const materiasData = await getAllMaterias();
+        setMaterias(materiasData);
+        
+        // Resetear el formulario si estaba usando la materia eliminada
+        if (formData.materiaId === selectedMateriaId) {
+          setFormData(prev => ({ ...prev, materiaId: "" }));
+        }
+        
+        setSelectedMateriaId(null);
+        alert("Materia eliminada correctamente");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Error al eliminar la materia");
+    } finally {
+      setIsLoading(false);
     }
-    
-    setSelectedMateriaId(null);
-    alert("Materia eliminada correctamente");
-  } catch (err) {
-    setError(err.response?.data?.message || err.message || "Error al eliminar la materia");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleAlumnos = async () => {
     if (!tutoriaId) return;
@@ -160,9 +162,11 @@ const GestionarTutoria = () => {
     if (!tutoriaId) return;
 
     try {
-      setIsLoadingData(true);
-      await deleteTutoriaById(tutoriaId);
-      navigate("/");
+      if (window.confirm("¿Estás seguro de que quieres eliminar la tutoría?")) {
+        setIsLoadingData(true);
+        await deleteTutoriaById(tutoriaId);
+        navigate("/Dashboard");
+      }
     } catch (err) {
       setError(err.message || "Error al recargar los datos");
     } finally {
