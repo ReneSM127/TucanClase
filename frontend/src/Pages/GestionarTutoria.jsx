@@ -16,7 +16,6 @@ import "../Styles/CrearTutoria.css";
 import { useNavigate } from "react-router-dom";
 import { deleteMateriaById } from "../Services/MateriasService";
 
-
 const GestionarTutoria = () => {
   const navigate = useNavigate();
   const { tutoriaId } = useParams();
@@ -41,7 +40,7 @@ const GestionarTutoria = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [editMode, setEditMode] = useState(false);
-  
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     const fetchForm = async () => {
@@ -53,6 +52,15 @@ const GestionarTutoria = () => {
           throw new Error("No se encontró la tutoría solicitada");
         }
 
+        // Verificar que la tutoría pertenezca al usuario actual
+        if (response.tutor_id !== user.id) {
+          setIsOwner(false);
+          setError("No tienes permiso para acceder a esta tutoría");
+          navigate("/dashboard");
+          return;
+        }
+
+        setIsOwner(true);
         setFormData({
           titulo: response.titulo_tutoria || "",
           materiaId: response.materia_id || "",
@@ -72,8 +80,10 @@ const GestionarTutoria = () => {
       }
     };
 
-    fetchForm();
-  }, [tutoriaId]);
+    if (tutoriaId && user?.id) {
+      fetchForm();
+    }
+  }, [tutoriaId, user?.id, navigate]);
 
   useEffect(() => {
     const fetchMaterias = async () => {
@@ -115,11 +125,9 @@ const GestionarTutoria = () => {
         setIsLoading(true);
         await deleteMateriaById(selectedMateriaId);
         
-        // Recargar las materias
         const materiasData = await getAllMaterias();
         setMaterias(materiasData);
         
-        // Resetear el formulario si estaba usando la materia eliminada
         if (formData.materiaId === selectedMateriaId) {
           setFormData(prev => ({ ...prev, materiaId: "" }));
         }
@@ -162,13 +170,20 @@ const GestionarTutoria = () => {
     if (!tutoriaId) return;
 
     try {
+      // Verificar nuevamente antes de eliminar
+      const tutoriaActual = await getATutoriaById(tutoriaId);
+      if (tutoriaActual.tutor_id !== user.id) {
+        setError("No tienes permiso para eliminar esta tutoría");
+        return;
+      }
+
       if (window.confirm("¿Estás seguro de que quieres eliminar la tutoría?")) {
         setIsLoadingData(true);
         await deleteTutoriaById(tutoriaId);
         navigate("/Dashboard");
       }
     } catch (err) {
-      setError(err.message || "Error al recargar los datos");
+      setError(err.message || "Error al eliminar la tutoría");
     } finally {
       setIsLoadingData(false);
     }
@@ -180,6 +195,13 @@ const GestionarTutoria = () => {
     try {
       setIsLoadingData(true);
       const response = await getATutoriaById(tutoriaId);
+
+      // Verificar propiedad nuevamente al recargar
+      if (response.tutor_id !== user.id) {
+        setIsOwner(false);
+        navigate("/dashboard");
+        return;
+      }
 
       setFormData({
         titulo: response.titulo_tutoria || "",
@@ -205,6 +227,13 @@ const GestionarTutoria = () => {
     setError("");
 
     try {
+      // Verificar propiedad antes de actualizar
+      const tutoriaActual = await getATutoriaById(tutoriaId);
+      if (tutoriaActual.tutor_id !== user.id) {
+        setError("No tienes permiso para editar esta tutoría");
+        return;
+      }
+
       let materiaId = formData.materiaId;
       if (showAddCategory) {
         const nuevaMateria = await createMateriaService(
@@ -241,14 +270,24 @@ const GestionarTutoria = () => {
         },
       });
     } catch (err) {
-      setError(err.message || "Error al crear la tutoría");
+      setError(err.message || "Error al actualizar la tutoría");
       console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
 
-   return (
+  if (!isOwner) {
+    return (
+      <div className="crear-tutoria-container">
+        <div className="error-message">
+          No tienes permiso para acceder a esta tutoría
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <div>
       <div className="crear-tutoria-container">
         <form className="crear-tutoria-form" onSubmit={handleSubmit}>
@@ -287,11 +326,11 @@ const GestionarTutoria = () => {
                 )}
                 {!showAddCategory && formData.materiaId && (
                   <button
-                      type="button"
-                      className="eliminar-categoria-btn"
-                      onClick={handleDeleteMateria}
-                      disabled={!editMode || isLoading}
-                    >
+                    type="button"
+                    className="eliminar-categoria-btn"
+                    onClick={handleDeleteMateria}
+                    disabled={!editMode || isLoading}
+                  >
                     Eliminar categoría seleccionada
                   </button>
                 )}
@@ -340,7 +379,7 @@ const GestionarTutoria = () => {
                   onChange={(e) => {
                     handleChange(e);
                     setSelectedMateriaId(e.target.value);
-                    }}
+                  }}
                   disabled={!editMode}
                   required
                 >
@@ -432,8 +471,9 @@ const GestionarTutoria = () => {
                 <button 
                   type="submit" 
                   className="btn-guardar"
+                  disabled={isLoading}
                 >
-                  <FiSave /> Guardar cambios
+                  <FiSave /> {isLoading ? "Guardando..." : "Guardar cambios"}
                 </button>
               </div>
             )}
