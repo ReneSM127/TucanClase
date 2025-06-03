@@ -4,6 +4,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { createTutoriaService, getAllMaterias, createMateriaService } from "../Services/TutoriasService";
 import "../Styles/CrearTutoria.css";
 import { useNavigate } from 'react-router-dom';
+import { deleteMateriaById } from "../Services/MateriasService";
 
 const CrearTutoria = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const CrearTutoria = () => {
       descripcion: ""
     }
   });
+  const [selectedMateriaId, setSelectedMateriaId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -56,6 +58,30 @@ const CrearTutoria = () => {
       }
     }));
   };
+  const handleDeleteMateria = async () => {
+  if (!selectedMateriaId) return;
+
+  try {
+    setIsLoading(true);
+    await deleteMateriaById(selectedMateriaId);
+    
+    // Recargar las materias
+    const materiasData = await getAllMaterias();
+    setMaterias(materiasData);
+    
+    // Resetear el formulario si estaba usando la materia eliminada
+    if (formData.materiaId === selectedMateriaId) {
+      setFormData(prev => ({ ...prev, materiaId: "" }));
+    }
+    
+    setSelectedMateriaId(null);
+    alert("Materia eliminada correctamente");
+  } catch (err) {
+    setError(err.response?.data?.message || err.message || "Error al eliminar la materia");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,14 +162,26 @@ const CrearTutoria = () => {
             <div className="category-header">
               <label>Categoría</label>
               {!showAddCategory && (
+                <>
                 <button 
                   type="button" 
                   className="add-category-btn"
                   onClick={() => setShowAddCategory(true)}
                 >
-                  <FiPlus size={14} /> Añadir categoría
+                <FiPlus size={14} /> Añadir categoría
+                </button>
+                {formData.materiaId && (
+                <button
+                  type="button"
+                  className="eliminar-categoria-btn"
+                  onClick={handleDeleteMateria}
+                  disabled={isLoading}
+                >
+                Eliminar categoría seleccionada
                 </button>
               )}
+    </>
+            )}
             </div>
 
             {showAddCategory ? (
@@ -184,7 +222,10 @@ const CrearTutoria = () => {
               <select 
                 name="materiaId"
                 value={formData.materiaId}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  setSelectedMateriaId(e.target.value);
+                }}
                 required
               >
                 <option value="">Selecciona una categoría</option>

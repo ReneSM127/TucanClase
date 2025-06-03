@@ -67,10 +67,16 @@ const updateMateria = async (req, res) => {
 
 const deleteMateria = async (req, res) => {
   try {
-    await Materia.deleteMateriaById(req.params.id);
-    res.status(204).send();
+    const result = await Materia.deleteMateriaById(req.params.id);
+    if (result) {
+      res.status(204).send();
+    }
   } catch (error) {
-    res.status(500).json({ message: 'Error al eliminar la materia' });
+    if (error.message.includes('tutorías asociadas')) {
+      res.status(400).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'Error al eliminar la materia' });
+    }
   }
 };
 

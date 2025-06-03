@@ -46,12 +46,23 @@ const Materia = {
 
 
   deleteMateriaById: async (id) => {
-    try {
-      await db.query('DELETE FROM materias WHERE id = ?', [id]);
-    } catch (error) {
-      throw error;
+  try {
+    // Primero verificamos si hay tutorías asociadas
+    const [tutorias] = await db.query(
+      'SELECT COUNT(*) as count FROM tutorias WHERE materia_id = ?', 
+      [id]
+    );
+    
+    if (tutorias[0].count > 0) {
+      throw new Error('No se puede eliminar la materia porque tiene tutorías asociadas');
     }
-  },
+
+    await db.query('DELETE FROM materias WHERE id = ?', [id]);
+    return true;
+  } catch (error) {
+    throw error;
+  }
+},
 
 
   getMateriasConTutorias: async () => {
