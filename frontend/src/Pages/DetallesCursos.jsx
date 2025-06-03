@@ -148,6 +148,17 @@ const DetallesCursos = () => {
 
       const response = await createInscripcion(user.id, tutoriaId);
       setInscripcion({ id: response.id });
+      
+      // Actualizar la lista de estudiantes
+      const updatedEstudiantes = await getEstudiantesInscritosByTutoriaId(tutoriaId);
+      setEstudiantes(updatedEstudiantes);
+      
+      // Actualizar el contador de estudiantes inscritos
+      setTutoria(prev => ({
+        ...prev,
+        estudiantes_inscritos: updatedEstudiantes.length
+      }));
+
       alert(`Te has inscrito exitosamente`);
       setEstaInscrito(true);
     } catch (error) {
@@ -248,6 +259,52 @@ const DetallesCursos = () => {
     alert(error.response?.data?.message || "Error al enviar la reseña");
   }
 };
+
+// En DetallesCursos.jsx, añade esta función junto con las otras funciones
+const handleDeleteStudent = async (inscripcionId) => {
+  try {
+    if (window.confirm("¿Estás seguro de que quieres eliminar a este alumno de la tutoría?")) {
+      await deleteInscripcion(inscripcionId);
+
+      // Actualizar lista de estudiantes
+      const updatedEstudiantes = estudiantes.filter(
+        (estudiante) => estudiante.id_inscripcion !== inscripcionId
+      );
+      setEstudiantes(updatedEstudiantes);
+
+      // Actualizar contador de inscritos
+      setTutoria((prev) => ({
+        ...prev,
+        estudiantes_inscritos: prev.estudiantes_inscritos - 1,
+      }));
+
+      // 👇 Volver a cargar las reseñas desde el servidor
+      const reviewsData = await getAllReviewsByTutoriaId(tutoriaId);
+      const transformedReviews = reviewsData.map((review) => ({
+        id: review.id_review,
+        estudiante_id: review.estudiante_id,
+        student: review.nombre_estudiante,
+        rating: review.estrellas,
+        comment: review.comentario,
+        date: formatDate(review.fecha_review),
+        course: review.titulo_tutoria,
+      }));
+      setReviews(transformedReviews);
+
+      // Actualizar promedio de estrellas
+      setTutoria((prev) => ({
+        ...prev,
+        rating: calculateAverageRating(reviewsData),
+      }));
+
+      alert("Alumno eliminado correctamente de la tutoría");
+    }
+  } catch (error) {
+    console.error("Error al eliminar al alumno:", error);
+    alert("Error al eliminar al alumno");
+  }
+};
+
 
   const handleStarClick = (rating) => {
     setReviewRating(rating);
@@ -437,7 +494,11 @@ const DetallesCursos = () => {
       
       <div className="reviews-list">
         <h2>Estudiantes inscritos</h2>
-        <UsuariosInscritosCarousel estudiantes={estudiantes} />
+        <UsuariosInscritosCarousel 
+          estudiantes={estudiantes} 
+          esTutor={esTutor && user?.id === tutoria.tutor_id}
+          onDeleteStudent={handleDeleteStudent}
+        />
       </div>
     </div>
   );
