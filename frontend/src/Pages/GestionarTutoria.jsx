@@ -42,7 +42,6 @@ const GestionarTutoria = () => {
   useEffect(() => {
     const fetchForm = async () => {
       try {
-        // Caso 2: Hay ID (edición existente)
         setIsLoadingData(true);
         const response = await getATutoriaById(tutoriaId);
 
@@ -72,7 +71,6 @@ const GestionarTutoria = () => {
     fetchForm();
   }, [tutoriaId]);
 
-  // Cargar materias al montar el componente
   useEffect(() => {
     const fetchMaterias = async () => {
       try {
@@ -105,22 +103,20 @@ const GestionarTutoria = () => {
     }));
   };
 
-  const handleAlumnos = async () =>{
+  const handleAlumnos = async () => {
     if (!tutoriaId) return;
 
     try {
       setIsLoadingData(true);
       const response = await getEstudiantesInscritosByTutoriaId(tutoriaId);
       setEstudiantes([response]);
-
     } catch (err) {
       setError(err.message || "Error al recargar los datos");
     } finally {
       setIsLoadingData(false);
     }
-  }
+  };
 
-  //
   const handleEdit = () => {
     setEditMode(true);
     setError(null);
@@ -136,15 +132,13 @@ const GestionarTutoria = () => {
 
     try {
       setIsLoadingData(true);
-      const response = await deleteTutoriaById(tutoriaId);
-
-      navigate("/")
+      await deleteTutoriaById(tutoriaId);
+      navigate("/");
     } catch (err) {
       setError(err.message || "Error al recargar los datos");
     } finally {
       setIsLoadingData(false);
     }
-
   };
 
   const fetchTutoriaData = async () => {
@@ -178,7 +172,6 @@ const GestionarTutoria = () => {
     setError("");
 
     try {
-      // Si estamos creando una nueva materia
       let materiaId = formData.materiaId;
       if (showAddCategory) {
         const nuevaMateria = await createMateriaService(
@@ -188,9 +181,8 @@ const GestionarTutoria = () => {
         materiaId = nuevaMateria.id;
       }
 
-      // Crear la tutoría
       const tutoriaData = {
-        tutorId: user.id, // Usamos el ID del usuario logueado
+        tutorId: user.id,
         materiaId,
         titulo: formData.titulo,
         descripcion: formData.descripcion,
@@ -204,7 +196,6 @@ const GestionarTutoria = () => {
       setEditMode(false);
       navigate("/dashboard");
 
-      // Resetear formulario
       setFormData({
         titulo: "",
         materiaId: "",
@@ -224,7 +215,7 @@ const GestionarTutoria = () => {
     }
   };
 
-  return (
+   return (
     <div>
       <div className="crear-tutoria-container">
         <form className="crear-tutoria-form" onSubmit={handleSubmit}>
@@ -360,24 +351,41 @@ const GestionarTutoria = () => {
 
           <div className="perfil-footer">
             {!editMode ? (
-              <button className="btn-editar" onClick={handleEdit}>
-                <FiEdit /> Editar perfil
-              </button>
+              <div className="view-mode-buttons">
+                <button 
+                  type="button" 
+                  className="btn-editar" 
+                  onClick={handleEdit}
+                >
+                  <FiEdit /> Editar Tutoria
+                </button>
+                <button 
+                  type="button" 
+                  className="eliminar" 
+                  onClick={handleEliminar}
+                >
+                  Eliminar tutoria
+                </button>
+              </div>
             ) : (
-              <div className="acciones">
-                <button className="btn-cancelar" onClick={handleCancel}>
+              <div className="edit-mode-buttons">
+                <button 
+                  type="button" 
+                  className="btn-cancelar" 
+                  onClick={handleCancel}
+                >
                   Cancelar
                 </button>
-                <button className="btn-guardar">
+                <button 
+                  type="submit" 
+                  className="btn-guardar"
+                >
                   <FiSave /> Guardar cambios
                 </button>
               </div>
             )}
           </div>
-            <button className="eliminar" onClick={handleEliminar}>Eliminar tutoria</button>
         </form>
-      <div className="crear-tutoria-header">
-      </div>
       </div>
     </div>
   );
