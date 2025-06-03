@@ -408,6 +408,13 @@ const GestionarTutoria = () => {
                 >
                   Eliminar tutoria
                 </button>
+                <button 
+                  type="button" 
+                  className="btn-cancelar"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  Cancelar
+                </button>
               </div>
             ) : (
               <div className="edit-mode-buttons">

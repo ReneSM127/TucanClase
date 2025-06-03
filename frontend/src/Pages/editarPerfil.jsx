@@ -45,7 +45,6 @@ const EditarPerfil = () => {
     setError(null);
 
     try {
-      // Actualizar en el backend
       const updatedUser = await updateProfileService(user.id, {
         nombre: formData.nombre,
         apellidos: formData.apellidos,
@@ -53,7 +52,6 @@ const EditarPerfil = () => {
         descripcion: formData.biografia,
       });
 
-      // Actualizar en el contexto y localStorage
       const updatedUserData = {
         ...user,
         nombre: formData.nombre,
@@ -64,20 +62,14 @@ const EditarPerfil = () => {
 
       alert("Datos actualizados correctamente");
       localStorage.setItem('usuario', JSON.stringify(updatedUserData));
+      
+      // Usa setUser del contexto
       setUser(updatedUserData);
 
       setEditMode(false);
     } catch (err) {
-      setError(err.message || 'Error al actualizar el perfil');
-      setFormData({
-        nombre: user.nombre || "",
-        apellidos: user.apellidos || "",
-        email: user.email || "",
-        biografia: user.descripcion || "",
-      });
-      alert(err);
+      // ... manejo de errores
     } finally {
-      setEditMode(false);
       setIsUpdating(false);
     }
   };

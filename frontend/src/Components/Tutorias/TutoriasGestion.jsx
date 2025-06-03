@@ -56,7 +56,7 @@ const TutoriasGestion = ({
 
                 
                 <div className="tutoria-details">
-                  <p><strong>Duración:</strong> {tutoria.duracion_minutos} minutos</p>
+                  <p><strong>Duración:</strong> {tutoria.duracion_minutos} horas</p>
                   <p><strong>Tutor:</strong> {tutoria.nombre_tutor}</p>
                   <p>
                     <strong>Cupos:</strong> {tutoria.estudiantes_inscritos}/{tutoria.max_estudiantes} estudiantes
